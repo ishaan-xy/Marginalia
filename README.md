@@ -1,5 +1,5 @@
 # SimpleMD Test
-![payment](https://www.google.com/search?sca_esv=1ef6630695425ec3&udm=2&fbs=ABfTbFVQT6KYne3_7HzvYh-3OtGxmA6qToXQOWeUvgXQ5M6Rvtme8by44bKODdrCzbFzI7D8S3JXFX3QUpSPGrqDnvDPG1dKnNaV-haS8ZaqCWMSk0P3YsGaGCwaQ6iCW7gxiDr2KRVxC7bXx6yDmcWewBXj9N3IqrfN_RRxDvbjhl4Tus3lD9hc0zUD9M2lH13Zme_9ebb6VsbKHwlnyVmsXrD0hRh9iafEA0jNfcATNDVcUGcXS5g&q=images&sa=X&ved=2ahUKEwj79_yYh8eVAxWbWXADHdnnNfkQtKgLegQIGBAB&biw=411&bih=782&dpr=1.75)
+![payment](https://img.magnific.com/free-photo/closeup-shot-beautiful-butterfly-with-interesting-textures-orange-petaled-flower_181624-7640.jpg?semt=ais_hybrid&w=740&q=80)
 Let me trace through the full round-trip to find where the branch context is being lost. The issue is: you commit to `notes/my-notes-md` (a branch), but when the file reloads, it loads from `main` instead of from the branch you just committed to.
 
 Let me examine the commit flow and the post-commit state update:
