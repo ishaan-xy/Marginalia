@@ -31,5 +31,3 @@ function hello(name) {
 }
 ```
 
-> Tip: Use **New** to clear the editor, **Open** to import a .md file,
-> and **Save** to download your work.
