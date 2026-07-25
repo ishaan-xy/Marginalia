@@ -80,7 +80,7 @@ const articleSchema = {
     '@type': 'WebPage',
     '@id': url,
   },
-  image: ogImageUrl,
+  image: new URL(ogImageUrl, SITE.url).toString(),
   keywords: tags.join(', '),
   ...(series ? { isPartOf: { '@type': 'BlogSeries', name: series.name, position: series.part } } : {}),
 };
