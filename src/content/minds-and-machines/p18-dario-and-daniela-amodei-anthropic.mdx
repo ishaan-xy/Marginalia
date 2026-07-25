@@ -1,0 +1,244 @@
+---
+title: "Dario & Daniela Amodei: Building AI You Can Trust"
+description: "The siblings who left OpenAI to found Anthropic, the organisation that has put AI safety at the centre of its commercial strategy. The Constitutional AI approach, the interpretability research, the billion-dollar fundraising, and the genuinely difficult question of whether safety and commercialism can coexist at the frontier of AI."
+pubDate: "2026-04-26"
+tags:
+  - "Key Figure"
+  - "Dario Amodei"
+  - "Daniela Amodei"
+  - "Anthropic"
+  - "AI Safety"
+  - "Constitutional AI"
+series:
+  name: "Minds & Machines"
+  part: 53
+draft: false
+featured: false
+dropCap: true
+---
+
+*San Francisco, California. Early 2021. A group of researchers are meeting informally — not in a conference room, not in a formal setting — to have a conversation that has been getting harder to have at the organisation they work for. They are not discontented in the ordinary sense. They are grateful for their positions, they respect their colleagues, they are proud of what they have built together. But they have a concern that has grown over the past year into something that feels irresolvable.*
+
+*The concern is about safety. Not safety in the general sense of a vague worry about AI's future — they have had that worry for years, they manage it, they work on it where they can. The concern is more specific: whether the organisation they work for is making decisions about when and how to deploy its AI systems with sufficient attention to the risks those systems might pose. Whether the competitive pressure to move fast is overriding the caution that the systems' potential risks require.*
+
+*The conversation leads, eventually, to a decision: they are going to leave OpenAI and build a new organisation. An organisation that will put safety at the centre — not as a constraint on capability development but as the core purpose around which everything else is organised.*
+
+*The organisation they build is Anthropic. The two people most responsible for it are Dario Amodei and his sister Daniela Amodei. And the question their organisation poses — whether AI safety and commercial success can genuinely coexist — is one of the most important questions in contemporary AI.*
+
+---
+
+## The Amodei Siblings: Different but Complementary
+
+Dario Amodei and Daniela Amodei are the children of Italian-American parents and grew up in the San Francisco Bay Area — in the specific milieu of upper-middle-class California that has produced a disproportionate share of Silicon Valley's leadership class. Their backgrounds are similar in upbringing but different in trajectory.
+
+Dario Amodei studied physics at Princeton, then did a PhD in computational neuroscience at the University of California, San Diego. His doctoral research was on the neural mechanisms of decision-making — on how biological neural circuits made choices under uncertainty, on the computational principles underlying the brain's decision processes. The computational neuroscience background would inform how he thought about AI: as a system for approximating the information-processing that biological brains performed, subject to similar constraints and failures.
+
+After his PhD, Dario worked briefly as a researcher at Baidu's Silicon Valley AI lab before joining OpenAI in 2016 as Vice President of Research. At OpenAI, he was among the most technically capable and most senior researchers, working on large language model development and becoming increasingly concerned about the safety implications of the systems being built.
+
+Daniela Amodei's trajectory was different. She studied economics at Princeton and developed a career in the technology industry — at Stripe, where she worked in operations and business development, and then at OpenAI, where she joined in 2018 as Vice President of Operations. At OpenAI, she was responsible for the organisation's operational infrastructure — the business processes, the hiring, the resource allocation, the partnerships that made the research programme possible.
+
+The complementarity of their skills — Dario's deep technical expertise and Daniela's operational and organisational capabilities — would prove essential to Anthropic's development. Building a frontier AI organisation required both the ability to do the hardest AI research in the world and the ability to build and manage the organisational infrastructure that research required. The Amodei siblings brought both.
+
+---
+
+## The Departure from OpenAI: What Happened and Why
+
+The departures from OpenAI in late 2020 and early 2021 — Dario, Daniela, and several colleagues including Tom Brown, Chris Olah, Sam McCandlish, Jack Clark, and Jared Kaplan — represented one of the most significant defections in the history of the AI industry. The researchers who left were among OpenAI's most capable and most senior; several had been primary contributors to the GPT-3 paper and to the foundational research that had established OpenAI's leadership position.
+
+The specific reasons for the departures have been discussed in various interviews and public accounts, and the picture that emerges is complex. There were genuine safety concerns — concerns that OpenAI was not adequately managing the risks of the systems it was building, that the competitive pressure to move fast was overriding appropriate caution. There were governance concerns — concerns about the specific governance structure that OpenAI had adopted with its capped-profit model and about the influence of commercial considerations on research decisions. And there were strategic disagreements — about what the right research programme was, about how to balance safety and capability development, about what role the organisation should play in the broader AI ecosystem.
+
+What is notable about the departures is that they were not motivated primarily by personal ambition — the researchers who left had excellent positions at OpenAI and did not need to found a new organisation to advance their careers. They were motivated by a genuine conviction that a different approach to AI development was necessary and that if they did not build the organisation that could pursue that approach, it would not be built.
+
+Dario Amodei has described the founding of Anthropic as a bet — a bet that the right approach to AI safety was to be at the frontier, building the most capable systems available while also doing the most serious safety research available, and demonstrating that these two things were not in conflict. The bet was expensive and risky. It was also, in his view, necessary.
+
+---
+
+## The Anthropic Model: Safety at the Centre
+
+Anthropic's specific approach to AI safety — the research programme and the governance structure that distinguish it from other frontier AI organisations — is worth describing in detail, because it represents the most explicitly safety-focused approach to developing frontier AI that has been implemented at commercial scale.
+
+**Constitutional AI.** The most visible technical innovation from Anthropic's safety research programme is Constitutional AI — an approach to aligning language models that builds the alignment principles explicitly into the training process rather than relying solely on human preference data.
+
+Constitutional AI works in two phases. In the first phase, the model is trained using a set of explicit principles — a "constitution" — to evaluate and revise its own outputs. The model is shown its own output, asked to evaluate whether it violates any of the constitutional principles, and trained to revise outputs that violate those principles. This phase — called "supervised learning from AI feedback" (SLAIF) — produces a model that has internalised the constitutional principles and can apply them consistently.
+
+In the second phase, the model trained in the first phase is used as the reward model for a reinforcement learning phase, similar to RLHF but using AI feedback rather than human feedback for most of the training signal. The resulting model — trained with constitutional principles internalised from the first phase — tends to follow those principles more consistently than models trained with RLHF alone.
+
+Constitutional AI has several advantages over pure RLHF. The constitutional principles are explicit and can be examined, debated, and updated — making the alignment properties of the resulting model more transparent than those produced by human preference data alone. The AI feedback that drives most of the second phase can be generated at scale without requiring human rating for every example, making the approach more scalable.
+
+**Interpretability research.** Anthropic has invested heavily in mechanistic interpretability — the attempt to understand what is happening inside neural networks at the level of their internal computations. Chris Olah, who joined Anthropic from OpenAI, leads the interpretability research programme and is widely regarded as one of the most creative and productive interpretability researchers in the field.
+
+Anthropic's interpretability work has produced several important results: the discovery that neural networks represent features in superposition (encoding more concepts than they have dimensions), the identification of specific circuits that implement specific behaviours, and the development of methods for understanding how models store and retrieve factual information. These results are advancing the scientific understanding of neural networks in ways that are directly relevant to safety — understanding what a model knows and how it knows it is prerequisite to evaluating whether it is aligned.
+
+**Evals research.** Anthropic has developed significant expertise in evaluating the capabilities and risks of large language models — building the measurement tools that allow safety-relevant properties to be assessed systematically. The "responsible scaling policy" that Anthropic has adopted commits the organisation to specific safety evaluations before deploying more capable models, with explicit capability thresholds above which specific safety measures must be in place before deployment proceeds.
+
+---
+
+## The Commercial Reality: Competing While Caring
+
+Anthropic's founding premise — that safety and commercial success are compatible — is tested every day by the competitive dynamics of the AI industry. Building the most capable and safest AI systems, selling those systems commercially, generating the revenue required to fund frontier AI research, and maintaining a research culture oriented toward long-horizon safety work — these goals are not always perfectly aligned.
+
+The commercial reality of Anthropic is significant. The organisation has raised billions of dollars in funding from investors including Google, Spark Capital, and others. It generates revenue from Claude — its flagship language model series — through an API and through commercial applications. The revenue and the investment are necessary to fund the computing and the talent required to remain at the frontier.
+
+But the commercial pressure creates specific tensions. Competitive pressure to deploy more capable models quickly is sometimes in tension with the safety evaluation process that Anthropic's responsible scaling policy requires. The need to generate revenue from commercial applications creates pressure toward the kinds of applications that generate the most revenue, which may not always be the applications with the most direct safety implications.
+
+Daniela Amodei's role — managing the operational and commercial dimensions of Anthropic while Dario focuses on the research — is particularly demanding in this context. She is responsible for building the business relationships, managing the organisational growth, and ensuring the commercial success that makes the safety research possible. The tension between commercial imperatives and safety principles is one that she navigates daily.
+
+The question of whether Anthropic's model — safety at the centre, commercial success as the means to fund safety research — is genuinely different from a model that uses safety as a marketing differentiator is one that observers continue to debate. The organisation's commitment to its stated principles can be assessed in part by its specific decisions: whether it deploys models that fail its safety evaluations, whether it maintains the interpretability research programme when it generates no direct commercial value, whether it is willing to slow deployment when safety evaluations indicate risks that have not been adequately addressed.
+
+The track record is mixed, as one would expect from any organisation navigating genuine tensions between competing imperatives. Anthropic has made specific choices that prioritise safety over commercial expediency — maintaining safety thresholds in its responsible scaling policy, investing in interpretability research that generates limited near-term commercial value, engaging with regulators and policymakers in ways that could constrain the organisation's commercial freedom. It has also made choices that reflect commercial realities — deploying models at a pace that keeps up with competitors, pursuing commercial partnerships that generate revenue.
+
+Whether the balance struck is the right one — whether Anthropic is genuinely doing better than alternative approaches on the dimensions that matter for safety — is a question that is difficult to assess from outside the organisation and that the evidence does not yet unambiguously answer.
+
+---
+
+## Dario Amodei's Intellectual Framework: Scaling, Safety, and Civilisational Stakes
+
+Dario Amodei has articulated, in a series of long-form essays and interviews, an intellectual framework for thinking about AI development that is distinctive and worth examining carefully.
+
+The framework has several components.
+
+**The scaling hypothesis.** Dario believes, based on the evidence of the scaling laws and the performance of GPT-3, GPT-4, and their successors, that AI capabilities will continue to improve substantially as models are trained at larger scale — more parameters, more data, more compute. He believes that continued scaling will produce systems that are qualitatively more capable than current systems, potentially including systems that approach or exceed human-level performance across a wide range of cognitive tasks.
+
+**The safety imperative.** Given his belief in continued scaling, Dario believes that developing the techniques required to ensure that very capable AI systems are safe and aligned is one of the most urgent research priorities. If AI systems are going to become much more capable, and if the alignment problem is not solved, the consequences of misaligned capable AI systems could be severe.
+
+**The frontier argument.** Dario argues that being at the frontier of AI capability is necessary for doing the most impactful safety research, because the safety challenges of more capable systems can only be studied with more capable systems. An organisation that falls behind the frontier cannot study the safety properties of systems it does not have. Therefore, a safety-focused organisation needs to build competitive capability to do relevant safety research.
+
+**The civilisational stakes.** Dario has written explicitly about his belief that the development of powerful AI is among the most consequential events in human history, and that the decisions made about how to develop and govern AI will have enormous long-term implications. His essay "The Transformative Potential of AI" describes a vision in which AI systems could compress decades of scientific and medical progress into years, potentially addressing diseases that have resisted human effort, expanding the capabilities of science and engineering in ways that transform human welfare.
+
+This framework — scaling drives capability, capability creates risk, safety research requires being at the frontier, the stakes are enormous — provides a specific rationale for the specific choices Anthropic has made. It is internally coherent, and the specific claims are based on real evidence. Whether it is correct in its most consequential predictions — whether scaling will continue to produce qualitatively more capable systems, whether the frontier argument adequately justifies the competitive pace of development — is genuinely uncertain.
+
+---
+
+## The Research Contributions: What Anthropic Has Built
+
+Anthropic's research contributions to the AI field, in the three years since its founding, have been significant and distinctive.
+
+**Constitutional AI.** Already described above. The specific technical approach has been influential — adopted or adapted by several other organisations — and the underlying idea, that alignment principles should be explicit and built into the training process rather than implicit in human preference data, has changed how the field thinks about alignment.
+
+**Scaling laws research.** Jared Kaplan and Sam McCandlish, who joined Anthropic from OpenAI, had been primary authors of the scaling laws research that established the predictable relationship between compute, data, and model performance. Their continued work at Anthropic has extended and refined the scaling laws framework, providing increasingly precise predictions about how model capabilities will change with scale.
+
+**Mechanistic interpretability.** The interpretability research led by Chris Olah has produced some of the most important results in the field — the discovery of superposition, the identification of specific circuits, the development of sparse autoencoders for identifying features. These results are advancing the scientific understanding of neural networks in ways that are directly relevant to safety.
+
+**Model evaluations.** Anthropic has developed sophisticated evaluation frameworks for assessing the capabilities and safety properties of large language models — including evaluations for dangerous capabilities (the ability to assist with weapons development, cyberattacks, and other harmful activities) and for alignment properties (the tendency to follow instructions accurately, to acknowledge uncertainty, to avoid harmful outputs). The evaluation frameworks have influenced the field and have been used by other organisations.
+
+**Claude.** The Claude model series has been commercially successful and technically competitive with the leading models from OpenAI and Google. Claude's specific design choices — the focus on being helpful while avoiding harm, the explicit attention to honesty and uncertainty acknowledgment — reflect Anthropic's safety-first orientation in ways that have been commercially viable.
+
+---
+
+## The Siblings Dynamic: A Distinctive Leadership Model
+
+One of the most unusual features of Anthropic is the co-leadership structure — Dario as CEO and primary technical and strategic leader, Daniela as President and primary operational and commercial leader, with a relationship between the two that is genuinely complementary and occasionally serves as an informal check on each other's instincts.
+
+The sibling dynamic creates specific communication patterns that would be unusual in a more conventional organisational hierarchy. Dario and Daniela have known each other all their lives and have the kind of frank, direct communication that close family members develop — the ability to disagree without the social cost that can make honest feedback difficult in professional settings. This frankness extends to the organisation's culture, which several current and former employees have described as unusually willing to engage with difficult questions and to acknowledge uncertainty.
+
+The division of labour between them is not simply technical versus business. Daniela is technically informed and engaged with the research in ways that a pure operator would not be. Dario is business-aware and engaged with the commercial realities in ways that a pure researcher would not be. The division is more about where each of them brings the deepest expertise and where each of them provides the most value.
+
+The co-leadership model also provides a specific kind of institutional resilience. A single founder or CEO, without a close partner with complementary skills and a genuine stake in the organisation's success, is more vulnerable to the specific failure modes of leadership — overconfidence, isolation from honest feedback, misalignment between personal incentives and organisational purpose. Two people with deep mutual trust and genuine commitment to the same mission are somewhat more robust to these failure modes.
+
+---
+
+## The Competitive Positioning: Anthropic vs. OpenAI
+
+The relationship between Anthropic and OpenAI is one of the most interesting in the AI industry — an interesting combination of genuine competition, shared intellectual lineage, and occasionally mutual recognition of common purpose.
+
+The two organisations share a large number of alumni — many of Anthropic's founding team came from OpenAI, and several researchers have moved in both directions. The technical approaches overlap significantly — both organisations use transformer-based large language models, RLHF-based fine-tuning, and similar safety evaluation frameworks. The commercial markets they serve are largely the same.
+
+The competitive differentiation that Anthropic has pursued is primarily on safety and interpretability. The Claude model series has been positioned as more reliable, more honest, and more careful than competing models — properties that have commercial value in applications where reliability and trustworthiness matter, such as healthcare, legal services, and education.
+
+Whether the safety differentiation is genuine — whether Claude models are actually safer in meaningful ways than GPT models or Gemini — is an empirical question that is difficult to assess precisely. The research investments in Constitutional AI and interpretability suggest genuine commitment to the goals, and there are specific benchmark results and specific behavioural properties that support the differentiation. But the competitive dynamics of the AI industry create incentives toward safety claims that may not always be fully supported by the evidence.
+
+The relationship with OpenAI is also shaped by the specific history of the November 2023 board crisis. The brief period when it appeared that Sam Altman had been permanently removed from OpenAI was a moment when Anthropic's alternative model — a safety-focused organisation led by people who had left OpenAI over safety concerns — might have attracted more of the talent, investment, and credibility that had previously gone to OpenAI. The rapid resolution of the crisis, with Altman's return, meant that this potential inflection point did not materialise in the way it might have.
+
+---
+
+## The Funding Story: Google, Spark, and the Billion-Dollar Bets
+
+Anthropic's fundraising has been one of the most significant in the AI industry, both in total amount and in the specific structure of the relationships established.
+
+Google made a large strategic investment in Anthropic — reported at various times as $300 million and then expanded — giving Google access to Anthropic's models through a commercial agreement and establishing a partnership that included computing resources through Google Cloud. The Google investment was partly defensive — Google wanted a stake in the most safety-focused frontier AI organisation as a hedge against OpenAI's growing influence — and partly strategic, as the commercial agreement gave Google a relationship with a competitive alternative to OpenAI.
+
+Amazon made an even larger investment in 2023 — reported at up to $4 billion — establishing a similar commercial partnership and giving Amazon a significant stake in Anthropic. The Amazon investment was motivated by Amazon's need for AI capabilities for its cloud platform, AWS, and by the competitive pressure to have access to frontier AI models comparable to those available through Microsoft's Azure partnership with OpenAI.
+
+These investments from the two cloud computing giants give Anthropic a distinctive position — simultaneously more commercially oriented than a pure research organisation and more safety-focused than a purely commercial AI company. The investors have specific commercial interests that create pressure toward commercial deployment, but the investment structure also gives Anthropic the resources to maintain its safety research programme.
+
+Daniela Amodei has described the fundraising strategy as designed to maintain Anthropic's mission while securing the resources required to pursue it. The choice of investors — entities with commercial interests that are aligned with responsible AI development — has been deliberate. Whether the strategic intent translates into sustained independence on the dimensions that matter for safety is something that only time will reveal.
+
+---
+
+## The Question of Influence: Does Anthropic Matter?
+
+The deepest question about Anthropic is not whether it is building good AI systems — it clearly is. The question is whether it is making AI development safer in a systemic sense — whether its presence at the frontier, its research programme, and its public engagement with safety questions are changing the trajectory of the AI field in ways that reduce risk.
+
+The argument that Anthropic matters for systemic safety runs as follows. By demonstrating that a safety-focused organisation can be commercially competitive at the frontier, Anthropic shows that safety and capability are not in fundamental tension — and this demonstration reduces the cost to other organisations of prioritising safety. By developing safety techniques — Constitutional AI, interpretability methods, evaluation frameworks — and publishing them, Anthropic contributes to the toolkit available to all AI developers. By engaging with regulators and policymakers, Anthropic provides technical expertise to governance processes that would otherwise have less access to frontier knowledge.
+
+The argument that Anthropic's impact on systemic safety is limited runs as follows. The competitive dynamics of the AI race — the pressure to move fast, to remain at the frontier, to generate commercial revenue — operate on Anthropic as on other organisations. Anthropic's presence at the frontier may accelerate AI development overall, even if its specific models are somewhat safer, because its competitive success puts pressure on other organisations to move faster. The safety techniques it develops and publishes may be adopted by other organisations in ways that allow them to claim safety credentials without fully implementing the substantive commitments.
+
+Both arguments have merit. The honest assessment is that Anthropic's impact on systemic AI safety is real but limited and uncertain — it is doing some things that make AI development safer and some things that accelerate AI development in ways that could increase risk, and the net effect is not clearly determinable.
+
+---
+
+## Dario's Essays: Understanding His Mind
+
+Several long-form essays that Dario has published give the most direct access to his thinking — to the intellectual framework within which Anthropic's approach to AI development makes sense.
+
+"The Transformative Potential of AI" — published in October 2024 — is the clearest statement of his vision for what AI could do for humanity: the compression of decades of scientific and medical progress, the potential to address diseases that have resisted human effort, the expansion of human capabilities through AI augmentation. The essay is optimistic in a way that is sometimes uncomfortable to read alongside Anthropic's safety commitments — the optimism about what AI can do is at tension with the concern about what could go wrong.
+
+"A Possible AI Safety Argument" describes his reasoning for why Anthropic's frontier approach to safety is justified — why being at the frontier is necessary for doing relevant safety research and why a safety-focused organisation at the frontier is better than ceding the frontier to less safety-focused organisations.
+
+These essays reveal a mind that is simultaneously very confident about the transformative potential of AI, very concerned about its risks, and very committed to a specific approach — being at the frontier, building the most capable systems, doing the most serious safety research — that he believes addresses both the opportunity and the risk. The essays are also honest about the uncertainty: Dario does not claim to know that his approach is right, only that it seems the best available option given his analysis.
+
+---
+
+## Daniela's Leadership: The Operational Excellence That Enables the Mission
+
+Daniela Amodei's contribution to Anthropic is less visible than her brother's in the public discourse about AI safety, but it is equally important for the organisation's success.
+
+Building an organisation that can compete at the frontier of AI — recruiting the best researchers, managing computing infrastructure, developing commercial products, navigating complex investor relationships, building the culture that enables difficult safety work — requires the kind of operational and organisational leadership that Daniela provides. The research that Dario leads and the safety mission that Anthropic pursues are only possible because the organisation that pursues them is well-built and well-run.
+
+Daniela's specific experience — at Stripe, one of the most operationally excellent companies in Silicon Valley, and then at OpenAI — gives her the specific skills and perspective that Anthropic requires. She has described her role as building the conditions within which the research and the mission can succeed, which requires both operational excellence and genuine commitment to the mission that the operations are in service of.
+
+The sister relationship also provides Daniela with a specific kind of authority within the organisation. She is not just a COO or a President in the organisational chart — she is a co-founder with a genuine stake in the mission and a history with the CEO that creates a specific dynamic of mutual accountability. When Daniela raises concerns about the direction of the organisation, they have a weight that the same concerns from a hired executive might not.
+
+---
+
+## The Honest Assessment: What Anthropic Has Demonstrated
+
+Anthropic has demonstrated several things that are genuinely important for the AI field.
+
+It has demonstrated that a safety-focused AI organisation can be commercially competitive at the frontier. The Claude models have been commercially successful, technically competitive, and widely adopted in commercial applications — demonstrating that the safety-focused approach does not inherently produce less capable or less commercially viable systems.
+
+It has demonstrated that serious safety research is compatible with frontier AI development. The Constitutional AI and interpretability research produced at Anthropic are genuine scientific contributions that have advanced the field's understanding of alignment. These contributions have been made while also maintaining competitive capability development — demonstrating that the two are not in fundamental tension.
+
+It has demonstrated that the safety-capability compatibility argument has commercial value. Enterprise customers in regulated industries — healthcare, finance, legal — have specific reasons to prefer AI systems with documented safety properties, and Claude's commercial success in these sectors suggests that the market values safety in ways that justify the investment in safety research.
+
+What Anthropic has not yet demonstrated — and may not be able to demonstrate — is that its approach produces AI development that is systematically safer for humanity in the broadest sense. The competitive dynamics of the AI race, which Anthropic participates in as a frontier AI organisation, may be net negative for safety even if the specific systems Anthropic deploys are safer than their competitors. This is the deepest uncertainty about Anthropic's approach, and it is one that the Amodei siblings acknowledge rather than deny.
+
+---
+
+## The Future: Whether the Bet Pays Off
+
+Anthropic was founded on a specific bet: that safety and commercial success are compatible at the frontier of AI, and that being at the frontier while doing serious safety research is better for humanity than the alternatives.
+
+Whether this bet pays off depends on empirical questions that are not yet answered. Will the safety research produce advances that are actually adopted by the AI field broadly, reducing the risks of AI development across organisations? Will the commercial success remain sustainable as the AI market matures and competition intensifies? Will the specific governance choices — the responsible scaling policy, the interpretability investment, the Constitutional AI approach — prove adequate as AI systems become more capable?
+
+The Amodei siblings have made a genuinely difficult set of choices in building Anthropic. They left successful positions at a leading organisation because they believed a different approach was necessary. They built an organisation that is simultaneously competitive and safety-focused, commercial and mission-driven — a combination that creates genuine tensions that require ongoing navigation. They have attracted serious people with serious commitments to a mission that is genuinely important.
+
+Whether they have built the organisation that will navigate the transition to more capable AI safely and beneficially is a question that history will answer. What is clear is that they are trying — seriously, thoughtfully, with genuine commitment to both the capability and the safety dimensions of the challenge — in ways that deserve recognition even before the final verdict is in.
+
+---
+
+## Further Reading
+
+- **"Constitutional AI: Harmlessness from AI Feedback" by Bai et al. (2022)** — The Constitutional AI paper. The core technical contribution from Anthropic's safety research programme.
+- **"Toy Models of Superposition" by Elhage, Henighan, Nanda, et al. (2022)** — The superposition paper from Anthropic's interpretability team. Foundational for understanding how neural networks represent information.
+- **"The Transformative Potential of AI" by Dario Amodei (2024)** — Dario's most comprehensive statement of his vision for AI and its implications. Available on the Anthropic website.
+- **"Anthropic's Core Views" — the Anthropic website** — A collection of Anthropic's public statements about its mission, approach, and research programme.
+- **"Model Cards and Model Spec" — Anthropic documentation** — Anthropic's specific safety commitments and model behaviour specifications, which provide insight into how the organisation operationalises its safety mission.
+
+---
+
+*Next in the Profiles series: **P19 — Ilya Sutskever: The Mind That Saw the Future** — The co-founder of OpenAI, the architect of GPT, the chief scientist who fired Sam Altman and then reversed course, and the founder of Safe Superintelligence Inc. The most technically gifted and most philosophically serious of the deep learning generation's leaders — and the figure whose trajectory tracks the field's own ambivalence about what it is building.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the Amodei siblings' story — the departure, the founding, the bet that safety and commercial success can coexist — raises questions about what it takes to build the institutions that transformative technology requires, share it with someone who would find those questions worth engaging with.*

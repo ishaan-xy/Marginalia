@@ -1,0 +1,70 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
+
+const posts = (await getPublishedPosts()).sort(byDateDesc);
+
+// Unique tags sorted by frequency. Only show tags with 2+ posts (same
+// filter as the tag pages, so 404 suggestions don't lead to nowhere).
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...tagCounts.entries()]
+  .filter(([, count]) => count >= 2)
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+---
+<BaseLayout
+  title="404"
+  description="Page not found."
+  noIndex
+>
+  <section class="fade-up text-center py-20">
+    <p class="font-sans text-sm uppercase tracking-wider text-[var(--fg-faint)] mb-3">
+      Error 404
+    </p>
+    <h1 class="font-serif text-5xl sm:text-6xl font-semibold tracking-tight mb-4">
+      Not found
+    </h1>
+    <p class="font-serif text-lg text-[var(--fg-soft)] mb-8 max-w-md mx-auto">
+      The page you were looking for has moved, been deleted, or never existed
+      in the first place.
+    </p>
+    <div class="flex items-center justify-center gap-4">
+      <a
+        href="/"
+        class="font-sans text-sm px-4 py-2 rounded-md bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 transition-opacity"
+      >
+        Back home
+      </a>
+      <a
+        href="/archive"
+        class="font-sans text-sm text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+      >
+        Browse the archive
+      </a>
+    </div>
+
+    {tags.length > 0 && (
+      <div class="mt-16 pt-8 border-t border-[var(--line)]">
+        <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">
+          Or try a tag
+        </p>
+        <ul class="flex flex-wrap justify-center gap-2">
+          {tags.map(([tag, count]) => (
+            <li>
+              <a
+                href={`/tags/${tag}/`}
+                class="text-sm font-sans px-3 py-1 rounded-full border border-[var(--line)] text-[var(--fg-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+              >
+                #{tag} <span class="text-[var(--fg-faint)]">{count}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </section>
+</BaseLayout>

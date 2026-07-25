@@ -1,0 +1,318 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { formatDate } from '@/lib/format';
+
+interface SearchDoc {
+  title: string;
+  description: string;
+  body: string;
+  url: string;
+  pubDate: string;
+  tags: string[];
+  series: string | null;
+}
+
+// Inline a small fallback list of posts so the page has content even
+// before the JSON index loads. (At build time we have all posts.)
+import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
+const allPosts = (await getPublishedPosts()).sort(byDateDesc);
+---
+<BaseLayout title="Search" description="Search every post on the site.">
+  <section class="fade-up mb-8">
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+      Search
+    </h1>
+    <p class="font-serif text-[var(--fg-soft)] mb-6">
+      Search across {allPosts.length} posts by title, tag, or content.
+    </p>
+
+    <div class="relative">
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Type to search…"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        class="w-full px-4 py-3 pr-10 border border-[var(--line)] rounded-lg bg-[var(--bg)] text-[var(--fg)] font-sans text-base focus:outline-none focus:border-[var(--accent)] transition-colors"
+        aria-label="Search posts"
+      />
+      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--fg-faint)] border border-[var(--line)] rounded px-1.5 py-0.5 pointer-events-none" aria-hidden="true">
+        /
+      </span>
+    </div>
+
+    <div id="search-status" class="text-sm text-[var(--fg-faint)] mt-3 font-sans" aria-live="polite"></div>
+  </section>
+
+  <section id="search-results" aria-live="polite">
+    <div id="default-list">
+      <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-5 pb-2 border-b border-[var(--line)]">
+        All posts
+      </h2>
+      <ul class="space-y-5">
+        {allPosts.map((post) => (
+          <li>
+            <a
+              href={`/${post.id}/`}
+              class="block group"
+            >
+              <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              </p>
+              <h3 class="font-serif text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors mb-1 leading-snug">
+                {post.data.title}
+              </h3>
+              {post.data.description && (
+                <p class="font-serif text-[0.9375rem] text-[var(--fg-soft)] leading-relaxed">
+                  {post.data.description}
+                </p>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  mark {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+    color: var(--fg);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+  .result-snippet {
+    font-size: 0.9375rem;
+    color: var(--fg-soft);
+    font-family: var(--font-serif);
+    line-height: 1.6;
+    margin-top: 0.25rem;
+  }
+</style>
+
+<script>
+  interface SearchDoc {
+    title: string;
+    description: string;
+    body: string;
+    url: string;
+    pubDate: string;
+    tags: string[];
+    series: string | null;
+  }
+
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const resultsEl = document.getElementById('search-results');
+  const statusEl = document.getElementById('search-status');
+  const defaultList = document.getElementById('default-list');
+
+  let docs: SearchDoc[] | null = null;
+  let loadingPromise: Promise<SearchDoc[]> | null = null;
+
+  async function loadIndex(): Promise<SearchDoc[]> {
+    if (docs) return docs;
+    if (loadingPromise) return loadingPromise;
+    loadingPromise = fetch('/search.json')
+      .then((r) => r.json())
+      .then((d: SearchDoc[]) => {
+        docs = d;
+        return d;
+      })
+      .catch(() => []);
+    return loadingPromise;
+  }
+
+  // Tiny fuzzy matcher: returns score (lower = better) or -1 if no match.
+  function fuzzyMatch(query: string, text: string): number {
+    if (!query) return 0;
+    const q = query.toLowerCase();
+    const t = text.toLowerCase();
+
+    // Direct substring match — highest priority
+    const directIdx = t.indexOf(q);
+    if (directIdx >= 0) {
+      // Earlier matches rank higher
+      return directIdx === 0 ? 0 : 1;
+    }
+
+    // Word-boundary match (all query words appear, in order)
+    const words = q.split(/\s+/).filter(Boolean);
+    let cursor = 0;
+    let score = 5; // word-boundary matches are decent
+    for (const w of words) {
+      const idx = t.indexOf(w, cursor);
+      if (idx === -1) return -1;
+      // Penalize gaps between words
+      score += (idx - cursor) * 0.05;
+      cursor = idx + w.length;
+    }
+    return score;
+  }
+
+  function highlight(text: string, query: string): string {
+    if (!query) return escapeHtml(text);
+    const words = query.split(/\s+/).filter(Boolean).map(escapeRegex);
+    if (words.length === 0) return escapeHtml(text);
+    const re = new RegExp(`(${words.join('|')})`, 'gi');
+    return escapeHtml(text).replace(re, '<mark>$1</mark>');
+  }
+
+  function escapeHtml(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function escapeRegex(s: string): string {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function snippet(body: string, query: string): string {
+    if (!query) return '';
+    const q = query.toLowerCase();
+    const idx = body.toLowerCase().indexOf(q.split(/\s+/)[0] ?? '');
+    if (idx === -1) return body.slice(0, 160) + '…';
+    const start = Math.max(0, idx - 60);
+    const end = Math.min(body.length, idx + q.length + 100);
+    return (start > 0 ? '… ' : '') + body.slice(start, end) + (end < body.length ? ' …' : '');
+  }
+
+  function formatDate(s: string): string {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(s));
+  }
+
+  function renderResults(query: string, docs: SearchDoc[]) {
+    if (!resultsEl) return;
+    if (!query.trim()) {
+      if (defaultList) {
+        resultsEl.innerHTML = '';
+        resultsEl.appendChild(defaultList);
+      }
+      if (statusEl) statusEl.textContent = '';
+      return;
+    }
+
+    const q = query.trim();
+    const scored = docs
+      .map((doc) => {
+        const titleScore = fuzzyMatch(q, doc.title);
+        const tagScore = doc.tags.length > 0
+          ? Math.max(...doc.tags.map((t) => fuzzyMatch(q, t)))
+          : -1;
+        const seriesScore = doc.series ? fuzzyMatch(q, doc.series) : -1;
+        const descScore = fuzzyMatch(q, doc.description);
+        const bodyScore = fuzzyMatch(q, doc.body);
+
+        const bestScore = Math.min(
+          titleScore < 0 ? Infinity : titleScore * 0.1,  // title matches dominate
+          tagScore < 0 ? Infinity : tagScore * 0.2,       // tags are strong signals
+          seriesScore < 0 ? Infinity : seriesScore * 0.3,  // series name is a good signal
+          descScore < 0 ? Infinity : descScore * 0.5,
+          bodyScore < 0 ? Infinity : bodyScore
+        );
+
+        return { doc, score: bestScore };
+      })
+      .filter((x) => x.score < Infinity)
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 20);
+
+    if (scored.length === 0) {
+      resultsEl.innerHTML = `
+        <p class="font-serif text-lg text-[var(--fg-soft)] py-8 text-center">
+          No posts match “<em>${escapeHtml(q)}</em>”.
+        </p>
+      `;
+      if (statusEl) statusEl.textContent = '';
+      return;
+    }
+
+    if (statusEl) {
+      statusEl.textContent = `${scored.length} ${scored.length === 1 ? 'result' : 'results'}`;
+    }
+
+    resultsEl.innerHTML = `<ul class="space-y-7">${
+      scored
+        .map(({ doc }) => {
+          const title = highlight(doc.title, q);
+          const desc = doc.description ? highlight(doc.description, q) : '';
+          const snip = snippet(doc.body, q);
+          const snipHi = snip ? highlight(snip, q) : '';
+          const seriesBadge = doc.series
+            ? `<span class="ml-2">·</span> <span class="text-[var(--accent)]">${escapeHtml(doc.series)}</span>`
+            : '';
+          return `<li>
+            <a href="${doc.url}" class="block group">
+              <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
+                <time datetime="${doc.pubDate}">${formatDate(doc.pubDate)}</time>
+                ${seriesBadge}
+                ${doc.tags.length ? `<span class="ml-2">·</span> <span class="lowercase">${doc.tags.map((t) => `#${t}`).join(' ')}</span>` : ''}
+              </p>
+              <h3 class="font-serif text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors mb-1 leading-snug">${title}</h3>
+              ${desc ? `<p class="font-serif text-[0.9375rem] text-[var(--fg-soft)] leading-relaxed">${desc}</p>` : ''}
+              ${snipHi ? `<p class="result-snippet">${snipHi}</p>` : ''}
+            </a>
+          </li>`;
+        })
+        .join('')
+    }</ul>`;
+  }
+
+  let debounce: number | undefined;
+  input?.addEventListener('input', () => {
+    window.clearTimeout(debounce);
+    debounce = window.setTimeout(async () => {
+      const docs = await loadIndex();
+      renderResults(input.value, docs);
+    }, 120);
+  });
+
+  // Focus on load (page was opened explicitly)
+  window.addEventListener('load', () => {
+    input?.focus();
+
+    // If the page was opened with a ?q= query param (e.g. from Google's
+    // sitelinks search box, which the JSON-LD SearchAction schema declares),
+    // pre-populate the input and run the search immediately.
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (q && input) {
+      input.value = q;
+      // Trigger the search after the index loads
+      loadIndex().then((docs) => renderResults(q, docs));
+    }
+  });
+
+  // Update the URL ?q= param as the user types, so the search is
+  // shareable and the back button works.
+  input?.addEventListener('input', () => {
+    const q = input.value.trim();
+    const url = new URL(window.location.href);
+    if (q) {
+      url.searchParams.set('q', q);
+    } else {
+      url.searchParams.delete('q');
+    }
+    window.history.replaceState({}, '', url.toString());
+  });
+
+  // ESC clears the search
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      input.value = '';
+      input.blur();
+      loadIndex().then((docs) => renderResults('', docs));
+    }
+  });
+</script>

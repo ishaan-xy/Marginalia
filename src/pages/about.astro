@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SITE } from '@/lib/site';
+import SubscribeForm from '@/components/SubscribeForm.astro';
+---
+<BaseLayout
+  title="About"
+  description={`About ${SITE.title} and the people who write in the margins.`}
+>
+  <article class="fade-up">
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-6">
+      About
+    </h1>
+
+    <div class="prose">
+      <p>
+        Marginalia is a space for the intellectually curious — people who read
+        not just to absorb, but to start a conversation. We believe the best
+        ideas aren't found in the headlines. They're hiding in the questions,
+        the contradictions, and the small, quiet thoughts you jot down in the
+        margins.
+      </p>
+
+      <p>
+        Our goal is to challenge the main story, question what everyone takes
+        for granted, and uncover the gems that others miss. Think of this as
+        your invitation to pull up a chair and write in the margins with us.
+      </p>
+
+      <h2>What you'll find here</h2>
+      <p>
+        Longer essays that resist the hot take. Some technical, some personal,
+        all written with the assumption that you have a quiet hour to read them.
+        We're not interested in being first to a story; we're interested in being
+        the ones still worth reading when the story is over. Expect detours into
+        software, design, books, attention, and the strange places where those
+        subjects overlap with the rest of life.
+      </p>
+
+      <p>
+        We publish when there's something worth saying, not on a schedule. The
+        <a href={SITE.social.rss}>RSS feed</a> is the most reliable way to know
+        when something new is up — no algorithms, no inbox weight, just the
+        words when they're ready.
+      </p>
+
+      <h2>The margins, explained</h2>
+      <p>
+        The name comes from the practice of writing in the margins of books —
+        the small, sometimes illegible notes a reader leaves for themselves
+        when a sentence lands and they don't want to forget it. Marginalia are
+        the part of a book that wasn't written by the author, but that the book
+        wouldn't be the same without. That's what we're after: not the polished
+        argument, but the question that opened it up.
+      </p>
+
+      <h2>Who's writing</h2>
+      <p>
+        <strong>{SITE.author}</strong> — {SITE.bio}
+      </p>
+
+      <p>
+        You can find us on <a href={SITE.social.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>{' '}
+        and <a href={SITE.social.github} target="_blank" rel="noopener noreferrer">GitHub</a>, or write
+        directly at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. We read
+        everything, even when we can't always reply — and we're always
+        interested in a real question, even if it doesn't have a tidy answer.
+      </p>
+
+      <h2 id="subscribe">Subscribe</h2>
+      <p>
+        If you'd like new essays to arrive in your inbox, subscribe below.
+        No spam, no algorithms, no scheduled cadence we can't keep.
+      </p>
+      <div class="my-6">
+        <SubscribeForm />
+      </div>
+
+      <h2>Colophon</h2>
+      <p>
+        This site is built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>,
+        set in <a href="https://fonts.google.com/specimen/Lora" target="_blank" rel="noopener noreferrer">Lora</a>{' '}
+        for the body and <a href="https://fonts.google.com/specimen/Inter" target="_blank" rel="noopener noreferrer">Inter</a>{' '}
+        for the interface. The design is deliberately plain — words first,
+        everything else second. The source is on{' '}
+        <a href={SITE.social.github} target="_blank" rel="noopener noreferrer">GitHub</a>{' '}
+        if you want to see how it's put together.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

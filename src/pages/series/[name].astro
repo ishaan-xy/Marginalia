@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getAllSeries } from '@/lib/post-cache';
+import { getSeriesDescription } from '@/lib/series-meta';
+import { formatDate, readingTime, slugifySeries } from '@/lib/format';
+import { SITE } from '@/lib/site';
+
+export async function getStaticPaths() {
+  const series = await getAllSeries();
+  return series.map((s) => {
+    const slug = slugifySeries(s.name);
+    return {
+      params: { name: slug },
+      props: {
+        seriesName: s.name,
+        posts: s.posts,
+        count: s.count,
+        totalReadingTime: s.totalReadingTime,
+        lastUpdated: s.lastUpdated,
+      },
+    };
+  });
+}
+
+const { seriesName, posts, count, totalReadingTime, lastUpdated } = Astro.props;
+const hours = Math.round(totalReadingTime / 60);
+
+// Series-level description comes from series-meta.ts (registered per series
+// name). Falls back to the first part's description if not registered.
+const seriesDescription = getSeriesDescription(seriesName) ?? posts[0]?.data.description;
+
+// Precompute reading time per post
+const postsWithMeta = posts.map((p) => ({
+  post: p,
+  minutes: readingTime(p.body ?? '', SITE.wordsPerMinute),
+}));
+---
+<BaseLayout
+  title={seriesName}
+  description={seriesDescription ?? `The ${seriesName} series — ${count} parts in reading order.`}
+>
+  <section class="fade-up mb-12">
+    <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-3">
+      <a href="/series/" class="hover:text-[var(--accent)] transition-colors">← All series</a>
+    </p>
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+      {seriesName}
+    </h1>
+    <p class="font-serif text-lg text-[var(--fg-soft)] mb-3">
+      {count} {count === 1 ? 'part' : 'parts'} · ~{hours} {hours === 1 ? 'hour' : 'hours'} of reading
+      {lastUpdated && ` · last updated ${formatDate(lastUpdated)}`}
+    </p>
+    {seriesDescription && (
+      <p class="font-serif text-[1.0625rem] leading-relaxed text-[var(--fg-soft)] max-w-prose">
+        {seriesDescription}
+      </p>
+    )}
+  </section>
+
+  {/* Progress overview: how many parts are before/after the reader */}
+  <ol class="space-y-5">
+    {postsWithMeta.map(({ post, minutes }, i) => {
+      const part = post.data.series?.part ?? i + 1;
+      return (
+        <li class="flex items-baseline gap-4 border-t border-[var(--line)] pt-5 first:border-t-0 first:pt-0">
+          <span class="font-mono text-sm text-[var(--fg-faint)] tabular-nums shrink-0 w-10">
+            {String(part).padStart(2, '0')}
+          </span>
+          <div class="flex-1 min-w-0">
+            <a
+              href={`/${post.id}/`}
+              class="font-serif text-lg text-[var(--fg)] hover:text-[var(--accent)] transition-colors leading-snug"
+            >
+              {post.data.title}
+            </a>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs font-sans text-[var(--fg-faint)]">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+              <span>·</span>
+              <span>{minutes} min read</span>
+            </div>
+          </div>
+        </li>
+      );
+    })}
+  </ol>
+
+  {/* Reading guidance */}
+  <section class="mt-12 p-5 rounded-lg border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_3%,var(--bg))]">
+    <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
+      How to read this series
+    </p>
+    <p class="font-serif text-[1rem] text-[var(--fg-soft)] leading-relaxed">
+      Start at part 1 and read through — each part builds on the one before.
+      Or pick any part that interests you; each is self-contained enough to
+      read on its own. Once you're in a post, the prev/next nav at the end
+      will walk you through the whole series.
+    </p>
+  </section>
+</BaseLayout>

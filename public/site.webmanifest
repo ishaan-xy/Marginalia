@@ -1,0 +1,17 @@
+{
+  "name": "Marginalia",
+  "short_name": "Marginalia",
+  "description": "Essays on technology, design, and the things in between.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdfcfa",
+  "theme_color": "#b5413f",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

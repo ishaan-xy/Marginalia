@@ -1,0 +1,243 @@
+---
+title: "The Open Source Wars: When AI Went Free"
+description: "The story of the open source AI movement — from Meta's LLaMA leak in March 2023 through DeepSeek-R1's January 2025 release that triggered a US stock market rout. The debate between open and closed AI, what open source AI has enabled, what risks it has introduced, and the specific governance question of whether the open source model is compatible with the safety requirements of frontier AI."
+pubDate: "2026-06-29"
+tags:
+  - "Key Event"
+  - "Open Source AI"
+  - "LLaMA"
+  - "Mistral"
+  - "DeepSeek"
+  - "Open Weights"
+series:
+  name: "Minds & Machines"
+  part: 78
+draft: false
+featured: false
+dropCap: true
+---
+
+*March 3, 2023. A user on 4chan's technology board posts a torrent file. The file contains the model weights of LLaMA, Meta's large language model, which had been distributed to selected researchers under a non-commercial research license just weeks earlier. Within hours, the weights are available on Hugging Face, on GitHub, on Telegram channels, on cloud storage services around the world. Anyone with a GPU and the technical knowledge to load the weights can now run a state-of-the-art language model on their own hardware. Meta, which had intended to restrict access to the model, has lost control of it. The era of open source frontier AI has begun — not by Meta's choice, but by someone's decision to leak the weights.*
+
+*July 18, 2023. Meta announces LLaMA 2, with a license that allows commercial use. The decision is intentional this time. Mark Zuckerberg has decided that Meta's AI strategy will be built on open source — that the company will compete not by hoarding its models but by giving them away, by making LLaMA the foundation on which the broader AI ecosystem builds. The decision is controversial. The AI safety community warns that open source frontier models will enable malicious actors to build harmful applications. The open source community celebrates. The competitive dynamics of the AI industry shift.*
+
+*January 27, 2025. NVIDIA loses $589 billion in market capitalisation in a single day — the largest one-day loss in US stock market history. The trigger is the release, three weeks earlier, of DeepSeek-R1, a reasoning model from the Chinese AI company DeepSeek. DeepSeek-R1 matches the performance of OpenAI's o1 on many benchmarks, but it was trained at a fraction of the cost — reportedly under $6 million — and its weights are available for free under an MIT license. The release suggests that the compute moat that the American AI industry has been building — the moat that justifies NVIDIA's trillion-dollar valuation — may be smaller than believed. The stock market reacts. The open source AI era has produced its first geopolitical shock.*
+
+---
+
+## The Pre-History: Why Open AI Was Once the Norm
+
+The question of whether AI should be open or closed is not new. In the early decades of AI research, the question would have been difficult to understand. AI research was conducted in universities and corporate research labs, and the results were published in academic journals and presented at academic conferences. The software that implemented the research was shared freely among researchers. The culture of AI research was, like the culture of academic computer science more broadly, an open culture.
+
+The shift toward closed AI began in the 2010s, with the rise of deep learning. Deep learning required large amounts of data and large amounts of compute — resources that were available to a small number of companies, primarily the large technology companies that had the data centers and the financial resources to train large models. As the models became larger and more capable, the companies that trained them began to treat them as competitive assets — to be deployed in products, to be licensed to customers, but not to be shared freely with competitors or with the research community.
+
+Google's Transformer paper, published in 2017, was a notable exception — the paper described the architecture that would become the foundation of modern language models, and the architecture was quickly adopted by researchers and companies around the world. But the models that Google built using the architecture — BERT, LaMDA, PaLM, Gemini — were not openly released. The architecture was open; the models were closed.
+
+OpenAI, despite its name, was not significantly more open than Google. The company released research papers describing its models, but the models themselves — GPT-2, GPT-3, GPT-4 — were available only through OpenAI's API. The decision to restrict access was justified on safety grounds — the company argued that the models were too powerful to be released openly, that they could be used to generate disinformation, to deceive, to cause harm. The justification was controversial — critics argued that the safety concerns were overstated and that the real motivation was commercial — but it became the standard justification for closed AI among the frontier AI companies.
+
+The decision by Meta, in early 2023, to release LLaMA under a research license was therefore a significant departure. Meta was not a frontier AI company in the same sense that OpenAI and Google were — its AI research was primarily conducted at FAIR, the Fundamental AI Research lab, which had a strong tradition of open research. But the release of LLaMA was the first time that a model approaching frontier capabilities had been made available — even under a restricted license — to researchers outside the company that built it. The leak that followed, and Meta's subsequent decision to embrace open release, would transform the landscape.
+
+---
+
+## The LLaMA Leak: March 2023 — The Day the Dam Broke
+
+The leak of LLaMA's weights in early March 2023 was, in retrospect, a turning point in the development of the AI industry. The leak was technically simple — someone with access to the weights, which had been shared with selected researchers under a research license, uploaded them to a public torrent site. The leak was conceptually significant — it demonstrated that the model weights, once shared with any external party, could not be controlled. The license terms were unenforceable in practice; the weights, once leaked, were available to anyone who wanted them.
+
+The leak was rapidly followed by a flourishing of activity. Researchers and developers around the world began fine-tuning LLaMA for specific tasks — for instruction following, for code generation, for specific languages, for specific domains. The fine-tunes were often released openly, creating an ecosystem of models derived from LLaMA that expanded the range of what the base model could do. Tools for running LLaMA locally — on consumer hardware, without requiring access to a cloud API — were developed and released, making it possible for anyone with a sufficiently powerful computer to run a state-of-the-art language model on their own machine.
+
+The cultural effect of the leak was significant. The community that formed around LLaMA — the researchers, developers, and hobbyists who fine-tuned, optimised, and built on the model — created a vibrant open source AI ecosystem that had not previously existed. The ecosystem was self-organising, distributed, and creative. It produced innovations — in fine-tuning techniques, in quantisation methods, in inference optimisation — that the frontier AI companies had not produced or had not shared. The leak demonstrated that open source AI was not just a theoretical possibility but a practical reality, and that the open source community could produce significant value.
+
+The leak also raised significant questions. The first was the legal question — whether the leak constituted copyright infringement, whether Meta's license terms were enforceable, whether the fine-tunes derived from the leaked weights were legal to distribute or use. These questions were not immediately resolved, and the legal status of the LLaMA ecosystem remained uncertain for some time.
+
+The second was the safety question. The model that had been leaked was, by the standards of early 2023, a capable language model. It could generate coherent text, answer questions, and follow instructions. It could also be used to generate disinformation, to write harmful content, to deceive. The safety community had warned that the open release of frontier models would enable malicious actors to cause harm — and the leak put those warnings to the test. In the event, the harms that materialised in the immediate aftermath of the leak were limited — but the potential for harm was real, and the leak demonstrated that the open release of frontier models was a possibility that the safety community and the regulators would need to take seriously.
+
+The third was the strategic question — how Meta would respond. The company had intended to restrict access to LLaMA, and the leak had defeated that intention. The company could have attempted to enforce its license, could have modified the model to prevent further distribution, could have abandoned the open research strategy that the leak had compromised. Instead, the company chose a different path.
+
+---
+
+## LLaMA 2: July 2023 — Open Goes Commercial
+
+On July 18, 2023, Meta announced LLaMA 2, with a license that allowed commercial use. The decision was a deliberate strategic choice by Meta's leadership — a choice to embrace the open release of frontier models rather than to resist it. The company had observed the ecosystem that had formed around the leaked LLaMA weights, had recognised the value that the ecosystem was creating, and had decided that the best way to participate in and shape that ecosystem was to release the next version of the model openly, with a license that allowed commercial use.
+
+The decision was strategic in several ways. The first was competitive. Meta was not the leader in frontier AI — that position was held by OpenAI, with Google close behind. By releasing LLaMA 2 openly, Meta was positioning itself as the leader in open source AI — the company that provided the foundation on which the broader AI ecosystem built. The strategy was analogous to the strategy that Google had pursued with Android in the mobile operating system market — give away the platform, compete on the services built on top of it.
+
+The second was economic. Meta's core business — advertising on its social media platforms — did not depend on selling AI models. The company could afford to give its AI models away, because the value that the models generated would accrue to Meta through other channels — through the integration of AI into Meta's products, through the talent that the open source strategy attracted, through the strategic relationships that the open source community created. For OpenAI and Google, whose core businesses depended on selling access to AI models, the calculus was different.
+
+The third was cultural. Meta's AI research organisation, FAIR, had a strong tradition of open research — of publishing papers, releasing code, and sharing models. The decision to release LLaMA 2 openly was consistent with this tradition and was supported by the researchers and engineers who worked at FAIR. The decision was, in part, an affirmation of the open research culture that had defined FAIR since its founding.
+
+The release of LLaMA 2 was followed by an explosion of activity. Developers and companies around the world began building on LLaMA 2 — fine-tuning it for specific tasks, integrating it into products, deploying it in production. The LLaMA ecosystem grew rapidly, and LLaMA 2 became the default foundation for open source AI projects. The competitive dynamics of the AI industry shifted — Meta, which had been perceived as behind in the frontier AI race, became the leader in the open source AI race, a position that gave it significant influence over the direction of the broader ecosystem.
+
+The release also intensified the debate about open source AI safety. The safety community's concerns — that open source frontier models would enable malicious actors to cause harm — were sharpened by the release of a model that was both capable and commercially usable. The concern was not abstract — the model was genuinely capable of being used to generate disinformation, to write harmful content, to deceive. The question of whether the benefits of open release outweighed the risks was being actively debated, and the release of LLaMA 2 made the question more urgent.
+
+---
+
+## The Community Response: Hugging Face, the Fine-Tunes, the Ecosystem
+
+The open source AI ecosystem that emerged around LLaMA — and that expanded rapidly after the release of LLaMA 2 — was a significant cultural and technical phenomenon. The ecosystem was centred on Hugging Face, a platform that hosted models, datasets, and tools for the machine learning community. Hugging Face had been founded in 2016 as a chatbot company, but had pivoted to become a platform for machine learning models — and by 2023, it had become the central hub of the open source AI world.
+
+The ecosystem that formed on Hugging Face was characterised by a high degree of collaboration, a rapid pace of innovation, and a strong culture of openness. Researchers and developers shared their models, their datasets, their tools, and their findings freely. Fine-tunes of LLaMA — models trained on specific datasets to perform specific tasks — proliferated. Techniques for improving the performance of the base models — for instruction tuning, for code generation, for multilingual capabilities — were developed and shared.
+
+The pace of innovation in the open source ecosystem was, in some respects, faster than the pace of innovation in the closed frontier AI companies. The ecosystem was larger — thousands of researchers and developers, distributed around the world, working on different aspects of the problem — and the pace was driven by the cumulative effect of many small contributions. The frontier companies, with their larger resources, could produce more capable base models — but the open source ecosystem could fine-tune, optimise, and specialise the models faster than the frontier companies could.
+
+The ecosystem also produced significant technical innovations. Quantisation techniques — methods for reducing the size of models without significantly reducing their performance — were developed and refined in the open source community. Inference optimisation — methods for running models more efficiently on consumer hardware — was a particular focus. The ability to run capable language models on consumer hardware — on laptops, on consumer GPUs, on single-board computers — was a direct result of the open source community's work, and it democratised access to AI capabilities in a way that the closed API-based models did not.
+
+The ecosystem also produced a culture — a culture of openness, of collaboration, of building in public. The culture was in some ways continuous with the broader open source software culture, but it had its own particular character — a character shaped by the specific challenges of working with large neural network models, by the rapid pace of progress in the field, and by the diverse backgrounds of the people who participated. The culture was, for many participants, a significant part of the appeal — the open source AI community was a place where one could do meaningful work, collaborate with talented people, and contribute to a project that mattered.
+
+The ecosystem also raised questions about governance. The models that were released on Hugging Face — and the fine-tunes derived from them — were not subject to the kind of safety review that the frontier companies applied to their models. The potential for harmful applications was real — models could be fine-tuned to generate harmful content, to facilitate malicious activities, to deceive. The question of how to govern the open source ecosystem — how to balance the benefits of openness against the risks of misuse — was a question that the ecosystem itself, the platform providers, and the regulators were all grappling with.
+
+---
+
+## Mistral: The European Counter-Narrative
+
+The open source AI movement was not exclusively American. In Europe, a French company called Mistral AI was founded in April 2023 by Arthur Mensch, Guillaume Lample, and Timothée Lacroix — all former researchers at Meta's FAIR lab in Paris. Mistral's strategy was to build frontier AI models and to release them openly — a strategy that was, in some respects, a European version of Meta's strategy, but with a distinctive European flavour.
+
+Mistral's first model, Mistral 7B, was released in September 2023 under the Apache 2.0 license — one of the most permissive open source licenses. The model was, at 7 billion parameters, significantly smaller than LLaMA 2 (70 billion parameters), but it achieved competitive performance through architectural innovations. The release demonstrated that frontier-quality models could be built with relatively modest resources — Mistral had raised approximately €105 million in its seed round, a fraction of the capital that OpenAI and Google were investing.
+
+The release of Mixtral 8x7B in December 2023 — a mixture-of-experts model that achieved performance competitive with much larger models — further established Mistral as a significant player in the open source AI ecosystem. The company raised additional capital — approximately €385 million in a Series A round in December 2023, followed by €600 million in a Series B round in June 2024 — at valuations that, while lower than OpenAI's, were substantial.
+
+Mistral's strategy was significant for several reasons. The first was that it demonstrated that frontier AI was not exclusively an American phenomenon — that European companies, with European capital and European talent, could compete at the frontier. This was important for the European AI ecosystem, which had often been perceived as lagging behind the US and China.
+
+The second was that it demonstrated that the open source AI strategy was viable as a commercial strategy — that a company could build frontier models, release them openly, and still build a successful business. Mistral's business model — give away the open source models, charge for the proprietary models and the enterprise services — was analogous to the business models of successful open source software companies like Red Hat and MongoDB.
+
+The third was that it provided a European counter-narrative to the American and Chinese dominance of the AI industry. The European Union's AI Act, which was being negotiated during this period, included specific provisions for open source AI — provisions that were influenced by the existence of companies like Mistral that were building open source AI in Europe. The European perspective — which emphasised the importance of openness, transparency, and democratic oversight of AI — was an important voice in the global conversation about AI governance.
+
+Mistral's success also intensified the competitive dynamics of the open source AI ecosystem. With both Meta and Mistral releasing capable open source models, the ecosystem had multiple providers competing to produce the best open source models. The competition drove rapid progress — the capabilities of open source models improved significantly over 2024 and 2025, narrowing the gap with the closed frontier models.
+
+---
+
+## DeepSeek: January 2025 — The Geopolitical Shock
+
+The release of DeepSeek-R1 on January 20, 2025, was the most consequential open source AI release since LLaMA 2 — and arguably the most geopolitically significant AI release since ChatGPT. DeepSeek, a Chinese AI company spun out of the High-Flyer hedge fund, released R1 as an open source reasoning model — a model that had been trained to generate explicit chains of reasoning before producing answers, in the manner of OpenAI's o1.
+
+The release was significant for several reasons. The first was technical: R1 matched or exceeded the performance of OpenAI's o1 on many benchmarks, particularly in mathematics and coding. This demonstrated that the open source community — and, more specifically, a Chinese company — had closed the gap with the frontier closed models in the reasoning model domain. The technical achievement was significant, and it suggested that the moat that the frontier companies had been building — the combination of capital, compute, and talent that was supposed to be difficult to replicate — was smaller than believed.
+
+The second was economic: R1 had reportedly been trained at a cost of under $6 million, a fraction of the cost that OpenAI and other frontier companies were spending to train their models. The cost figure was disputed — it likely did not include the cost of the prior research, the infrastructure, or the failed experiments — but it suggested that the cost of training frontier models was falling rapidly, and that the capital requirements for competing at the frontier were lower than the frontier companies' valuations implied.
+
+The third was geopolitical: R1 was a Chinese model, released openly, that matched the performance of the best American models. This was a direct challenge to the United States' strategy of maintaining its lead in AI through export controls on advanced chips — the strategy that had been the basis for the US government's AI policy since 2022. The fact that a Chinese company could produce a frontier-quality model despite the export controls suggested that the controls were not as effective as hoped, and that the US lead in AI was not as secure as believed.
+
+The market reaction was dramatic. On January 27, 2025, NVIDIA lost $589 billion in market capitalisation — the largest one-day loss in US stock market history. The broader market declined, with the Nasdaq falling 3.1% and the S&P 500 falling 1.5%. The market reaction reflected a reassessment of the assumptions that had been driving the AI investment boom — the assumption that the frontier AI companies needed massive compute to maintain their lead, that NVIDIA's chips were essential to that compute, that the US lead in AI was secure. DeepSeek-R1 challenged all of these assumptions, and the market reacted accordingly.
+
+The reaction was probably overstated. DeepSeek had not, in fact, eliminated the need for advanced compute — the training of R1 had required significant compute, even if the reported cost was low, and the inference of reasoning models continued to require substantial computational resources. The US lead in AI was not, in fact, eliminated — the frontier companies continued to produce the most capable models, and the open source community continued to follow rather than lead. But the reaction was significant because it demonstrated the fragility of the assumptions that were driving the AI investment boom, and the potential for open source AI to disrupt the competitive dynamics of the industry.
+
+The release of DeepSeek-R1 also intensified the open-versus-closed debate. The fact that a Chinese company had used the open source strategy to close the gap with American frontier models was, for some commentators, evidence that the open source strategy was a threat to American competitiveness — that the open release of AI technology was enabling America's geopolitical rivals to catch up. For other commentators, the release was evidence that the open source strategy was working as intended — that the democratisation of AI capabilities was proceeding, and that the benefits of open source AI were accruing to the broader global community rather than to a small number of American companies.
+
+---
+
+## The Safety Argument: Why Closed AI Wants to Stay Closed
+
+The case for closed AI — the case that frontier models should not be released openly — rests primarily on safety considerations. The argument is that frontier models can be used to cause harm, that the open release of such models makes it possible for malicious actors to use them, and that the closed release — through APIs that can monitor and restrict usage — allows the developers to prevent or mitigate the harms.
+
+The specific harms that the closed AI argument focuses on have evolved over time. In the early days of large language models, the concern was primarily about disinformation — the fear that language models could be used to generate convincing fake news, propaganda, or deceptive content at scale. As the models became more capable, the concerns expanded to include the generation of harmful content — instructions for building weapons, conducting cyberattacks, manipulating people. More recently, the concerns have expanded further to include the use of frontier models in scientific domains — the fear that the models could be used to design biological weapons, to discover novel pathogens, to accelerate the development of dangerous technologies.
+
+The closed AI argument has several specific points. The first is that the open release of model weights makes it impossible to monitor or restrict usage — once the weights are available, anyone can use the model for any purpose, and the developer has no ability to intervene. The second is that the open release of model weights makes it possible for malicious actors to remove the safety features that the developer has built into the model — to fine-tune the model to remove refusals, to elicit harmful capabilities that the developer had tried to suppress. The third is that the open release of frontier models accelerates the proliferation of AI capabilities — the more capable the open models become, the more harm that malicious actors can do with them.
+
+The closed AI argument has been articulated most forcefully by the frontier AI companies themselves — OpenAI, Anthropic, Google DeepMind — and by the AI safety community that is concerned about the risks of advanced AI. The argument has been influential in policy circles — the EU AI Act, the US executive order on AI, and other regulatory initiatives have included provisions that treat frontier models differently from open source models, reflecting the concern that frontier models require more careful governance.
+
+The argument is not without merit. The potential for harm from advanced AI systems is real, and the open release of such systems does make it more difficult to prevent or mitigate the harms. The question is whether the harms outweigh the benefits — and this is where the argument becomes contested.
+
+---
+
+## The Democratisation Argument: Why Open AI Wants to Stay Open
+
+The case for open AI — the case that frontier models should be released openly — rests primarily on the benefits of democratisation and the risks of concentration. The argument is that the open release of frontier models allows a broader range of people and organisations to use, study, and build on the models, that this produces significant benefits — in innovation, in economic opportunity, in democratic oversight — and that the closed release concentrates power in a small number of companies, with significant risks.
+
+The specific benefits that the open AI argument focuses on are several. The first is innovation: the open release of models allows researchers and developers around the world to study, modify, and build on the models, producing innovations that the original developers did not produce or did not share. The open source AI ecosystem has, in fact, produced significant innovations — in fine-tuning, in inference optimisation, in safety research — that have benefited the broader AI community.
+
+The second is economic opportunity: the open release of models allows startups, small businesses, and developers in lower-income countries to build AI-powered products without paying the high fees charged by the frontier companies' APIs. The democratisation of AI capabilities has the potential to spread the economic benefits of AI more widely, rather than concentrating them in the companies that can afford to train frontier models.
+
+The third is democratic oversight: the open release of models allows researchers, journalists, and civil society organisations to study the models, to understand their capabilities and limitations, to identify biases and harms, and to hold the developers accountable. The closed release of models — through APIs that restrict access — makes this kind of oversight more difficult.
+
+The fourth is the prevention of concentration: the open release of models prevents the concentration of AI capabilities in a small number of companies. The risks of concentration — that a small number of companies could control the most important technology of the era, that they could use their control to extract rents, to shape the development of the technology in ways that serve their interests rather than the public interest, to act as gatekeepers for who can use AI and for what purposes — are significant, and the open release of models is a direct counter to these risks.
+
+The open AI argument has been articulated most forcefully by Meta, by Mistral, by the open source community, and by a range of researchers and commentators who are concerned about the concentration of power in the AI industry. The argument has been influential in the open source community and among policymakers who are concerned about competition and concentration, but it has been less influential in the AI safety community, which has tended to prioritise the safety risks of open release over the concentration risks of closed release.
+
+The argument is not without merit. The benefits of open release are real, and the risks of concentration are significant. The question is whether the benefits outweigh the risks — and this is where the argument becomes contested.
+
+---
+
+## The Regulatory Response: EU AI Act, US EO, China Rules
+
+The open-versus-closed debate was being actively engaged by regulators around the world, with different jurisdictions reaching different conclusions.
+
+The European Union's AI Act, which was finalised in 2024 and entered into force in August 2024, included specific provisions for open source AI. The Act distinguished between "general-purpose AI models" — which were subject to certain transparency requirements — and "high-impact general-purpose AI models" — which were subject to additional requirements. The Act also included a specific exemption for open source models, recognising that the open source ecosystem operated under different conditions than the commercial AI industry and that the requirements appropriate for commercial models might not be appropriate for open source models. The European approach was broadly supportive of open source AI, while still imposing requirements on the most capable models.
+
+The United States' approach was more ambiguous. The executive order on AI, issued by President Biden in October 2023, focused primarily on the safety of frontier models — models above certain capability thresholds were required to share safety test results with the government. The order did not specifically address open source AI, but the thresholds were set high enough that they would apply primarily to closed frontier models rather than to open source models. The US approach was less prescriptive than the European approach, but it reflected a similar concern with the safety of the most capable models.
+
+China's approach was different again. The Chinese government's regulations on generative AI, issued in 2023, required that generative AI services operating in China be licensed by the government and that they comply with content requirements — including requirements to reflect "socialist core values" and to avoid content that subverts state power. The regulations applied to services provided to the Chinese public, but they did not specifically address the open release of models. Chinese AI companies, including DeepSeek, were able to release models openly — though the models were subject to the same content requirements when deployed as services in China.
+
+The regulatory landscape was, in summary, fragmented. Different jurisdictions were reaching different conclusions about the appropriate governance of open source AI, with the European Union generally supportive, the United States focused on safety, and China focused on content control. The fragmentation created challenges for the AI industry — companies operating globally needed to comply with multiple regulatory regimes — but it also created opportunities for experimentation, as different jurisdictions tried different approaches and learned from each other's experiences.
+
+The regulatory question was, ultimately, a question about how to balance the benefits of open source AI against the risks. The benefits — innovation, economic opportunity, democratic oversight, prevention of concentration — were significant. The risks — misuse, proliferation, the enabling of malicious actors — were also significant. The right balance was not obvious, and different jurisdictions were reaching different conclusions. The question would continue to be debated and would continue to evolve as the technology developed and as the evidence about the benefits and risks accumulated.
+
+---
+
+## The Compute Divide: Open Models, Closed Compute
+
+A striking feature of the open source AI ecosystem was the divide between the openness of the models and the closedness of the compute infrastructure on which they depended. The models — LLaMA, Mistral, DeepSeek — were released openly, but the compute required to train and run them was concentrated in a small number of companies — NVIDIA, TSMC, ASML — that operated at the bottleneck of the AI supply chain.
+
+The compute divide had several implications. The first was that the open source AI ecosystem was not as open as it appeared. The models were open, but the ability to train them — to produce the next generation of frontier-quality open source models — depended on access to large-scale compute, which was available only to a small number of companies and countries. The open source ecosystem could fine-tune, optimise, and build on the models that the large companies released, but it could not easily produce new frontier models from scratch.
+
+The second was that the geopolitical dynamics of AI were shaped by the compute divide as much as by the model divide. The US government's export controls on advanced chips were an attempt to leverage the compute bottleneck to maintain the US lead in AI. The controls targeted the chips themselves — restricting the sale of NVIDIA's most advanced GPUs to China — and the manufacturing equipment — restricting the sale of ASML's extreme ultraviolet lithography machines to China. The controls were a recognition that the compute supply chain was the choke point of the AI industry, and that controlling the choke point was a way to influence the development of the entire industry.
+
+The third was that the open source AI ecosystem was dependent on the closed compute providers in ways that created vulnerabilities. The open source ecosystem relied on NVIDIA's GPUs for training and inference — and NVIDIA's dominance of the GPU market gave it significant power over the ecosystem. The open source ecosystem also relied on cloud providers — Amazon, Google, Microsoft — for access to compute, and the cloud providers' pricing and availability decisions could significantly affect the ecosystem's ability to operate.
+
+The compute divide was, in some respects, the deeper story of the open source AI era. The open release of models was a significant development, but it was made possible by the closed compute infrastructure that produced the models and that ran them. The question of whether the open source AI ecosystem could truly democratise AI — or whether it would remain dependent on the closed compute infrastructure — was a question that would shape the long-term development of the industry.
+
+The emergence of alternative compute providers — Chinese chip makers like Huawei and SMIC, alternative GPU makers like AMD and Intel, custom AI chips from the large technology companies — was gradually diversifying the compute supply chain. But the diversification was slow, and the dominant position of NVIDIA and TSMC in the most advanced segments of the supply chain remained largely unchallenged. The compute divide was, and would remain, a defining feature of the AI industry.
+
+---
+
+## The Future of the Open/Closed Split
+
+The open-versus-closed debate was not going to be resolved. The two strategies — open and closed — were both viable, both had their proponents, and both had their advantages and disadvantages. The AI industry was likely to remain split between open and closed providers for the foreseeable future, with the competitive dynamics between the two strategies shaping the development of the industry.
+
+The open strategy had significant momentum. The open source ecosystem was large, active, and innovative. The capabilities of open source models were improving rapidly, narrowing the gap with closed frontier models. The economic and political support for open source AI was strong, particularly in Europe and among the open source community. The open strategy was likely to continue to gain ground, particularly as the cost of training frontier models fell and as more companies and countries gained the capability to produce them.
+
+The closed strategy also had significant momentum. The frontier AI companies — OpenAI, Anthropic, Google — were continuing to produce the most capable models, and their commercial success was providing the resources to continue investing in frontier research. The safety concerns that supported the closed strategy were not going away — if anything, they were intensifying as the models became more capable. The regulatory environment, while fragmented, was generally supportive of the safety considerations that underlay the closed strategy.
+
+The interaction between the two strategies was complex. The open source ecosystem benefited from the closed frontier companies' research — the open source models were often derived from or inspired by the closed models, and the open source community learned from the closed companies' published research. The closed frontier companies benefited from the open source ecosystem — the ecosystem produced innovations that the closed companies could adopt, and the ecosystem provided a pool of talent that the closed companies could recruit from.
+
+The competition between the two strategies was, in some respects, beneficial for the broader development of AI. The competition drove innovation — both in the open and closed models. The competition provided alternatives — users who were concerned about the concentration of power in the closed companies could choose open alternatives; users who were concerned about the safety risks of open models could choose closed alternatives. The competition provided a check on the excesses of either strategy — the open source ecosystem prevented the closed companies from becoming too dominant, and the closed companies' safety practices provided a benchmark against which the open source ecosystem's practices could be evaluated.
+
+The long-term question was whether the two strategies could coexist, or whether one would eventually displace the other. The answer was not clear. The open source strategy had the advantage of democratisation and the prevention of concentration; the closed strategy had the advantage of safety and the resources to invest in frontier research. The two strategies might continue to coexist, with the open source ecosystem providing the foundation for a broad range of applications and the closed frontier companies pushing the boundary of capability. Or one strategy might eventually prevail — the open source ecosystem might commoditise the model layer and make the closed strategy uneconomical, or the closed companies might develop capabilities so far beyond the open source ecosystem that the open source strategy became irrelevant. The answer would depend on the rate of progress in AI capabilities, the evolution of the regulatory environment, and the strategic choices of the companies and countries involved.
+
+---
+
+## What the Open Source Wars Revealed
+
+The open source AI era — from the LLaMA leak in March 2023 through the DeepSeek-R1 release in January 2025 and beyond — revealed several things about the AI industry and about the broader relationship between technology and society.
+
+The first was that the open source model, which had been a powerful force in the software industry for decades, was a powerful force in the AI industry as well. The open source ecosystem that emerged around LLaMA, Mistral, and DeepSeek was vibrant, innovative, and productive. It produced significant technical innovations, democratised access to AI capabilities, and provided a counterweight to the concentration of power in the frontier AI companies. The open source model was not a relic of the software era; it was a viable strategy for the AI era.
+
+The second was that the safety concerns about open source AI were real but not always decisive. The open release of capable models did enable potential misuse — but the actual misuse that materialised was, in the event, less severe than some had feared. The open source ecosystem developed its own norms and practices for managing safety risks — content filters, safety fine-tunes, monitoring of model usage — that provided some mitigation. The safety argument against open source AI was not refuted, but it was complicated by the actual experience of open source AI in practice.
+
+The third was that the geopolitics of AI were more complex than the simple narrative of US leadership suggested. The DeepSeek-R1 release demonstrated that Chinese AI companies could produce frontier-quality models despite export controls, and that the open source strategy could be used by companies in any country to compete with the US frontier companies. The geopolitics of AI were not a simple race between the US and China; they were a complex web of competition, collaboration, and regulation that involved multiple countries, multiple companies, and multiple strategies.
+
+The fourth was that the compute supply chain was the deeper story. The open release of models was a significant development, but it was made possible by the closed compute infrastructure that produced the models and that ran them. The compute supply chain — concentrated in NVIDIA, TSMC, and ASML — was the real bottleneck of the AI industry, and the geopolitics of AI were, in the final analysis, the geopolitics of the compute supply chain.
+
+The fifth was that the AI industry was, and would remain, a site of contestation between different visions of how the technology should be developed and deployed. The open source community represented one vision — of democratisation, openness, and distributed innovation. The frontier AI companies represented another vision — of safety, capability, and concentrated investment. The regulators represented a third vision — of oversight, accountability, and public interest. The contestation between these visions was not going to be resolved; it was the normal state of a technology that was transforming the world.
+
+The open source wars were, in this sense, not a passing phase but a permanent feature of the AI era. The question of whether AI should be open or closed was not a question that would be answered once and for all; it was a question that would be asked repeatedly, in different contexts, by different actors, with different answers. The asking of the question — and the contestation that the asking produced — was itself a valuable feature of the AI era, a sign that the technology was being shaped by a broad and diverse conversation rather than by the decisions of a small number of companies or governments.
+
+The open source wars were, ultimately, about who would control the most important technology of the era. The answer was being worked out, in real time, through the release of models, the development of ecosystems, the passage of regulations, and the broader conversation about the relationship between AI and society. The answer was not predetermined; it was being shaped by the choices that the participants — the companies, the researchers, the regulators, the users — were making. The choices mattered. The technology was being built. The future was being decided.
+
+---
+
+## Further Reading
+
+- **"LLaMA: Open and Efficient Foundation Language Models" by Touvron et al. (Meta, 2023)** — The technical paper describing LLaMA, the model whose leak started the open source AI era.
+- **"The LLaMA Leak: How Meta Lost Control of Its AI" by Will Knight (Wired, March 2023)** — The most detailed journalistic account of the LLaMA leak and its immediate aftermath.
+- **"Mistral 7B" by Jiang et al. (Mistral AI, 2023)** — The technical paper describing Mistral 7B, the first release from the European open source AI company.
+- **"DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning" by DeepSeek (2025)** — The technical paper describing DeepSeek-R1, the model whose release triggered the January 2025 stock market rout.
+- **"The Open Source AI Debate: A Comprehensive Analysis" by Stanford HAI (2024)** — A balanced analysis of the open-versus-closed debate, covering the safety, economic, and geopolitical dimensions.
+- **"The EU AI Act and Open Source AI" by the Future of Life Institute (2024)** — An analysis of the EU AI Act's provisions for open source AI and their implications.
+- **"The Compute Divide: How the Chip Supply Chain Shapes the AI Industry" by CHIPS Network (2024)** — A detailed analysis of the compute supply chain and its implications for the AI industry, with particular attention to the geopolitics of advanced chips.
+- **"The NVIDIA Empire: How One Company Became the Bottleneck of the AI Industry" by Stephen Witt (New Yorker, 2024)** — A long-form profile of NVIDIA and its role in the AI industry.
+
+---
+
+*Next in the Events series: this is the final event. The Minds & Machines series concludes with the companion pieces **A26 — The Future of Creativity: Art, Music, and Writing in the AI Age** and **P26 — Sam Altman Returns: The Year That Made OpenAI**. The conversation continues in Minds & Machines: Beyond the Series — standalone essays extending the themes, profiles, and events explored in these 75 articles, without the chronological-act structure.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the story of the open source AI movement — from the LLaMA leak to DeepSeek-R1 — illuminates something about the contestation between different visions of how AI should be developed and deployed, share it with someone who would find the illumination valuable.*

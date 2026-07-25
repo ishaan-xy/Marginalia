@@ -1,0 +1,285 @@
+---
+title: "The Second AI Winter: Lightning Strikes Twice"
+description: "The full narrative of AI's second great contraction — told from the inside, through the experiences of the researchers who built the boom and watched it collapse. The collapse of the expert systems industry, the dissolution of the LISP machine market, the reduction of DARPA funding, and the underground movement that kept the neural network approach alive through the cold."
+pubDate: "2026-04-19"
+tags:
+  - "AI Winter"
+  - "Expert Systems"
+  - "History of AI"
+  - "Neural Networks"
+  - "LISP Machines"
+series:
+  name: "Minds & Machines"
+  part: 37
+draft: false
+featured: false
+dropCap: true
+---
+
+*Boston, Massachusetts. 1988. A researcher at a company called Teknowledge — one of the leading expert systems firms, a company that had grown rapidly through the early 1980s on the strength of the AI boom, a company that in 1984 had seemed like it might become one of the defining technology companies of the decade — is cleaning out her desk.*
+
+*The company is laying off staff. Not all of them — not yet. But the contracts that were supposed to come in are not coming in. The corporate AI departments that were going to be Teknowledge's customers have been told by their CFOs to justify the ROI on their AI investments, and the ROI calculations are not looking good. The expert systems that had been demonstrated so impressively in controlled settings are proving more expensive and more brittle in deployment than anyone had admitted. The knowledge engineering projects that were supposed to transform corporate decision-making are running over budget and under-delivering.*
+
+*She is experienced enough in the industry to know what this means. She has seen the inside of the hype cycle. She knows the pattern: enthusiasm, investment, over-promise, disappointment, withdrawal. The first AI winter had followed the same pattern in the 1970s. The difference is that this time she was on the inside when it happened — building the products, making the promises, watching the gap between promise and delivery open up in real time.*
+
+*The desk is clean. She puts the last box in her car. She drives away.*
+
+*The second AI winter has arrived.*
+
+---
+
+## The Structure of the Second Winter: A Different Kind of Cold
+
+The second AI winter differed from the first in character, causes, and consequences in ways that illuminate both the specific vulnerabilities of the expert systems era and the recurring patterns that make AI development prone to cycles of enthusiasm and contraction.
+
+The first AI winter had been primarily a crisis of credibility — triggered by specific external critiques, particularly the Lighthill Report, that challenged the fundamental claims of AI research. It had been a funding crisis driven by government scepticism, not by market failure. The programmes it affected were primarily academic research programmes, sustained by government grants rather than commercial investment.
+
+The second AI winter was primarily a market failure. It was the consequence of a commercial AI industry that had grown on the strength of projected returns that did not materialise — an industry built on customer expectations that the technology did not meet, on business models that depended on knowledge engineering being cheaper and more effective than it proved to be, on competitive dynamics that encouraged over-promising in ways that damaged long-term credibility.
+
+The distinction matters. A government funding crisis can be reversed by political decisions — by a new defence initiative, by a changed assessment of the technology's potential. A market failure is reversed more slowly, by the gradual accumulation of commercial evidence that a different approach can deliver the returns that the failed approach had promised.
+
+The second AI winter also affected different parts of the AI community differently than the first. Academic AI research — the symbolic AI tradition at MIT, Stanford, and Carnegie Mellon — was constrained but not devastated. The neural network research community — Hinton's group in Toronto, LeCun's group at Bell Labs, Bengio's work in Montreal — was largely insulated from the commercial collapse because it had never been part of the commercial boom.
+
+The communities most severely affected were the commercial ones: the expert systems companies, the LISP machine manufacturers, the knowledge engineering consultancies, the corporate AI departments that had been built to develop and deploy expert systems for their parent organisations. These communities contracted severely.
+
+---
+
+## The Expert Systems Companies: How They Failed
+
+Understanding the second AI winter requires understanding specifically how the expert systems companies failed — what went wrong, at the level of specific companies and specific business models, that caused the industry to contract so severely.
+
+The expert systems industry in the mid-1980s was composed of several distinct types of companies.
+
+**Shell vendors** sold expert systems development platforms — the LISP-based tools that knowledge engineers used to build expert systems. Companies like Teknowledge, IntelliCorp, and Inference Corporation sold these platforms to corporate customers who wanted to build expert systems in-house. The business model assumed that the market for expert systems development would continue to grow, that corporations would invest in building their own knowledge engineering capabilities, and that the shell vendors would benefit from the growing market for development tools.
+
+**Consulting firms** sold knowledge engineering services — teams of specialists who would interview domain experts, build knowledge bases, and deliver deployed expert systems. These firms competed for large contracts with major corporations in finance, insurance, manufacturing, and healthcare.
+
+**Hardware vendors** sold the LISP machines that ran the AI development tools and deployed systems. Symbolics, LMI, and others in this segment assumed that the demand for AI-specific hardware would continue to grow, that the performance advantages of their specialised machines would remain commercially relevant, and that the expansion of the AI software market would drive expansion of the AI hardware market.
+
+Each of these business models had specific vulnerabilities that the contraction exposed.
+
+For shell vendors, the vulnerability was the knowledge acquisition bottleneck. Shell platforms were useful only if knowledge engineering worked — if expert knowledge could be efficiently extracted and encoded. As the field's experience with knowledge engineering accumulated, it became clear that the process was much slower, more expensive, and more incomplete than the vendors had suggested. Corporate customers who had purchased shell platforms found that building expert systems in-house required more specialised knowledge engineering expertise than they had, took longer than projected, and produced systems that were less capable and more brittle than promised. The market for shells contracted as disappointment accumulated.
+
+For consulting firms, the vulnerability was the gap between demonstration and deployment. Knowledge engineering consultants were good at building impressive demonstrations in controlled conditions — at showing corporate clients that an expert system could handle the cases in the demonstration. They were less good at building systems that worked reliably across the full range of cases encountered in production. The gap between demonstration performance and deployment performance was large, and corporate clients who discovered the gap after signing large contracts were understandably unhappy.
+
+For hardware vendors, the vulnerability was technological substitution. The LISP machines that had been commercially dominant were overtaken by general-purpose Unix workstations that were cheaper, more capable, and able to run Common LISP implementations that were adequate for most AI development purposes. The specific performance advantages of LISP machines evaporated as general-purpose hardware improved, and the premium prices of LISP machines could no longer be justified.
+
+---
+
+## Symbolics: The Rise and Fall of a LISP Machine Empire
+
+The story of Symbolics Incorporated illustrates the specific dynamics of the LISP machine market collapse with unusual clarity.
+
+Symbolics was founded in 1980 by a group of researchers who had worked on the LISP Machine project at MIT's AI Lab. The MIT LISP Machine project had developed specialised hardware designed to run LISP efficiently — hardware that was orders of magnitude faster for LISP computation than the general-purpose computers available at the time.
+
+Symbolics commercialised this technology, producing a series of increasingly powerful LISP workstations — the LM-2, the 3600 series, the XL1200 — that became the standard hardware for serious AI development. By the mid-1980s, Symbolics was a substantial company, with hundreds of employees, tens of millions of dollars in annual revenue, and a dominant position in the AI development market.
+
+The company was building hardware that was genuinely impressive. A Symbolics 3600, introduced in 1982, could run LISP at speeds that dwarfed what was possible on general-purpose hardware of the time. The Symbolics development environment — a sophisticated, integrated environment for LISP development that included debuggers, inspectors, and programming tools that had no equivalent on other platforms — was genuinely superior for AI development.
+
+But the business model rested on a specific competitive advantage: LISP programming required hardware that was specifically designed for LISP. When general-purpose hardware improved sufficiently that Common LISP implementations on Unix workstations could provide adequate performance for most AI work, the specific competitive advantage evaporated.
+
+The disruption came from Sun Microsystems. Sun's SPARC-based workstations, introduced in the mid-1980s and improving rapidly, could run Franz Lisp, Lucid Common Lisp, and other LISP implementations that were competitive with Symbolics machines for many applications, at a fraction of the cost. A Sun workstation in 1987 cost roughly one-fifth the price of a comparable Symbolics machine and was within a factor of two or three of Symbolics's performance for typical LISP workloads.
+
+The market turned rapidly. Corporate AI departments that had been purchasing Symbolics machines stopped purchasing them. New customers chose Sun workstations running Common LISP over Symbolics machines. The revenue that Symbolics needed to sustain its engineering and sales organisation evaporated within a period of eighteen months to two years.
+
+The company laid off a significant fraction of its workforce in 1987. It continued to operate in a reduced form for years, finding pockets of customers who needed the specific capabilities that Symbolics machines provided — particular research institutions, particular government programmes. But the growth that had defined the company's first seven years was gone.
+
+The Symbolics story was repeated, in various forms, at LMI and at Xerox's AI workstation division. The LISP machine market, which had seemed like the hardware foundation of the AI revolution, collapsed within a few years as general-purpose hardware overtook the specialised advantage.
+
+---
+
+## DARPA's Reassessment: The Strategic Computing Initiative Ends
+
+The DARPA Strategic Computing Initiative, launched in 1983 with ambitious goals and substantial funding in response to the Fifth Generation alarm, had reached the end of its initial five-year mandate by 1988. The review that accompanied this transition was sobering.
+
+The initiative had been organised around three grand challenge demonstrations: an autonomous land vehicle, a pilot's associate, and a battle management system. All three had encountered serious technical difficulties. The autonomous vehicle had demonstrated impressive performance on controlled test tracks but struggled with the variability of real terrain. The pilot's associate had made progress on specific subsystems but had not achieved the integrated capability that the initiative had promised. The battle management system had produced prototype components but had not demonstrated the full integration required for military deployment.
+
+DARPA's assessment was that the specific demonstrations had not been achieved on schedule and that the technical challenges were greater than had been anticipated. Funding for several programmes was reduced or restructured. The culture of patient, long-horizon funding that had characterised DARPA AI investment in the 1960s and early 1970s — and that had been partially restored by the Strategic Computing Initiative — gave way again to more demanding requirements for near-term results.
+
+The practical effect on AI research was significant but more moderate than the commercial collapse. Academic research groups that depended heavily on DARPA contracts experienced funding constraints that required either redirecting research toward more clearly defensible applications or diversifying funding sources. But the academic AI institutions — MIT's AI Lab, Stanford's SAIL (by now renamed SRI), Carnegie Mellon's computer science department — had sufficient alternative funding and sufficient institutional momentum to weather the reduction without catastrophic consequences.
+
+The more significant effect was cultural. DARPA's reassessment reinforced the lesson of the expert systems collapse: that AI research needed to deliver demonstrable results in specific, well-defined application domains, not just impressive results in laboratory demonstrations. The culture of ambitious basic research — the culture that had characterised the golden age of DARPA AI funding in the 1960s — was difficult to sustain in an environment where the demonstrations had consistently fallen short of the promises.
+
+---
+
+## The Knowledge Engineering Graveyard: Projects That Did Not Survive
+
+One of the most painful aspects of the second AI winter was the fate of the knowledge engineering projects that had been begun during the boom years and could not be completed or deployed as the market contracted.
+
+Many of these projects represented years of investment — not just financial investment but intellectual investment, the investment of knowledge engineers who had spent months extracting expertise from domain specialists and encoding it in knowledge bases. When the projects were cancelled, this investment was lost. The knowledge bases were incomplete, the systems were undeployed, and the expertise that had been accumulated was dispersed back into the people who had participated in the projects.
+
+The healthcare sector, where knowledge engineering investment had been particularly significant, saw a wave of abandoned projects. Medical expert systems that had shown impressive results in controlled evaluations were cancelled before deployment as the institutional barriers — regulatory, liability, professional acceptance — proved insuperable and as the funding environment became less supportive. The promise of AI-assisted diagnosis, demonstrated convincingly by MYCIN and its successors, was deferred again.
+
+The financial sector saw similar patterns. Expert systems for loan evaluation, for credit scoring, for risk assessment — systems that had been built on the premise that they would improve decision quality and reduce cost — were cancelled or mothballed as the ROI calculations failed to support their continued development. In some cases, the systems worked adequately but not dramatically better than the human judgment they were supplementing, making the cost of continued development hard to justify.
+
+Manufacturing and process control were areas where some expert systems survived and continued to be used. Applications like DEC's XCON — where the value was clearly measurable, the domain was well-defined, and the system had been running in production long enough to accumulate reliability data — weathered the winter better than more speculative projects. But even in manufacturing, new expert systems development contracted significantly.
+
+The graveyard of abandoned projects was a tangible cost of the second AI winter — a cost that went beyond the financial loss to include the human effort that had been devoted to projects that did not reach deployment, and the lost benefit that would have accrued if the systems had been completed and deployed.
+
+---
+
+## The Survivors Inside the Winter: Academic AI Continues
+
+While the commercial AI sector contracted severely, academic AI research continued, at reduced scale and with a more constrained funding environment, through the winter years of the late 1980s and early 1990s.
+
+At MIT's AI Lab, research continued across multiple fronts. Rod Brooks, who had joined the lab in 1984, was developing a radically different approach to robotics — the subsumption architecture, which abandoned the classical AI approach of building an internal representation of the world and reasoning about it, in favour of a layered architecture in which simple reactive behaviours were layered on top of each other to produce complex behaviour without centralised planning. Brooks's robots — creatures like Allen, Herbert, and Genghis — could walk, navigate around obstacles, and interact with their environment in ways that seemed surprisingly lifelike, despite operating without any explicit world model.
+
+Brooks's work was significant not just as an engineering achievement but as a philosophical challenge to the symbolic AI mainstream. His 1990 paper "Elephants Don't Play Chess" argued that the classical AI approach — build a symbol-level model of the world, reason about it, plan actions — was fundamentally misguided, that real-world intelligence required the kind of tight sensorimotor coupling that his reactive architectures implemented. The paper was controversial — McCarthy and other symbolic AI researchers strongly disagreed with its conclusions — but it was influential, pointing toward the embodied approaches to AI that would become increasingly important.
+
+At Carnegie Mellon, the robotics work continued, with Hans Moravec's robot navigation research and the development of autonomous vehicle technology that would eventually lead to the DARPA Grand Challenge of 2005. The planning and reasoning research that had built CMU's reputation in symbolic AI continued, though at reduced scale and with more emphasis on practical applications.
+
+In natural language processing, the shift toward statistical approaches — which had been underway before the second winter — accelerated. Researchers who had been working on rule-based parsing and generation systems began exploring the statistical language models and probabilistic approaches that would eventually dominate NLP. The IBM speech recognition research group, working on hidden Markov model approaches, was making steady progress toward commercially usable speech recognition.
+
+---
+
+## The Statistical Machine Learning Transition
+
+One of the most important developments of the second winter period was the accelerating shift from symbolic, rule-based approaches to statistical, learning-based approaches in the subfields of AI that were producing the most practical results.
+
+Speech recognition was the domain where this shift was most clearly visible and most consequential. The IBM research group working on speech recognition — known as the Sphinx project — had been developing hidden Markov model approaches since the early 1970s. By the late 1980s, the statistical approach was clearly outperforming the rule-based approaches that had previously dominated. The National Institute of Standards and Technology's speech recognition benchmarks, established in the late 1980s, provided a common evaluation framework that made the comparison between approaches clear and unambiguous.
+
+The hidden Markov model approach treated speech recognition as a statistical inference problem: given a sequence of acoustic observations, what is the most probable sequence of words that produced them? The statistical model learned, from large corpora of transcribed speech, the probability distributions over phonemes and words that made accurate inference possible. The approach required large datasets and significant computation, but it scaled with both — more data and more computation produced better recognition.
+
+The contrast with rule-based speech recognition was instructive. Rule-based approaches had tried to encode the acoustic patterns of speech in explicit rules — rules describing how each phoneme sounded in different contexts, how pronunciation varied across speakers and speaking styles, how words combined into phrases and sentences. This encoding was laborious, inevitably incomplete, and fragile in the face of the variability of real speech.
+
+The statistical approach abandoned the attempt to encode these patterns explicitly, learning them instead from data. The learned model was richer, more adaptive to the specific corpus of speech it had been trained on, and more robust to the variability that explicit rules could not capture. It was also less interpretable — the statistical patterns encoded in the model's parameters were not directly meaningful — but interpretability was less important than accuracy for a practical speech recognition system.
+
+The same pattern — statistical approaches outperforming rule-based approaches, scale and data mattering more than clever rules — was playing out in other NLP subfields. Statistical parsing, statistical machine translation, statistical information extraction — each of these areas saw the shift from rules to statistics during the late 1980s and early 1990s, and in each case the shift produced improvements in performance that the rule-based approach had not achieved.
+
+---
+
+## The Embarrassment of Expert Systems: Honesty After the Boom
+
+One of the important cultural effects of the second AI winter was the emergence, after the contraction, of honest assessment of what had gone wrong. Researchers and practitioners who had been caught up in the boom — who had made overconfident promises, built systems that underdelivered, participated in the hype that had ultimately damaged the field's credibility — produced candid retrospective accounts that were more honest than the assessments made during the boom.
+
+Edward Feigenbaum, who had been one of the most prominent advocates for expert systems, published reflections that acknowledged both the genuine achievements and the genuine failures of the approach. The knowledge acquisition bottleneck, the brittleness at domain boundaries, the maintenance challenges — these were real problems that the boom years had not adequately acknowledged.
+
+The academic literature on expert systems became more rigorous and more honest in the post-boom period. Researchers who had been publishing optimistic results during the boom began to publish more careful analyses of where and why expert systems succeeded and where and why they failed. The literature on the evaluation of AI systems improved significantly — better experimental designs, more careful comparison against baselines, more attention to the gap between laboratory performance and real-world deployment.
+
+This improvement in intellectual honesty was not just a cultural correction. It was also a prerequisite for the development of better approaches. Understanding why expert systems had failed — specifically, why the knowledge acquisition bottleneck was so severe, why the systems were so brittle, why the maintenance costs were so high — was necessary for developing approaches that addressed these limitations. The machine learning approaches that would eventually succeed did so in part because they had learned from the specific failures of the expert systems approach.
+
+---
+
+## The Neural Network Underground: Parallel Progress
+
+While the commercial AI world was contracting and the symbolic AI mainstream was reassessing its failures, a small and determined community of neural network researchers was making steady progress on an entirely different research programme.
+
+The backpropagation revival that had begun in 1986 created a research programme — a set of specific problems, specific tools, and specific theoretical questions — that was being pursued systematically by a community that was largely independent of the commercial expert systems world.
+
+Geoffrey Hinton at the University of Toronto was the intellectual centre of this community. His group, small by the standards of the leading symbolic AI labs, was working on the theoretical foundations of backpropagation, on the development of better architectures, on the application of neural networks to problems in vision and language. The funding was modest — Canadian research council grants and some DARPA interest — but sufficient to sustain the research programme.
+
+Yann LeCun at Bell Labs was demonstrating that convolutional neural networks worked at scale for visual recognition. The ZIP code recognition system that he deployed for the US Postal Service was the most impressive demonstration of neural network technology in a real-world, production environment that had yet been achieved. It provided empirical evidence — evidence that a real company had decided to bet real money on neural network technology — that the approach was more than a laboratory curiosity.
+
+Yoshua Bengio, completing his PhD in the late 1980s and beginning his academic career at the Université de Montréal, was working on the theoretical foundations of learning in recurrent networks and on the connections between neural networks and probabilistic models. His work was less immediately visible than Hinton's or LeCun's but was developing the theoretical understanding that would eventually be essential for scaling neural networks to the complex, long-range dependencies required for language understanding.
+
+Jürgen Schmidhuber, working in Germany, was attacking the problem of learning long-term dependencies in recurrent networks — the problem that would eventually produce Long Short-Term Memory, one of the most important innovations in deep learning. His work was technically rigorous and ambitious, pursuing the fundamental limits of what learning algorithms could achieve, and his contributions would be important for the specific capabilities that eventually made recurrent networks practical for sequence modelling.
+
+These researchers were working in parallel, with limited resources and limited recognition, on what would eventually become the most important research programme in the history of AI. The second winter did not interrupt their work — they had never been part of the expert systems boom, and the boom's contraction did not directly affect them. What they lacked was not momentum but scale: the computing power and datasets that would eventually make deep learning work were not yet available.
+
+---
+
+## The Internet and the Coming Data Deluge
+
+One of the most important developments of the early 1990s was the emergence of the internet as a public, global information network. The World Wide Web, introduced by Tim Berners-Lee in 1991, began to transform how information was produced, shared, and accessed.
+
+For AI research, the internet's significance was primarily as a data source — a source of training data for machine learning systems at a scale that had never previously been available. The text of the web — the billions of web pages that accumulated through the 1990s and 2000s — provided a training corpus for natural language processing that dwarfed anything previously available. The images on the web — the billions of photographs, illustrations, and diagrams posted online — provided a training dataset for computer vision at a scale that made previous datasets look tiny.
+
+This data deluge was not immediately recognised as the resource that it would eventually prove to be. In the early 1990s, the web was small, the data was unstructured, and the techniques for extracting useful training data from web text and images were not well-developed. The significance of the internet for AI would not be fully apparent until the mid-2000s, when the scale of web data had grown to the point where it was clearly usable for training large-scale machine learning systems.
+
+But the data that would eventually enable the deep learning revolution was beginning to accumulate. The text, images, audio, and video that billions of people were adding to the internet through the 1990s and 2000s would eventually provide the training material for the systems that would demonstrate deep learning's full potential.
+
+---
+
+## IBM's Deep Blue: A Different Kind of AI Success
+
+In 1997 — in the depths of the second AI winter, at least for the commercial AI industry — IBM's Deep Blue defeated Garry Kasparov in a chess match that attracted global attention.
+
+Deep Blue was not an expert systems application. It was a specialised, domain-specific AI system built with a completely different approach: massive computational resources, dedicated hardware, and a sophisticated chess evaluation function developed with grandmaster assistance. It was, in many ways, the culmination of the game-playing AI tradition that had begun with Shannon's 1950 chess paper and had been progressing steadily for decades.
+
+The Deep Blue victory was commercially significant for IBM — it was excellent marketing, demonstrating IBM's computing capabilities in a high-visibility context — but its significance for the broader AI field was more ambiguous. Chess playing was a domain-specific capability, and Deep Blue had no ability to do anything other than play chess. The victory demonstrated the power of domain-specific AI at the extreme end of human performance, but it did not demonstrate progress toward the general machine intelligence that had been the field's original ambition.
+
+For the public, the Deep Blue match was a dramatic demonstration that machines could outperform humans at a cognitive task that had long been considered a paradigm of human intellectual achievement. For AI researchers, it was a reminder that domain-specific excellence did not translate to general capability — that the field still faced the fundamental challenge of building systems that could transfer across domains.
+
+---
+
+## The Recovery: How the Winter Began to Thaw
+
+The second AI winter did not end with a single event or a specific date. It thawed gradually through the mid-1990s, driven by several converging developments.
+
+The most important was the emergence of the internet as a commercial platform. The World Wide Web, which had been a research tool in the early 1990s, became a commercial phenomenon in the mid-1990s. The rapid growth of internet commerce created demand for AI capabilities — for search engines that could rank web pages by relevance, for recommendation systems that could personalise the web experience, for fraud detection systems that could identify suspicious transactions in real time.
+
+These applications were well-suited to statistical machine learning approaches. Search engine ranking — determining which web pages were most relevant to a search query — was a problem that could be addressed through statistical models trained on user behaviour data. Fraud detection — identifying transactions that were likely to be fraudulent — was a classification problem that machine learning could address effectively. Recommendation — predicting which products or content a user would find most relevant — was the recommendation problem that the Netflix Prize would eventually address.
+
+The internet companies that needed these capabilities were willing to pay for them, and they were willing to invest in the statistical machine learning expertise required to develop them. Companies like Google, Amazon, and Yahoo hired statisticians, machine learning researchers, and data scientists in significant numbers. The academic machine learning community — the researchers who had been developing statistical approaches to NLP, computer vision, and other AI problems — found a growing commercial market for their expertise.
+
+The second recovery was also driven by methodological progress. The support vector machine, a kernel-based learning algorithm with strong theoretical foundations and good empirical performance, emerged in the mid-1990s as a powerful tool for classification problems. SVMs provided a principled, theoretically well-understood alternative to the more empirical neural network approaches, and they became the dominant method for many machine learning tasks through the late 1990s and into the 2000s.
+
+The combination of internet demand, internet data, and methodological progress — SVMs, Bayesian networks, ensemble methods developed in the Netflix Prize — produced a machine learning industry that was substantially larger and more commercially relevant by the early 2000s than it had been at the depth of the second winter.
+
+---
+
+## Lessons from the Pattern: Why AI Winters Happen
+
+The second AI winter, like the first, was a consequence of a recurring pattern in AI development: a genuine technical advance creates genuine excitement, attracts investment and talent, generates overconfident promises, fails to deliver on the promises on the promised timelines, loses credibility, and contracts.
+
+Understanding why this pattern recurs is essential for thinking about the current state of AI development and the sustainability of the current wave of investment and enthusiasm.
+
+The pattern is driven by several structural features of AI research and its relationship to commercial deployment.
+
+**Demonstration is easier than deployment.** AI systems that work impressively in laboratory conditions often fail in deployment at scale. The controlled environment of a demonstration conceals the variability, the edge cases, the domain shifts, and the maintenance challenges that deployment reveals. The gap between demonstration and deployment is consistently underestimated, and this underestimation drives cycles of enthusiasm and disappointment.
+
+**Domain-specific success does not generalise.** Success in one domain — chess playing, expert medical diagnosis, optical character recognition — does not predict success in other domains. The techniques that produce impressive results in one domain may be specific to that domain's structure. The assumption that success in a specific domain represents progress toward general intelligence is consistently overestimated.
+
+**Knowledge engineering is harder than it looks.** The encoding of human knowledge in machine-readable form — whether through explicit rules in expert systems or through the labelling of training data for machine learning — is consistently more expensive, more laborious, and more incomplete than anticipated. This is a fundamental constraint: human knowledge is more tacit, more contextual, and more dynamic than the encoding methodologies assume.
+
+**Competitive dynamics encourage overpromising.** Companies and researchers who want funding, customers, and talent have incentives to make optimistic promises about what their systems can do and when those capabilities will be available. These incentives are structural, not individual — they arise from the competitive dynamics of the field, not from the dishonesty of specific people. But they produce systematic optimism that exceeds what the evidence warrants.
+
+These structural features have not changed between the first and second AI winters, and they have not changed between the second winter and the current moment. The pattern they drive — enthusiasm, investment, disappointment, contraction — is likely to recur in some form, though perhaps modulated by the genuine advances that distinguish the current era from previous ones.
+
+---
+
+## The Second Winter's Productive Failure
+
+The second AI winter, painful as it was for the people and organisations it affected, was productive in the same ways that the first winter had been.
+
+It forced honest assessment of the expert systems approach's limitations — an assessment that was more difficult to make during the boom, when commercial incentives were aligned with optimism. The clear demonstration that expert systems were brittle, expensive to build, and prone to the knowledge acquisition bottleneck was necessary for the development of approaches that addressed these limitations.
+
+It created space for the statistical and machine learning approaches that would eventually prove more powerful. During the expert systems boom, the symbolic AI tradition had dominated the commercial AI market and had significant influence on academic AI funding and research directions. The boom's contraction reduced this dominance and created more space — intellectually and institutionally — for the statistical and neural network approaches that the symbolic tradition had marginalised.
+
+It produced honest assessment of the gap between what AI could do and what it was claimed to be able to do — assessment that improved the research culture and eventually contributed to more realistic communication about AI capabilities.
+
+And it generated the questions — specifically, the question of why expert systems were brittle, why the knowledge acquisition bottleneck was so severe, and what would be required to overcome it — that pointed toward the machine learning approaches that would eventually produce the most capable AI systems.
+
+The second winter was a productive failure. The people who lived through it often found it painful and sometimes devastating. But the field that emerged from it was better positioned for the next phase of its development than the field that had entered it.
+
+---
+
+## The Stubborn Optimists and the World They Built
+
+Through both AI winters, there were people who did not give up — who maintained their conviction that the project was worth pursuing, that the specific failures of specific approaches did not indicate that the broader project was misguided, that intelligence was understandable and buildable and that the remaining distance was traversable.
+
+In the first winter, the stubborn optimists included the researchers who developed the expert systems approach, who found a way to demonstrate genuine commercial value in specific domains and rebuilt the field's credibility on that foundation.
+
+In the second winter, the stubborn optimists were the neural network researchers — Hinton, LeCun, Bengio, and their students and collaborators — who maintained their commitment to the learning-based approach through years when the commercial AI market was oriented entirely toward the expert systems paradigm they had been told was wrong. They were right. The world they built — the deep learning revolution — was built on the foundation they maintained through the cold.
+
+The history of AI is, in part, a history of stubborn optimists who were right about things the consensus was wrong about, and who maintained their commitments long enough for the world to catch up with their vision. This is not a pattern that guarantees success — many stubborn optimists are just stubbornly wrong. But it is a pattern that the most important advances in the field have depended on.
+
+The second AI winter ended. It always ends. And the world that emerged from it — the world of statistical machine learning, of neural networks trained on internet-scale data, of deep learning that has transformed every domain it has touched — was built by people who had not given up during the cold.
+
+---
+
+## Further Reading
+
+- **"The Rise and Fall of the Thinking Machine" by Daniel Crevier (1993)** — A journalistic account of AI's history through the second winter, with vivid portraits of the people and companies that lived through the collapse.
+- **"Parallel Distributed Processing" by Rumelhart and McClelland (1986)** — The manifesto of the connectionist revival that continued through the second winter. Understanding what the neural network community was doing during the winter years is essential for understanding the recovery.
+- **"A Training Algorithm for Optimal Margin Classifiers" by Boser, Guyon, and Vapnik (1992)** — The support vector machine paper that introduced one of the most important machine learning algorithms of the 1990s.
+- **"Foundations of Statistical Natural Language Processing" by Manning and Schütze (1999)** — The textbook that captured the statistical revolution in NLP at the moment it was becoming dominant.
+- **"Hackers and Painters" by Paul Graham (2004)** — Graham was a LISP programmer and founder of one of the companies that emerged from the ruins of the LISP machine era. His essays capture the intellectual culture of the post-winter AI world with unusual clarity.
+
+---
+
+*Next in the Articles series: **A14 — The Godfathers Go Underground** — The personal story of Hinton, LeCun, Bengio, and their collaborators during the years when neural network research was marginalised, underfunded, and dismissed. The decades of intellectual courage, the specific ideas that kept the research programme alive, and the slow accumulation of results that eventually made the field pay attention.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the second AI winter — the pattern of enthusiasm and contraction, the productive failure, the stubborn optimists who built the world we live in — resonates with the current moment in AI, share it with someone who would find the historical perspective worth having.*

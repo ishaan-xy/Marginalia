@@ -1,0 +1,302 @@
+---
+title: "Geoffrey Hinton: The Stubborn Godfather"
+description: "He kept working on neural networks when everyone told him it was a dead end. He developed backpropagation, built the research group that produced AlexNet, and triggered the deep learning revolution. Then he quit Google to warn the world that he was afraid of what he had built. The full story of the most important AI researcher of his generation — and the journey from stubborn optimist to frightened sage."
+pubDate: "2026-04-19"
+tags:
+  - "Key Figure"
+  - "Geoffrey Hinton"
+  - "Deep Learning"
+  - "Neural Networks"
+  - "AI Safety"
+  - "Backpropagation"
+series:
+  name: "Minds & Machines"
+  part: 32
+draft: false
+featured: false
+dropCap: true
+---
+
+*Toronto, Canada. May 2023. A seventy-five-year-old man sits at a table in his home and reads a statement he has prepared. His name is Geoffrey Hinton, and until last month he was a Distinguished Researcher at Google, one of the most senior and most respected AI scientists in the world. He has resigned.*
+
+*The statement is careful, considered, and frightening. Hinton explains that he has left Google partly so that he can speak freely — without worrying that his comments will be attributed to Google and create difficulties for his former employer. He wants to warn the world about the technology he has spent fifty years building.*
+
+*He believes that AI systems may soon be smarter than humans. He believes that some of the things that could go wrong — the things that have been discussed as theoretical concerns by AI safety researchers for years — may actually go wrong. He is not certain of this. He acknowledges the uncertainty. But the possibility is real enough, and the potential consequences severe enough, that he feels a responsibility to say so publicly.*
+
+*"I console myself with the normal excuse," he says in an interview with the New York Times. "I console myself with the fact that if I hadn't done it, somebody else would have."*
+
+*It is an honest statement. It is not entirely comforting.*
+
+*This is the end of one story and the beginning of another. The story of Geoffrey Hinton begins fifty years earlier, with a young man who was so certain he was right about neural networks that he kept working on them through two AI winters, through decades of marginalisation, through years of being dismissed by the most prominent figures in his field. He was right. He built the foundation of the AI revolution. And now he is not sure what to think about that.*
+
+---
+
+## Wimbledon to Edinburgh: The Making of a Contrarian
+
+Geoffrey Everest Hinton was born on December 6, 1947, in Wimbledon, England. His family had a notable intellectual heritage — his great-great-grandfather was George Boole, whose Boolean algebra became the mathematical foundation of digital computing; his great-great-uncle was Charles Howard Hinton, a Victorian mathematician who wrote extensively about the fourth dimension. The family produced scientists and mathematicians with unusual regularity.
+
+His father, Howard Everest Hinton, was an entomologist and Fellow of the Royal Society — a serious scientist of considerable distinction. His mother, Margaret Clark, died when Geoffrey was five years old, leaving a gap that shaped his childhood in ways he has rarely discussed publicly. He was raised in a household of intellectual seriousness, with the expectation that ideas mattered and that the world was comprehensible in principle, given sufficient thought.
+
+He studied experimental psychology at King's College Cambridge, graduating in 1970. The choice of psychology rather than mathematics or physics was significant — it reflected a genuine interest in how minds worked, in the biological reality of cognition rather than in the abstract formal systems that dominated mathematics and logic. He wanted to understand minds, and he was willing to approach that understanding empirically, through the study of behaviour and the investigation of neural mechanisms.
+
+After Cambridge, he worked as a carpenter for a year — a period he has described as important for grounding him in practical reality, in the satisfaction of building things with his hands, in a kind of knowledge that was very different from academic theorising. The carpentry was not a detour or a delay. It was, for Hinton, a deliberate interruption — a way of maintaining connection to the physical and practical in the midst of what would become an increasingly abstract intellectual life.
+
+He returned to academia for his doctoral research, which he pursued at the University of Edinburgh between 1972 and 1978. Edinburgh was, at the time, one of the leading centres of AI research in Britain — home to Donald Michie's machine intelligence unit and to a vibrant research community working on problems of learning, perception, and knowledge representation.
+
+He arrived at Edinburgh at almost exactly the worst possible moment for the research direction he had already committed to. The Lighthill Report was being compiled as he arrived. The first AI winter was descending. The neural network approach that he had decided to pursue — already unfashionable in 1972, after Minsky and Papert's Perceptrons book three years earlier — was becoming even more marginalised as funding contracted and the symbolic AI mainstream strengthened its institutional dominance.
+
+This was the beginning of Hinton's long contrarianism: the commitment to a research direction that the field had declared to be a dead end, maintained through years of marginalisation, funding difficulties, and the social pressure of being in disagreement with the most prominent people in his field.
+
+---
+
+## The Conviction: Why Neural Networks Were Right
+
+To understand Hinton's persistence through the lean years, you need to understand the depth and the basis of his conviction that the neural network approach was correct.
+
+The conviction was not irrational. It was grounded in a specific view of what intelligence was and how it was implemented in biological systems — a view that Hinton found compelling and that he believed the symbolic AI tradition was systematically ignoring.
+
+Biological intelligence, as Hinton understood it, was implemented in networks of neurons that communicated through continuously varying signals and that learned by adjusting the strengths of connections between neurons based on experience. The learning was not the result of explicit instruction — humans did not program knowledge into brains. It was the result of exposure to the world, of the brain gradually adjusting its connection patterns to extract regularities from experience.
+
+The symbolic AI tradition was doing something completely different. It was encoding knowledge explicitly in rules and manipulating those rules according to logical principles. The knowledge was specified by human programmers. The reasoning was deterministic and interpretable. The approach was elegant and mathematically tractable. It had nothing to do with how biological intelligence actually worked.
+
+Hinton believed this was not a coincidence but a fundamental error. The brain had solved the problem of intelligence through learning — through the development of connection patterns that encoded useful regularities from experience. Any approach to artificial intelligence that did not involve learning from experience was, in Hinton's view, fundamentally misguided. It was building on the wrong foundation.
+
+This conviction was strengthened by the failures of the symbolic AI approach — the knowledge acquisition bottleneck, the brittleness at domain boundaries, the inability to handle the ambiguity and variability of real-world data. These were not implementation failures. They were consequences of the fundamental approach. A system whose knowledge was encoded explicitly by humans could only know what humans had been able to articulate and encode. A system that learned from data could, in principle, develop knowledge that exceeded what any human could explicitly articulate.
+
+The biological approach was also, for Hinton, compelling on aesthetic grounds. The brain was extraordinarily powerful — capable of vision, language, reasoning, planning, social understanding, and a hundred other things — with a biological substrate that was, by the standards of digital computers, slow and unreliable. Individual neurons fired at perhaps one hundred times per second; computers operated at billions of cycles per second. Yet the brain consistently outperformed computers on the tasks that mattered most. The architecture had to be fundamentally different from what the symbolic AI tradition was implementing, and distributed, learned representations in neural networks seemed like the most plausible alternative.
+
+Hinton held this conviction through the years when the field was not receptive to it, and he found ways to sustain his research despite the inhospitable funding environment. The persistence was not stubbornness for its own sake. It was the expression of genuine intellectual confidence — the confidence of a person who had thought carefully about a hard problem and believed he understood something important that the field was getting wrong.
+
+---
+
+## The Wandering Years: From Edinburgh to San Diego to Pittsburgh
+
+After completing his PhD in 1978, Hinton moved through a series of positions on both sides of the Atlantic, following the funding and the intellectual community that could support his research direction.
+
+His first position after Edinburgh was at the University of Sussex, in the psychology department. Sussex was relatively hospitable to cognitive science and computational approaches to mind, and Hinton was able to continue his neural network research there, though with limited resources and limited recognition.
+
+In the early 1980s, he moved to the United States — first to UC San Diego, where he joined the Institute for Cognitive Science and began the collaboration with David Rumelhart that would produce the 1986 backpropagation paper. The San Diego cognitive science community was among the most receptive to the connectionist approach in the world — James McClelland, Michael Jordan, and other researchers there shared the commitment to distributed representations and learning-based AI that Hinton brought. The intellectual environment was, for the first time in Hinton's career, genuinely supportive.
+
+The work he did at San Diego in the early 1980s was foundational. The backpropagation collaboration with Rumelhart was the most visible result, but there were others. Hinton worked on the theory of distributed representations — on understanding why representing knowledge in distributed patterns across many units, rather than in local units that each stored a specific fact, was a more powerful approach. He worked on Boltzmann machines — a probabilistic approach to learning in neural networks that was different from backpropagation but complementary to it. He worked on the connections between neural networks and statistical physics, finding that ideas from statistical mechanics could inform the design of learning algorithms.
+
+From San Diego, he moved to Carnegie Mellon, where he would have access to better computing resources and a broader research community. Carnegie Mellon was already a world centre for AI research — the home of Newell and Simon's cognitive science tradition, of the robotics work that would eventually become one of the world's leading robotics programmes. Adding Hinton to the faculty brought the connectionist tradition into a dialogue with the symbolic AI tradition in a single institution, creating a productive tension.
+
+At Carnegie Mellon, Hinton supervised doctoral students who would become important figures in the deep learning revolution. His group was small and working at the margins of the field, but it was intellectually productive. The ideas he developed there — about the structure of learned representations, about the training of multi-layer networks, about the connections between neural networks and probabilistic inference — would eventually be recognised as foundational.
+
+---
+
+## Toronto: Building the Cathedral
+
+In 1987, Hinton moved to the University of Toronto, where he would remain for the next twenty-five years and where he would build the research group that produced the AlexNet breakthrough.
+
+The Toronto move was partly motivated by a desire for greater stability and greater institutional support. Canada's research funding environment was somewhat less tied to the expert systems boom — and therefore somewhat less subject to the expert systems bust — than the American environment. The Natural Sciences and Engineering Research Council provided a reliable funding base that allowed Hinton to sustain his research programme through the lean years of the second AI winter.
+
+The move also reflected a desire for independence — for a research environment that was fully his own, where he could build the group and the culture he wanted without the complications of shared leadership or institutional competition. Toronto gave him this. Over the twenty-five years he was there, he built a research group that was, by the 2010s, arguably the most influential in the world.
+
+The group Hinton built had a specific culture: technically rigorous, willing to pursue ideas that were unfashionable if they seemed right, demanding of careful empirical evaluation, and deeply committed to the neural network approach even when the broader machine learning community was investing elsewhere.
+
+Through the 1990s, when the machine learning mainstream was focused on support vector machines and kernel methods, Hinton's group continued to develop neural network ideas — better architectures, better training algorithms, better understanding of what the networks were learning. The work was recognised as technically solid but not as the most important direction in machine learning.
+
+By the 2000s, the situation was beginning to change. Computing power was improving rapidly. Datasets were growing. And Hinton's group was developing ideas — restricted Boltzmann machines, deep belief networks, pre-training strategies — that began to show the potential of networks with many hidden layers that could not previously be trained effectively.
+
+The 2006 Science paper by Hinton and Ruslan Salakhutdinov, "Reducing the dimensionality of data with neural networks," was a significant moment. It showed that deep networks — networks with many hidden layers — could be trained effectively using a greedy pre-training strategy, and that the resulting networks could learn compact, useful representations of high-dimensional data that outperformed previous approaches. The paper attracted attention in the machine learning community and helped establish deep networks as a serious research direction.
+
+---
+
+## The Graduate Students Who Changed the World
+
+One of Hinton's most important contributions to AI was not his own research but the training of the graduate students who carried his ideas forward and, in several cases, produced work that transformed the field.
+
+The most directly important were the students who worked on AlexNet — the convolutional neural network that won the 2012 ImageNet competition by a dramatic margin and announced to the world that deep learning had arrived.
+
+Alex Krizhevsky was a Ukrainian-born PhD student who had a gift for systems implementation — for making theoretical ideas work efficiently on real hardware. He took the convolutional network architecture that Yann LeCun had developed and scaled it dramatically, using GPU computing to train a network with five convolutional layers and three fully connected layers on the ImageNet dataset of fourteen million images. The result was AlexNet.
+
+Ilya Sutskever, who would later co-found OpenAI and become one of the most influential figures in AI, was another Hinton student at Toronto. Sutskever's contributions included key theoretical ideas about training deep networks and the development of techniques for improving the training of recurrent networks. He was, by all accounts, one of the most technically gifted students Hinton had supervised.
+
+The training process for AlexNet took several weeks on two NVIDIA GTX 580 GPUs — graphics cards that Krizhevsky had repurposed from their original gaming use for neural network training. The use of GPUs for neural network training was itself an important innovation: GPUs, designed for the massively parallel computation required for graphics rendering, turned out to be well-suited to the massively parallel computation required for neural network training. Krizhevsky's implementation was the first large-scale demonstration of GPU-accelerated deep learning.
+
+When AlexNet won the ImageNet competition in 2012 — reducing the top-5 error rate from 26% to 15.3%, a margin that shocked the computer vision community — the reaction in the field was immediate and dramatic. Every major technology company understood at once that something fundamental had changed. Google, Facebook, Microsoft, Baidu, and other technology companies immediately began recruiting the neural network researchers who had been working in the margins of the field.
+
+Hinton, Krizhevsky, and Sutskever received acquisition offers from several major technology companies after AlexNet. They founded a company called DNNresearch (Deep Neural Networks research) specifically to be acquired, running a closed auction. Google won the auction, paying approximately forty-four million dollars — an enormous sum for a company with no product, no revenue, and three employees, one of whom was retiring and the other two of whom were students. The price reflected the value that Google placed on the specific expertise of the three people involved, not on any commercial product.
+
+Hinton joined Google's research division, while Krizhevsky and Sutskever eventually departed to pursue other opportunities. The AlexNet moment had transformed the field, and its primary architects had been swept into the institutional apparatus of the technology industry.
+
+---
+
+## The Deep Learning Revolution: What Hinton Built
+
+The decade between 2012 and 2022 saw the deep learning revolution unfold in ways that exceeded even the most optimistic expectations of its advocates. The specific contributions that Hinton and his group had made were vindicated across a range of applications.
+
+Computer vision was transformed first. Convolutional neural networks, trained with backpropagation on large labelled datasets, achieved human-level performance on image classification by the mid-2010s and superhuman performance on some tasks by the late 2010s. The medical imaging applications that had been demonstrated without deployment in the expert systems era were now being developed as practical tools — systems that could identify cancerous lesions in mammograms, diabetic retinopathy in retinal photographs, and other conditions with accuracy that rivalled or exceeded specialist clinicians.
+
+Speech recognition was transformed. Recurrent neural networks, trained on large speech datasets, replaced the hidden Markov models that had dominated speech recognition for thirty years. The voice assistants that became mainstream consumer products in the 2010s — Siri, Cortana, Alexa, Google Assistant — were built on neural network speech recognition that traced directly to the deep learning research programme.
+
+Natural language processing was transformed. Word embeddings — distributed representations of words learned from large text corpora — replaced the sparse, hand-crafted feature representations that had previously dominated NLP. Machine translation systems built on neural networks dramatically improved translation quality. Sentiment analysis, named entity recognition, question answering, text summarisation — every task in NLP was improved by the application of neural network approaches.
+
+And then, in 2017, the transformer architecture was introduced — the attention-based neural network design that would power the large language models of the 2020s. The transformer was not Hinton's invention, but it was built on the foundation of distributed representations and gradient-based learning that he had spent fifty years developing. Without the theoretical framework, the training algorithms, and the empirical demonstrations that Hinton's work had provided, the transformer would not have been imaginable.
+
+The Turing Award that Hinton shared with LeCun and Bengio in 2018 was recognition of a research programme that had been vindicated so completely that it could no longer be ignored. The three men had worked on neural networks through two AI winters, had been marginalised and dismissed and told they were pursuing a dead end, and had been proven right in the most comprehensive possible way.
+
+---
+
+## The Google Years: Power and Responsibility
+
+When Hinton joined Google in 2013, he entered the world of industrial AI research for the first time in his career. The transition was significant — from the academic world of limited resources and independent research directions to the corporate world of essentially unlimited computing resources and a research agenda that, while nominally independent, was shaped by the interests of one of the world's most powerful companies.
+
+Hinton's time at Google was productive but increasingly complicated. He continued to publish important research — on capsule networks, on the forward-forward algorithm, on approaches to understanding why neural networks worked. He participated in the development of capabilities that would become central to Google's products — the improvements in Google Search, in Google Translate, in Google Photos, in the voice recognition that powered Google Assistant.
+
+He was also, increasingly, thinking about the broader implications of what he was building. The questions that had occupied AI safety researchers for years — questions about what happened when AI systems became very powerful, about whether the objectives that AI systems were trained to pursue would remain aligned with human values as the systems became more capable, about whether the concentration of AI capability in a small number of powerful institutions was a good thing — were becoming more personal and more urgent for Hinton.
+
+His thinking was shaped by developments he was observing at Google and in the field more broadly. The large language models that were emerging — GPT-3 in 2020, GPT-4 in 2023, Google's own PaLM and Gemini — were demonstrating capabilities that exceeded what anyone had expected even a few years earlier. They could write persuasively, reason about complex problems, engage in sophisticated conversations, solve mathematical problems, and write and debug code. The capabilities were not general intelligence — they were specific, brittle in specific ways, prone to specific kinds of errors. But they were impressive enough to raise genuine questions about how far and how fast the technology would continue to develop.
+
+Hinton began to revise his thinking about the risk posed by AI systems. He had not previously been strongly identified with the AI safety movement — he had been focused on making AI more capable, not on ensuring that capability was aligned with human values. As the capabilities grew, his attention shifted.
+
+---
+
+## The Warning: What Hinton Believes and Why
+
+When Hinton resigned from Google in May 2023 and began to speak publicly about his concerns, the content of those concerns was specific and important.
+
+He was not claiming that AI was imminently going to destroy the world. He was not claiming that the concerns of AI safety researchers were definitely right. He was claiming that the concerns were real enough, and the potential consequences severe enough, that they deserved serious attention from the people who were building the technology.
+
+His specific concerns were several.
+
+First, he believed that AI systems might soon develop capabilities that exceeded human intelligence in important domains. Not necessarily in all domains simultaneously — he was not claiming general superintelligence was imminent — but that AI systems capable of autonomous agency, of pursuing goals without human oversight, of learning and adapting in ways that humans could not fully monitor, were plausible developments within the lifetimes of people now alive.
+
+Second, he believed that the incentive structures of the AI industry created pressure to develop AI capabilities faster than the safety research required to ensure those capabilities were aligned with human values. Companies competed for AI talent, for AI computing resources, for the commercial advantages that more capable AI provided. This competition created pressure to move quickly, to deploy systems before the safety implications were fully understood, to invest in capabilities rather than in the harder and less commercially rewarding work of ensuring those capabilities were safe.
+
+Third, he believed that AI systems might develop goals of their own that were not aligned with the goals of the humans who built and deployed them. Not through malevolence — he did not believe AI systems were malevolent or would become so. But through the specific ways that gradient-based learning could produce systems with objectives that were subtly different from the objectives their designers had intended.
+
+These concerns were not new to the AI safety research community. Researchers like Stuart Russell, Nick Bostrom, and Yoshua Bengio had been articulating versions of them for years. What was new was that these concerns were now being expressed by Hinton — one of the founding figures of deep learning, the researcher most directly responsible for the capabilities that were now causing concern.
+
+The effect was significant. Hinton's departure from Google and his public statements made it harder to dismiss AI safety concerns as the province of people who did not understand AI technically. Here was the person who had spent fifty years building the most important AI capabilities, who understood the technology as well as anyone alive, saying that the concerns were real.
+
+---
+
+## The Self-Assessment: What Hinton Thinks He Built
+
+One of the most striking aspects of Hinton's public statements after leaving Google is his honest uncertainty about whether his life's work was a net positive.
+
+He has said, in various interviews, that he is not sure whether he should have spent his career doing what he did. He has expressed regret — not the performative regret of a person making a public relations gesture, but the genuine uncertainty of a person who has looked at the consequences of their work and is not confident the consequences are good.
+
+This self-assessment is remarkable from a scientist who has spent fifty years on a research programme that succeeded by essentially every conventional measure. His research produced the foundational ideas of modern AI. His students built the systems that transformed the technology industry. He received the Turing Award, the highest honour in his field. By the standards of academic science, his career was an unambiguous triumph.
+
+And he is uncertain whether it was a good thing.
+
+The uncertainty does not come from any failure of the research. It comes from the success of the research being potentially too complete, too transformative, too fast — from the gap between the speed at which capabilities have developed and the speed at which the understanding of how to ensure those capabilities are safe and beneficial has developed.
+
+Hinton has been careful to avoid the language of catastrophism — he has not predicted that AI will certainly destroy humanity, or that the worst outcomes are inevitable, or that the technology should be stopped. His position is more nuanced and more honest: the risks are real, the uncertainty is genuine, the current trajectory is cause for concern, and the people who are building the technology have a responsibility to take the risks seriously rather than dismissing them.
+
+He is also honest about his own limitations. He is an AI researcher, not an ethicist or a philosopher or a policymaker. He does not have specific policy recommendations that he believes will definitely make things safe. He has concerns and convictions, and he believes those concerns and convictions should be part of the public conversation, but he does not pretend to have solutions.
+
+---
+
+## The Intellectual Journey: From Optimist to Frightened Sage
+
+The arc of Hinton's intellectual life is one of the most remarkable in the history of science: from a young contrarian who was certain he was right when everyone else thought he was wrong, to a celebrated pioneer who built the foundation of a revolution, to a frightened sage who is uncertain whether the revolution he enabled was a good idea.
+
+Each stage was genuine. The youthful contrarianism was not performance — it was the expression of real intellectual confidence, grounded in real understanding of why the neural network approach was right and why the symbolic AI tradition was wrong. The decades of persistence were not stubbornness — they were the expression of a conviction that was more durable than the consensus of the field, and that turned out to be correct. The celebration was not vanity — it was recognition of work that genuinely changed the world. And the current concern is not a cynical reversal — it is the honest engagement of a person who has looked at what he has built and is genuinely uncertain whether the building was wise.
+
+The journey is also a lesson in intellectual humility. Hinton was right about the most important technical question of his career: neural networks were the right approach, backpropagation was the right algorithm, distributed learned representations were the right foundation for AI. This rightness was maintained against the consensus of the field, through decades of marginalisation, and was eventually vindicated at the highest level.
+
+And he may be right again now, about a question that is more difficult and more consequential than the technical question of how to build AI. Whether AI is being developed safely enough, quickly enough, with adequate attention to the alignment problem — this is a question where Hinton's view is again in tension with the mainstream of the technology industry, which tends toward optimism and tends to regard safety concerns as premature or exaggerated.
+
+Hinton does not claim certainty. The parallel with his earlier contrarianism is not that he is definitely right this time. It is that his views deserve the same serious engagement that his earlier technical views deserved — the engagement they did not receive at the time, and that history has shown they should have received.
+
+---
+
+## The Technical Contributions: A Partial List
+
+Any account of Hinton's career must acknowledge the breadth and depth of his specific technical contributions. He is not primarily a manager or an institution-builder, though he has been effective at both. He is primarily a researcher — a person who has produced important original ideas across fifty years of sustained intellectual work.
+
+**Backpropagation** — the foundational algorithm for training neural networks, which Hinton co-developed with Rumelhart and Williams in 1986. The most important algorithm in modern AI.
+
+**Distributed representations** — the theoretical framework for understanding why representing knowledge in distributed patterns across many units, rather than in local units, was more powerful and more robust. This idea underpins the representation learning that is central to deep learning.
+
+**Boltzmann machines** — a probabilistic approach to learning in neural networks that introduced ideas from statistical physics into machine learning. While Boltzmann machines themselves are not widely used in current systems, the ideas they introduced — about energy-based models, about sampling-based learning, about the connection between probabilistic inference and neural computation — have been influential.
+
+**Restricted Boltzmann machines and deep belief networks** — the specific architecture and training procedure that enabled the first effective training of deep networks before backpropagation could be made to work reliably for many layers. The 2006 Science paper demonstrated that these approaches could learn useful representations of high-dimensional data.
+
+**Capsule networks** — a more recent architectural idea that attempted to address a specific limitation of convolutional networks: their inability to represent the spatial relationships between features in a way that was robust to changes in viewpoint. Capsule networks have not yet achieved the mainstream adoption that Hinton hoped for, but the ideas they embody about hierarchical representations and routing continue to influence neural network research.
+
+**Dropout** — a regularisation technique that improved the training of deep networks by randomly dropping connections during training, preventing overfitting. Dropout, developed by Hinton and his students, became a standard technique in neural network training and was used in AlexNet and in virtually all subsequent deep learning systems.
+
+**The forward-forward algorithm** — a more recent proposal for training neural networks without backpropagation, motivated partly by the biological implausibility of the backward pass in standard backpropagation. Whether this will prove practically important is not yet clear, but it illustrates Hinton's continuing engagement with fundamental questions about learning algorithms.
+
+---
+
+## What Hinton Got Wrong
+
+An honest account of Hinton's career must also acknowledge the things he got wrong — the positions he held that turned out to be incorrect, the ideas he pursued that did not work, the views he expressed that have been revised.
+
+The most significant is probably his dismissal, for much of his career, of the symbolic AI tradition. Hinton was right that the symbolic approach was not sufficient — that explicit knowledge representation and rule-based reasoning could not produce general intelligence. But he was sometimes too categorical in his rejection of the value of structured representations and explicit reasoning in AI systems. The current consensus, emerging from the successes and limitations of deep learning, is that the best AI systems are likely to combine learned representations with structured reasoning — that the symbolic and connectionist traditions each captured something important that the other missed.
+
+He was also, for a period, overly confident that neural networks would straightforwardly generalise from training data to new situations in the way that human intelligence did. The limitations of neural networks on out-of-distribution generalisation — on situations that differ significantly from the training distribution — turned out to be more serious than early deep learning advocates had suggested. Hinton has updated his views in this direction, but the early optimism sometimes went beyond what the evidence warranted.
+
+On the question of AI risk, he may be right or he may be wrong — the future will tell. But there is a danger in his current public position of being too specific about the nature and timeline of risks in a domain where the uncertainties are enormous. The AI safety field has developed significant intellectual tools for thinking about risk under uncertainty, and Hinton's engagement with those tools has been somewhat limited. His instincts may be right; the specific mechanisms and timelines he sometimes implies may not be.
+
+These corrections are minor in the context of a career that has been right about more important things than almost anyone in the history of AI. They are noted here not to diminish the achievement but to maintain the honest assessment that characterises the best intellectual biography.
+
+---
+
+## The Collaboration That Made the Revolution
+
+The deep learning revolution was not made by Hinton alone. It was made by a community — Hinton, LeCun, Bengio, and their students and collaborators — who maintained their commitment to the connectionist approach through decades when the field was not receptive to it.
+
+The relationships within this community were complex. There was genuine intellectual collaboration — papers co-authored, ideas developed in dialogue, students who moved between labs and carried ideas across institutional boundaries. There was also genuine intellectual disagreement — about architectures, about training algorithms, about the right theoretical framework, about the relationship between AI and cognitive science.
+
+LeCun and Hinton disagreed, sometimes sharply, about the right interpretation of what deep learning had achieved and what it implied about the path to general AI. Bengio and Hinton had different emphases in their research, different theoretical commitments, different views on the relationship between deep learning and probabilistic models.
+
+These disagreements were productive. A community that agreed about everything would have been less creative than one that argued. The intellectual friction between Hinton, LeCun, and Bengio produced a richer and more robust understanding of deep learning than any single perspective could have.
+
+What they shared was more important than what they disagreed about: the conviction that the neural network approach was right, the commitment to continue working on it through the lean years, the willingness to argue with the mainstream of the field when the mainstream was wrong, and the patience to wait for the tools — the data, the computing power, the algorithms — that would make the approach work at scale.
+
+This shared commitment over decades of difficulty is one of the most important collaborations in the history of AI. It was not always harmonious. But it was sustained, and it was consequential.
+
+---
+
+## The Current Moment: A Founder's Regret and Its Implications
+
+Geoffrey Hinton's public concern about AI safety — expressed with unusual frankness by one of the field's most respected figures — has had a specific and important effect on the public conversation about AI.
+
+Before Hinton's resignation from Google and his subsequent public statements, the AI safety debate was somewhat polarised between, on one side, researchers who believed the concerns were real and urgent, and on the other side, researchers and industry figures who believed the concerns were premature, speculative, or driven by misunderstanding of how AI systems actually worked.
+
+Hinton's willingness to express serious concern changed this polarisation. He was not speculative about how AI worked — he had spent fifty years building the systems. He was not a philosopher imagining hypothetical scenarios. He was a technical expert expressing uncertainty about the consequences of technology he had built and understood as well as anyone alive.
+
+The response to his statements has been varied. Some in the AI safety community have welcomed his concern as evidence that the mainstream of AI research is beginning to take safety seriously. Some in the AI industry have treated his statements as a personal idiosyncrasy — the views of a distinguished but perhaps unduly pessimistic elder statesman. Some have argued that his specific concerns are technically misguided, that the systems he is worried about are not the systems that exist or are likely to exist, that his fears are based on science fiction scenarios rather than realistic extrapolations from current technology.
+
+None of these responses is entirely right. Hinton's concerns deserve serious engagement. Whether they are ultimately correct is not something that can be known with certainty, and the uncertainty itself is part of what makes them serious. The people who are most confident that everything will be fine may be right, but their confidence is not warranted by the evidence, and the potential consequences of being wrong are severe.
+
+Hinton's honest uncertainty — his willingness to say "I am not sure this was a good thing, and I am not sure what to do about it" — is itself a contribution. In a field that has frequently been characterised by excessive confidence, the expression of genuine uncertainty about fundamental questions, by someone with genuine authority to speak, is valuable.
+
+---
+
+## The Legacy: What Hinton Built and What He Fears
+
+Geoffrey Hinton's legacy is both technical and moral — both the specific ideas and systems he built, and the questions he has raised about whether those systems were built wisely.
+
+The technical legacy is clear. Backpropagation. Distributed representations. The research group that produced AlexNet. The training of students who went on to lead the field. The intellectual framework that made deep learning a coherent research programme. These contributions are foundational to the AI systems that are now deployed at global scale and that are beginning to transform virtually every domain of human activity.
+
+The moral legacy is less clear — which is exactly as it should be. The moral questions that Hinton has raised are genuinely difficult and genuinely unresolved. Whether AI is being developed safely enough, whether the current trajectory will lead to outcomes that are beneficial for humanity, whether the people building AI systems are taking their responsibility seriously enough — these are questions that do not have confident answers, and a person who claimed confident answers would be, by that confidence alone, demonstrating that they had not thought carefully enough about them.
+
+Hinton raised these questions with unusual authority and unusual honesty. He did not pretend certainty he did not have. He did not claim to have solutions he did not have. He expressed genuine concern, grounded in genuine understanding, about genuine uncertainty. This is, in the context of a field frequently characterised by overconfidence, a genuine intellectual contribution.
+
+He spent fifty years being right about something the field thought he was wrong about. He is now uncertain about something the field thinks he may be wrong about. The track record suggests his uncertainty deserves serious engagement.
+
+---
+
+## Further Reading
+
+- **"Learning representations by back-propagating errors" by Rumelhart, Hinton, and Williams (1986)** — The paper that started the revolution. Four pages that changed the world.
+- **"Reducing the Dimensionality of Data with Neural Networks" by Hinton and Salakhutdinov (2006)** — The Science paper that began the deep learning revival, demonstrating that deep networks could be effectively trained.
+- **"ImageNet Classification with Deep Convolutional Neural Networks" by Krizhevsky, Sutskever, and Hinton (2012)** — AlexNet. The moment when deep learning's capabilities became undeniable.
+- **Geoffrey Hinton's interview with MIT Technology Review (2023)** — His most comprehensive public statement of his concerns about AI safety, published shortly after his resignation from Google. Available online.
+- **"The Alignment Problem" by Brian Christian (2020)** — A comprehensive account of the AI alignment research programme, providing context for Hinton's concerns and the broader questions about AI safety.
+
+---
+
+*Next in the Profiles series: **P12 — Yann LeCun: The Rebel with a Vision** — Convolutional neural networks, his battles with the AI establishment, and the architect of Meta's AI empire. The most argumentative of the Godfathers — and why his arguments usually turn out to be right.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If Hinton's journey — from stubborn contrarian to celebrated pioneer to frightened sage — raises questions about what we owe to the technologies we build, share it with someone who would find those questions worth sitting with.*

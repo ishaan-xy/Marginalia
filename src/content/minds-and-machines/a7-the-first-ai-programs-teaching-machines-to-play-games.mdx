@@ -1,0 +1,269 @@
+---
+title: "The First AI Programs: Teaching Machines to Play Games"
+description: "The exhilarating early years when Arthur Samuel's checkers program learned to beat its creator, when chess programs first challenged amateur players, and when every new demonstration felt like proof that general machine intelligence was just around the corner. What those early programs actually did, why they were so impressive, and why the gap between their performance and genuine intelligence was wider than it appeared."
+pubDate: "2026-04-19"
+tags:
+  - "Game Playing AI"
+  - "Arthur Samuel"
+  - "Chess AI"
+  - "Machine Learning"
+  - "History of AI"
+series:
+  name: "Minds & Machines"
+  part: 19
+draft: false
+featured: false
+dropCap: true
+---
+
+*Poughkeepsie, New York. 1962. An IBM computer — a 7094, occupying a good portion of a temperature-controlled room, requiring a team of operators to keep it running — is playing checkers against a man named Robert Nealey. Nealey is not a casual player. He is a champion — the Connecticut state checkers champion, in fact, a man who has spent years studying the game and who plays at a level that most people will never approach.*
+
+*The computer wins.*
+
+*This is, by any reasonable standard, a remarkable event. A machine has defeated a human champion at a game that requires, or at least appears to require, planning, strategy, pattern recognition, memory, and the kind of tactical intuition that takes years to develop. The machine has done it not by calculating every possible sequence of moves — the game tree is too large for that — but by learning. It has played thousands of games against itself and against human opponents, adjusting its strategy with each game, developing something that functions like experience.*
+
+*The man who built this program is Arthur Samuel. He has been working on it, in his spare time, since 1952. He did not set out to build a champion. He set out to understand whether a machine could learn — whether a program could improve its own performance through experience without being explicitly told how. The checkers game was a domain in which that question could be tested concretely and measured precisely.*
+
+*Samuel's program beat Robert Nealey in 1962. It was not the most technically sophisticated AI program of its era. It was not the most theoretically significant. But it was, in a specific and important sense, the most surprising — because it demonstrated, in the most concrete possible way, that machines could do something that had previously seemed to require something beyond mere calculation. It could learn.*
+
+---
+
+## Why Games? The Logic of a Research Strategy
+
+Before we examine what the first AI game-playing programs actually did, it is worth asking why games were chosen as a research domain in the first place. The choice was not arbitrary, and understanding its logic helps illuminate both the achievements and the limitations of early AI.
+
+Games had several properties that made them attractive for AI research, particularly in the early years when the available computing power was severely limited and the theoretical foundations of machine intelligence were still being established.
+
+**Games are fully specified.** The rules of chess, checkers, backgammon, and similar games are complete and unambiguous. Every possible position can be described precisely. Every legal move can be enumerated. The outcome of any sequence of moves is determined by the rules. There is no ambiguity, no implicit knowledge, no requirement to deal with the messiness and uncertainty of the real world. This made games ideal for early AI research: the difficulty was purely cognitive, not perceptual or physical.
+
+**Games provide a clear measure of performance.** Winning and losing is an unambiguous criterion. A program that wins more often is better. A program that can defeat human players of known skill level can be precisely located on the performance spectrum. This measurability was valuable for research: it allowed researchers to track progress, compare approaches, and evaluate claims empirically rather than by subjective judgment.
+
+**Games are genuinely hard.** Chess was not chosen because it was easy — it was chosen because it was hard enough to be interesting but tractable enough to be approachable. The game tree of chess is astronomical in size — more possible games than there are atoms in the observable universe — but its structure is regular and well-understood. The challenge was cognitive, not combinatorial in the sense of being fundamentally uncomputable. A program that played chess well would have to do something that looked genuinely like reasoning.
+
+**Games could be studied in isolation.** Unlike real-world problems — navigation, manipulation, natural language understanding — games did not require the program to deal with perception, with physical interaction with the world, with the unpredictability of other people's behaviour. This isolation made the cognitive challenge tractable even with the limited computing resources of the 1950s and 1960s.
+
+The strategy of using games as AI research domains was explicitly articulated by Claude Shannon in his 1950 chess paper and by Alan Turing, who proposed chess as a test of machine intelligence in the same year. Both men recognised that chess, as a domain, was well-suited to the capabilities of early computers and well-designed to test the specific cognitive capabilities — planning, pattern recognition, evaluation of positions — that were central to the AI project.
+
+The strategy was productive. Game-playing programs produced some of the most important early demonstrations of machine intelligence, attracted public attention and funding, and developed techniques — heuristic search, evaluation functions, machine learning — that proved useful far beyond the specific games they were developed for.
+
+The strategy was also limiting. Mastery of games did not generalise to mastery of other cognitive domains in the way that early researchers had hoped. A program that played chess brilliantly could not, with the same techniques, navigate a house or understand a sentence or recognise a face. The generality that early AI researchers had hoped for — the sense that cracking game-playing was a step toward cracking intelligence in general — did not materialise. Game-playing was its own domain, with its own specific techniques, and the transfer from game-playing to other cognitive tasks required more than the early optimists had anticipated.
+
+---
+
+## Shannon's Chess: Thinking About Thinking
+
+The theoretical foundation for AI game-playing was established not by a computer program but by a paper: Claude Shannon's 1950 "Programming a Computer for Playing Chess," which we discussed in the Shannon profile but which deserves careful attention here in its own right.
+
+Shannon's paper was not a description of a working program. Shannon was a theorist, not primarily a programmer, and the paper was an analysis of what it would take to make a computer play chess well — a precise formulation of the problem and of the approaches that might solve it.
+
+The central challenge Shannon identified was the size of the game tree. In chess, at each position, the player to move has on average about thirty legal moves. After both players have made one move, there are roughly 900 possible positions. After two moves each, roughly 288,000. After three moves each, roughly eighty-nine million. The tree grows exponentially at each ply (half-move), and a complete game might last forty moves for each side, producing a game tree so large that no computer ever built — not even the most powerful machines of the present — could exhaustively examine it.
+
+Shannon proposed two approaches to managing this complexity. Type A strategy would search the game tree exhaustively to some fixed depth — examining all positions to a depth of, say, four or five moves — and evaluate those positions using an evaluation function that scored them according to relevant features: material balance, piece activity, king safety, pawn structure. The move leading to the highest-scored position would be selected. This approach was brute force bounded by depth: comprehensive but shallow.
+
+Type B strategy would be more selective: rather than examining all moves to a fixed depth, the program would use chess knowledge to identify which moves were worth examining — which lines were promising enough to be explored deeply. This approach was intended to mimic what human chess players actually did: they did not examine every possible move, but focused their attention on the moves that seemed most relevant to the position.
+
+Shannon's analysis established the vocabulary and the framework in which chess AI was discussed for the next fifty years. The distinction between Type A (exhaustive, depth-limited) and Type B (selective, knowledge-guided) search remained relevant as long as chess AI was a research topic — even the systems that eventually defeated the world champion used variants of these approaches, supplemented by enormous databases of opening theory and endgame tablebases.
+
+Shannon also estimated, in 1950, that the computing power needed to play chess at the level of a skilled human amateur — using something like Type A strategy to a depth of five or six moves — would require around one million operations per second. Contemporary computers were several orders of magnitude slower than this. The estimate was remarkably accurate: computers of the mid-1970s, operating at around this speed, did indeed achieve strong amateur-level play.
+
+What Shannon's paper did not anticipate — could not have anticipated — was that the combination of exponentially growing computing power and improved algorithms would eventually produce computers that could defeat not just amateur players but the world's best humans. The Type A approach that Shannon described as suitable for amateur-level play turned out, with sufficient computing power and sufficiently sophisticated evaluation functions, to be powerful enough for grandmaster-level play and eventually for world champion-level play. Brute force, sufficiently accelerated, beat genius.
+
+---
+
+## The NSS Chess Program: First Steps
+
+The first working chess program was not the work of Shannon but of a team at Los Alamos National Laboratory, where Newell, Shaw, and Simon — the same team that built the Logic Theorist — created a chess program in the mid-1950s that played on a reduced 6×6 board without bishops. The program was limited — it played quite badly by any serious standard — but it existed, it ran on a real computer, and it made moves according to the rules of chess. For the first time in history, a machine was playing chess.
+
+Newell, Shaw, and Simon's chess program was significant not for its playing strength but for what it demonstrated about the relationship between search and intelligence. The program searched forward from the current position, evaluating candidate moves by looking at the immediate consequences and selecting the move that led to the best immediate outcome. It was shallow, incomplete, and easily defeated. But the approach — represent the game state, generate candidate moves, evaluate them, select the best — was the right approach. It just needed more depth, a better evaluation function, and enormously more computing power.
+
+The program also illuminated the importance of the evaluation function — the component that scored a position as good or bad for each player. A chess program's playing strength was almost entirely determined by the quality of its evaluation function and the depth to which it could search. Both improved as computing power improved and as researchers developed better understanding of what made chess positions good or bad. But the fundamental architecture of the chess program — search with evaluation — remained constant.
+
+In the years following the NSS program, chess-playing programs were developed at multiple institutions, each improving on its predecessors. Alex Bernstein's program, developed at IBM in 1957, was the first to play a complete game of chess on a standard board, selecting moves by examining seven plausible continuations to a depth of four moves. The program could be defeated easily by any experienced player, but it was playing recognisable chess.
+
+By the early 1960s, chess programs had reached a level where they could play credibly against beginners. By the late 1960s, they were challenging intermediate players. The improvement was steady and driven largely by the improvement in computing hardware rather than by fundamental advances in algorithm design. The programs of the 1960s were doing essentially what Shannon had described in 1950: searching the game tree to some depth and evaluating the terminal positions. They were just doing it faster and deeper.
+
+---
+
+## Arthur Samuel and the Checkers Revolution
+
+While chess attracted the most theoretical attention and the most public fascination, the most important early AI game-playing work was done on a less glamorous game: checkers.
+
+Arthur Samuel was a researcher at IBM who had become interested in machine learning — the question of whether a program could improve its own performance through experience — as a way of understanding what learning meant and how it could be implemented computationally. He chose checkers as his research domain in 1952 not because he was particularly interested in checkers but because it was, for his purposes, the right game: complex enough to be challenging, simple enough to be tractable, with a rich tradition of recorded games that could provide training data.
+
+What Samuel built was not just a checkers program. It was, in a very real sense, the first machine learning program — the first program designed not just to play a game well but to improve its playing strength through experience.
+
+The program used two forms of learning. The first, which Samuel called rote learning, involved memorising positions it had encountered in play and the outcomes associated with them. When a position was encountered again, the program could use its stored knowledge of previous outcomes to make better evaluations than it could with its general evaluation function alone. This was a primitive form of what we would now call a lookup table or a database — the program was building up a memory of positions and their consequences.
+
+The second form of learning was more interesting and more important: parameter learning, in which the evaluation function's weights were adjusted based on experience. The evaluation function used a combination of features — piece count, piece advancement, control of key squares, mobility — to score positions as good or bad for each player. Each feature was weighted, and the weight determined how much that feature influenced the overall score.
+
+Samuel's key insight was that the weights did not have to be fixed by the programmer. They could be learned. By comparing the program's current evaluation of a position with the evaluation it had made of the same position at a later stage of the game — when more information was available about how the game was going to develop — the program could identify whether its initial weights were overvaluing or undervaluing specific features, and adjust them accordingly.
+
+This procedure — compare your prediction to the eventual outcome, identify the error, adjust the parameters to reduce the error — is recognisable as a form of temporal difference learning, one of the foundational techniques of modern reinforcement learning. Samuel arrived at it in 1952, without the theoretical framework that would later be developed to understand it, by thinking carefully about what it would mean for a program to learn from experience.
+
+The combination of rote learning and parameter adjustment produced a program that genuinely improved with play. When Samuel's program played against itself — running games with no human involvement — it accumulated experience that made subsequent games better played. The weights gradually shifted from their initial values toward values that better captured what was actually important in checker positions. The program was learning, in a meaningful sense, from experience.
+
+By 1955, the program was beating Samuel himself. By 1962, it had beaten the Connecticut state champion. The improvement was not just impressive in itself — it was conceptually revolutionary. A program had demonstrated that machine learning was possible: that a computer could improve its own performance through experience, developing capabilities that were not fully specified by its programmer.
+
+The checkers program attracted enormous attention — it was featured in popular magazines, discussed in scientific journals, demonstrated on television. IBM was delighted: the program was positive publicity for the idea that computing was more than number-crunching. The public found it both impressive and slightly unsettling, which was a natural response to a machine that seemed to be getting smarter.
+
+What Samuel had not fully solved — what no one would fully solve for decades — was the question of what, exactly, the program had learned. It had learned to play checkers better. But had it learned anything about intelligence? Had it developed any understanding of what it was doing? The weights in its evaluation function represented something about what mattered in checker positions — but in a form that was not interpretable, not explainable, not transferable to other domains.
+
+This opacity — the gap between impressive performance and interpretable understanding — is a feature of machine learning that persists to the present day. Modern neural networks are vastly more powerful than Samuel's checkers program, but they share the same fundamental characteristic: they improve through experience, but the knowledge they develop is encoded in a form that is not easily interpreted or explained. Samuel was the first to demonstrate this phenomenon. It has not yet been resolved.
+
+---
+
+## MacHack: The First Tournament Player
+
+The next significant milestone in chess AI was MacHack, developed at MIT by Richard Greenblatt in 1966 and 1967. MacHack was the first chess program to participate in rated human tournaments — the first machine to play chess under official competition conditions against human opponents.
+
+Greenblatt was an undergraduate at MIT, working in the AI Lab that McCarthy and Minsky had founded. He was, by all accounts, a prodigiously talented programmer — one of those people who understood computers at the deepest level and could extract performance from them that others thought impossible. He spent months working on MacHack, optimising every component of the program to run as fast as possible on the PDP-6 machine available to him.
+
+MacHack played in the Massachusetts State Amateur Championship in January 1967, competing against human players rated at various levels. It lost all five of its games, but its play was credible enough to earn it a rating — the first chess rating ever assigned to a computer program. The rating was modest: approximately 1400, which corresponds to a decent club player but well below master level. But the achievement of earning a rating at all was significant: MacHack was playing well enough that it had a meaningful place in the human chess rating system.
+
+What MacHack demonstrated, beyond its specific playing strength, was that chess programs had reached the level where they could be evaluated against the same standards as human players. The question was no longer whether a program could play recognisable chess — that had been answered years earlier. The question was how well it could play, and the answer could now be given in terms that were directly comparable to human performance levels.
+
+MacHack also demonstrated the importance of tactical calculation — the ability to search deeply in specific, tactically sharp positions. Greenblatt's program was not particularly sophisticated in its evaluation of positions, but it was fast enough to search deeply enough to find the tactical sequences that defined the outcome of many games. This insight — that raw computational power applied to tactical calculation could compensate for limitations in positional understanding — would remain central to chess AI development for the next three decades.
+
+The development of MacHack attracted attention from several researchers who would go on to make important contributions to computer chess. Donald Michie, the Edinburgh AI researcher, played MacHack and was impressed by its performance. He began thinking about the difference between the kind of chess knowledge that MacHack used — essentially, search — and the kind of chess knowledge that human grandmasters used — essentially, pattern recognition — and what each revealed about the nature of intelligence.
+
+---
+
+## The Controversy: Was It Really Intelligence?
+
+The success of game-playing programs — programs that could defeat human champions, that could earn tournament ratings, that seemed to do something that required intelligence — immediately raised a philosophical question that has never been fully resolved: was this really intelligence, or was it something else?
+
+The question was asked in various forms throughout the 1950s and 1960s, and the answers given were as varied as the people giving them.
+
+One view, represented most forcefully by researchers like Minsky and McCarthy, was that the question was poorly formed. Intelligence was whatever produced intelligent behaviour. If a program played chess as well as a human expert, it was playing chess intelligently — the method it used was irrelevant to the attribution of intelligence. This view was consistent with Turing's behaviourist approach: judge by output, not by internal mechanism.
+
+A contrasting view, represented by many critics of AI and by some researchers within the field, was that the game-playing programs were doing something categorically different from what human chess players did — and that the difference mattered. Human chess players did not search millions of positions. They recognised patterns. They had intuitions. They understood the game in a way that could be communicated to other players, that could be generalised to new situations, that was connected to their broader understanding of strategy and conflict and competition. The programs had none of this. They had search and evaluation. Impressive, but not intelligence.
+
+This debate — between the behaviourist view that what mattered was performance and the cognitivist view that what mattered was mechanism — is one of the oldest and most persistent in the philosophy of AI. It maps directly onto contemporary debates about large language models: are they genuinely intelligent because their outputs are indistinguishable from those of intelligent humans, or are they doing something categorically different from human intelligence, regardless of how impressive their outputs are?
+
+The game-playing programs of the 1950s and 1960s were the first concrete demonstration that these two views could diverge — that you could have impressive performance without the mechanism that seems to underlie human intelligence. They were, in this respect, philosophically important beyond their specific domain.
+
+---
+
+## Backgammon: The First Learning Champion
+
+The next major milestone in game-playing AI came not in chess but in backgammon, and it came in a way that was deeply instructive about the promise and the limitations of the approaches available.
+
+Hans Berliner, a former world correspondence chess champion who had become a computer science professor at Carnegie Mellon, developed a backgammon program called BKG 9.8 that in 1979 defeated the reigning world backgammon champion, Luigi Villa, in a match played in Monte Carlo.
+
+This was, at the time, the most significant victory by a computer over a human champion in any game. Chess programs had not yet achieved this — they were still well below grandmaster level in 1979. Backgammon was considered a game of significant skill, and the world champion was one of the best players in the world.
+
+Berliner's program won, but it won with a significant assist from dice luck — backgammon includes a random element that chess does not, and the program happened to roll favorably in the decisive games. Berliner himself acknowledged that the program would not consistently beat the world champion over a long match. The victory was impressive but partly fortuitous.
+
+More significant than Berliner's specific program was the approach that a different backgammon program would eventually use, a decade later, to achieve genuine grandmaster-level play: neural network learning from self-play.
+
+TD-Gammon, developed by Gerald Tesauro at IBM in 1992, used a neural network trained by temporal difference learning — essentially the same technique that Samuel had used in his checkers program, but now implemented in a neural network rather than a linear evaluation function and applied with the benefit of thirty years of theoretical development.
+
+The results were extraordinary. TD-Gammon, after training against itself for about 1.5 million games, achieved a level of play that contemporary experts estimated at approximately the level of the top human players in the world. It was not unambiguously the best player — backgammon experts disputed its ranking relative to the very best humans — but it was clearly playing at a level that no previous program had approached.
+
+TD-Gammon was important not just as a backgammon program but as a demonstration of the power of neural network learning from self-play. The same basic approach — a neural network trained by playing against itself, with temporal difference learning updating the network's weights based on the outcome of games — would be generalised and improved by DeepMind's AlphaZero system in 2017, which used it to achieve superhuman performance not just in backgammon but in chess and Go simultaneously. The intellectual lineage from Samuel's checkers program to TD-Gammon to AlphaZero is direct and continuous.
+
+---
+
+## The Deeper Pattern: What Game-Playing Taught AI
+
+Looking across the history of AI game-playing from the 1950s to the present, several patterns emerge that go beyond the specific games and programs.
+
+**The power of search.** The most consistent finding of game-playing research was that raw computational search — examining more positions, more deeply — was more powerful than most people expected. The intuition that human grandmasters had insight or understanding that mere calculation could not replicate was repeatedly challenged by programs that achieved human-level or superhuman performance through intensive search with relatively simple evaluation. This finding was uncomfortable for those who believed that intelligence was categorically different from calculation, and it remains uncomfortable. Modern neural networks are not doing "mere calculation" in any simple sense, but they are doing computation — and the computation is powerful enough to produce outputs that exceed human performance across a wide range of tasks.
+
+**The primacy of the evaluation function.** In search-based game-playing programs, the quality of the evaluation function — the component that scored positions as good or bad — was the primary determinant of playing strength. Improving the evaluation function was harder than improving the search — it required domain knowledge, careful analysis, and empirical testing. But the evaluation function was where the intelligence of the program actually resided. The search was the mechanism; the evaluation function was the knowledge.
+
+This insight had implications beyond game playing. In any AI system that searched for solutions — planning systems, theorem provers, constraint satisfaction systems — the quality of the heuristics that guided and evaluated the search was the primary determinant of the system's performance. Learning to specify these heuristics — and eventually to learn them from data rather than specifying them by hand — became a central preoccupation of AI research.
+
+**The learning breakthrough.** Samuel's demonstration that programs could improve through learning — that the evaluation function's parameters could be adjusted based on experience — was the most conceptually important finding of early game-playing research. It established that machine learning was possible in principle and demonstrated a specific technique — temporal difference learning — that would eventually prove to be one of the most powerful in the field.
+
+The learning breakthrough was not immediately followed up as aggressively as it deserved. The chess programs of the 1960s and 1970s were largely search-based, with hand-crafted evaluation functions rather than learned ones. The reason was partly computational — learning from games required running many games, which was expensive on the computers of the era — and partly intellectual — the symbolic AI mainstream was less interested in learning than in knowledge representation and reasoning. It took decades for the learning approach to be fully developed and applied to games.
+
+**The specificity of mastery.** Perhaps the most important finding, retrospectively, was how specific game-playing mastery was. A program that could defeat the world checkers champion could not play chess. A program that could defeat the world chess champion could not play Go. A program that could play any of these games at superhuman level could not converse, navigate, recognise faces, or do most of the other things that human intelligence does effortlessly.
+
+This specificity was a recurring disappointment in AI history. Each time a program achieved mastery of a specific game, there was a temptation to extrapolate — to believe that the same approach, applied to other domains, would achieve comparable results. The extrapolation consistently failed. Game mastery was domain-specific. The techniques that produced it were domain-specific too.
+
+The lesson was eventually absorbed: rather than trying to build a single program that could master all games (and all other cognitive tasks), the field learned to build domain-specific systems that were very good at their specific task and to understand what each domain-specific system revealed about the general problem of intelligence. The game-playing research programme was most productive when it was understood as a laboratory for testing specific ideas — about search, about learning, about evaluation — rather than as a direct path to general machine intelligence.
+
+---
+
+## The Road to Deep Blue: Thirty Years of Progress
+
+Between MacHack's 1967 tournament performance and Deep Blue's defeat of Garry Kasparov in 1997, chess AI made steady and remarkable progress — progress that was driven primarily by the exponential growth in computing power but also by genuine improvements in algorithm design, evaluation function quality, and hardware architecture.
+
+The key milestones of this period trace the arc of the technology.
+
+In 1973, the Chess 3.6 program from Northwestern University, developed by Larry Atkin and David Slate, achieved a rating of approximately 1700 — stronger than most casual players but well below serious club players. The program was running on a CDC 6400 mainframe and was already benefiting from the hardware improvements that Moore's Law was driving.
+
+By 1977, Chess 4.6 — an improved version of the same program — had achieved a rating of approximately 2000, placing it in the range of strong amateur players. The improvement over four years was almost entirely due to hardware: the programs were doing the same thing as before, just faster and deeper.
+
+In 1983, the Belle program, developed by Ken Thompson and Joe Condon at Bell Labs, achieved a rating of approximately 2200 — master level. Belle was distinctive because it was implemented largely in custom hardware rather than software: the move generation and search were done by dedicated chips rather than a general-purpose computer. This gave it a speed advantage that translated directly into better play.
+
+The development of dedicated chess hardware — chips specifically designed to generate moves and evaluate positions — was an important step in the chess AI story. It reflected the recognition that chess programs were doing a small number of operations very frequently — generating moves and evaluating positions — and that doing these operations in custom hardware rather than general-purpose software could provide enormous speed advantages.
+
+The Deep Thought program, developed at Carnegie Mellon in the late 1980s by a team that included Feng-hsiung Hsu and Murray Campbell, took the dedicated hardware approach further and achieved a rating of approximately 2550 — in the range of the strongest grandmasters, though not yet at the level of the very best. Deep Thought was the program that IBM recruited Hsu and Campbell to develop into Deep Blue.
+
+Deep Blue, and its eventual defeat of Kasparov in 1997, is covered in detail in a later article in this series. But the arc from MacHack's 1400 rating in 1967 to Deep Blue's victory over the world champion thirty years later is a remarkable story of steady, patient improvement — improvement driven by hardware, by algorithm design, and by the accumulated understanding of what made chess programs strong.
+
+---
+
+## What the Programs Did Not Have
+
+The success of game-playing programs was real and impressive. But it is equally important to understand what those programs did not have — what was absent from even the strongest programs, what distinguished their mastery of games from the kind of general intelligence that AI was ultimately trying to build.
+
+**They had no understanding of the game.** Chess programs could play chess better than almost any human, but they had no understanding of why they were making the moves they made. They could not explain their reasoning. They could not teach chess. They could not discuss chess strategy in natural language. They had no conceptual model of the game — no understanding of why certain pawn structures were strong or weak, no grasp of the principles that human grandmasters articulated and taught to students. The knowledge in the program was encoded in the evaluation function's weights — numbers that captured statistical patterns but not the conceptual understanding that human experts had.
+
+**They could not transfer their skills.** A chess program, no matter how strong, could not play checkers. A checkers program could not play backgammon. The programs were specialists in the narrowest possible sense — they had mastered a single game and could apply their mastery to nothing else. Human game players are not like this: a strong chess player can transfer elements of their spatial and strategic thinking to other games, can discuss game strategy in general terms, can recognise parallels between different strategic situations. The programs had none of this transferability.
+
+**They could not learn from instruction.** Human chess students improve by studying annotated games, reading about strategic principles, taking lessons from coaches, discussing positions with other players. None of this was available to chess programs of the early era. They could learn from experience — from playing games and adjusting their evaluation functions — but they could not learn from explicit instruction, from language, from the accumulated wisdom that humans had encoded in books and lessons and discussion.
+
+**They had no goals beyond winning.** A chess program playing a game has one goal: to achieve a winning position. It has no broader context, no understanding of why it is playing or what winning means, no ability to modify its goals or consider whether the game is worth playing. This is appropriate for a chess program — winning is what chess is for. But it illustrates the narrowness of what the programs had achieved: they were optimising for a single, well-defined objective in a fully specified environment. Real intelligence operates in environments that are much less specified and pursues objectives that are much less well-defined.
+
+---
+
+## The Legacy: From Checkers to AlphaZero
+
+The history of AI game-playing did not end with Deep Blue's victory over Kasparov. If anything, the most dramatic chapter came two decades later, with DeepMind's AlphaGo and its successor AlphaZero.
+
+Go had long been regarded as the game that computers would never conquer — the board was too large, the branching factor too high, the positional evaluation too subtle for the search-based approaches that had worked in chess. Go had an additional cultural resonance in East Asia, where the game was regarded as requiring a kind of intuition and aesthetic sensibility that machines could not possess.
+
+AlphaGo, which defeated the world Go champion Lee Sedol in 2016, changed this picture completely. And AlphaZero, which followed in 2017, went further still: it achieved superhuman performance in chess, shogi, and Go simultaneously, starting from nothing except the rules of each game and learning purely through self-play.
+
+The approach AlphaZero used was, at its core, an evolution of Samuel's checkers program: a neural network trained by self-play, with temporal difference learning updating the network's weights based on game outcomes. The neural network was vastly more powerful than anything Samuel had used, and the self-play training was conducted at a scale — millions of games — that would have been inconceivable in the 1950s. But the fundamental idea — learn to evaluate positions by playing games against yourself and updating your evaluation based on outcomes — was Samuel's idea, implemented with tools and at a scale that Samuel could not have imagined.
+
+The success of AlphaZero was, in retrospect, the vindication of Samuel's approach over the search-plus-hand-crafted-evaluation approach that had dominated chess AI for thirty years. Deep Blue had beaten Kasparov through sheer computational force — examining two hundred million positions per second with an evaluation function hand-crafted by human grandmasters. AlphaZero beat the strongest chess programs of its era by learning a far deeper evaluation than human experts had crafted, using far fewer positions per second. Quality of evaluation beat quantity of search.
+
+This contrast — between the brute-force approach and the learned-evaluation approach — maps onto a broader contrast in AI between systems that rely on hand-crafted knowledge and systems that learn their own knowledge from data. The history of AI game-playing is, among other things, a history of the learning approach slowly proving itself superior to the hand-crafting approach — a lesson that was eventually generalised across the whole of AI, not just game playing.
+
+---
+
+## Games as a Mirror
+
+The history of AI game-playing is not primarily a history of games. It is a history of ideas about intelligence — ideas about what intelligence requires, how it can be achieved, and what its relationship to computation is.
+
+Each generation of game-playing programs posed the question of intelligence in a new way. Samuel's checkers program posed the question of learning: can a machine improve through experience? The answer was yes, and the implications were enormous. The early chess programs posed the question of search: can brute-force computation substitute for insight? The answer was, uncomfortably, also yes — at least for chess. Deep Blue posed the question of human uniqueness: was there any game at which humans were genuinely better than machines? The answer turned out to be no, at least not for long. AlphaZero posed the question of learning versus knowledge: can a machine that learns its own knowledge surpass one guided by human expertise? Yes.
+
+These were not just questions about games. They were questions about the nature of mind, about what intelligence is and what it requires, about whether the things that seem most distinctively human — insight, creativity, intuition, understanding — are genuinely beyond the reach of computation or merely very hard to compute.
+
+The games were laboratories in which these questions could be asked precisely and answered empirically. They were, in Shannon's phrase, "machines for thinking" — not just for playing, but for thinking about thinking, for testing ideas about intelligence against a standard that was precise enough to be meaningful.
+
+The lessons learned in those laboratories — about the power of search, the importance of evaluation, the potential of learning, the specificity of mastery — have shaped the development of AI across every domain. The path from Samuel's checkers program to modern AI systems is not straight, but it is continuous. The questions asked in the first AI programs are still the questions being asked today, in more sophisticated forms and on a much larger scale.
+
+The machines learned to play games. And in learning to play games, they taught us something about what it means to learn.
+
+---
+
+## Further Reading
+
+- **"Programming a Computer for Playing Chess" by Claude Shannon (1950)** — The foundational paper, still remarkably readable and relevant. Shannon's analysis of the problem set the framework for chess AI research for decades.
+- **"Some Studies in Machine Learning Using the Game of Checkers" by Arthur Samuel (1959)** — The original paper describing the checkers program and its learning approach. Essential reading for understanding the origins of machine learning.
+- **"Behind Deep Blue: Building the Computer That Defeated the World Chess Champion" by Feng-hsiung Hsu (2002)** — The story of Deep Blue from the perspective of its primary architect. Detailed, honest, and illuminating.
+- **"Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm" by the AlphaZero team (2018)** — The paper describing AlphaZero's approach. More technical than the other recommendations, but essential for understanding the modern era of AI game-playing.
+- **"The Master Algorithm" by Pedro Domingos (2015)** — A broader account of machine learning that places game-playing AI in the context of the larger quest for learning algorithms.
+
+---
+
+*Next in the Articles series: **A8 — ELIZA and the Illusion of Understanding** — The deeper story of ELIZA and what it revealed about human psychology, about the nature of language, and about the gap between the appearance of understanding and its reality. We go beyond the famous chatbot story to the philosophical questions it raised — questions that Joseph Weizenbaum spent his life trying to make the world hear.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the story of the first game-playing programs — the impressive performance, the invisible understanding — resonates with how you think about modern AI, share it with someone who would find the parallel worth exploring.*

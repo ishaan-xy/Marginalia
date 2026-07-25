@@ -1,0 +1,26 @@
+---
+import { render } from 'astro:content';
+import PostLayout from '@/layouts/PostLayout.astro';
+import { getAllPosts } from '@/lib/post-cache';
+
+// Root catch-all route for all post URLs:
+//   /minds-and-machines/p2-alan-turing/   ← series post
+//   /some-standalone-post/                ← standalone post
+//
+// The post `id` includes the folder path (e.g. "minds-and-machines/p2-alan-turing").
+// Astro prioritizes static routes (about.astro, archive.astro, etc.) over
+// the catch-all, so reserved paths never reach this file.
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+---
+<PostLayout post={post} headings={headings}>
+  <Content />
+</PostLayout>

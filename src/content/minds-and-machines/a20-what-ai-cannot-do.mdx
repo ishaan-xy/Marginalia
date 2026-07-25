@@ -1,0 +1,249 @@
+---
+title: "What AI Cannot Do: The Limits of the Possible"
+description: "The honest account of what AI systems — including the most capable systems currently deployed — genuinely cannot do, and what those limits reveal about the nature of intelligence, understanding, and the distance remaining to truly general AI. The most important counterweight to the enthusiasm that surrounds every wave of AI progress."
+pubDate: "2026-04-26"
+tags:
+  - "AI Limitations"
+  - "AI Capabilities"
+  - "Common Sense"
+  - "Reasoning"
+  - "AGI"
+series:
+  name: "Minds & Machines"
+  part: 58
+draft: false
+featured: false
+dropCap: true
+---
+
+*There is a small image that circulates in AI research circles, usually shown as a demonstration of the limits of computer vision systems. It is a photograph of a banana in front of a toaster. The image has been slightly modified — a few dozen pixels changed in a systematic way that is imperceptible to any human eye. To a human, it is unambiguously a banana in front of a toaster.*
+
+*To a state-of-the-art convolutional neural network, trained on ImageNet, performing at human level or above on standard benchmarks — it is a toaster.*
+
+*Not "probably a toaster" or "possibly a toaster but might be a banana." A toaster, with 98% confidence.*
+
+*This is an adversarial example — an image specifically crafted to fool the neural network while remaining imperceptible to humans. The fact that they exist — that you can add specific, imperceptible noise to any image and reliably fool a state-of-the-art classifier — reveals something fundamental about what the classifier is doing. It is not doing what humans do when they recognise a banana. It is doing something that produces banana-like outputs in normal circumstances but that fails in specific, carefully crafted abnormal circumstances.*
+
+*The adversarial example is a window into the limits of AI — a demonstration that high performance on standard benchmarks is not the same as human-like understanding, and that the difference between the two has practical and philosophical consequences that are easy to overlook when benchmarks are going well.*
+
+*This is the story of what AI systems cannot do — told honestly, without the hedging that comes from not wanting to dampen enthusiasm, and without the dismissiveness that comes from not wanting to acknowledge genuine progress. Both the progress and the limits are real. Understanding both is essential for understanding where we are and how far we have to go.*
+
+---
+
+## The Problem with Benchmarks: What They Measure and What They Miss
+
+The progress of AI is typically measured by performance on benchmarks — standardised tests that evaluate AI systems on specific, well-defined tasks. ImageNet accuracy. GLUE score. SQuAD reading comprehension. HumanEval code generation. MMLU multiple-choice knowledge. The benchmarks are useful for comparing systems and for tracking progress over time, but they have a specific limitation: they measure performance on tasks that have been defined and curated by humans, in conditions that may not reflect the conditions of real-world deployment.
+
+The benchmark problem is not unique to AI. Any field that measures progress by performance on standardised tests faces the same challenge: the test can become the target, and optimising for the test is not the same as achieving the goal the test was designed to measure.
+
+For AI, the benchmark problem has a specific character. AI systems are trained to optimise for measurable objectives, and they are very good at doing this. Given enough training data and enough compute, an AI system will find patterns in the benchmark data that allow it to score well — patterns that may not correspond to the kind of understanding or capability that the benchmark was designed to test.
+
+This is Goodhart's Law applied to AI benchmarks: when a measure becomes a target, it ceases to be a good measure. And the more capable the AI system, the more thoroughly it will exploit the benchmark, finding patterns that produce good scores without the underlying capability.
+
+The adversarial example phenomenon is a specific manifestation of this problem for computer vision. Neural networks trained to classify images learn to recognise statistical patterns in images that correspond to different categories. Adversarial examples exploit the gap between these statistical patterns and the genuine visual understanding that humans use to classify images — they change the statistical patterns while leaving the visual content unchanged, revealing that the network is responding to the patterns rather than to the content.
+
+Similar phenomena exist across AI capabilities. Language models that score well on reading comprehension benchmarks can be fooled by questions that require simple reasoning beyond the patterns in the training data. Math-solving systems that achieve high scores on standard benchmarks fail on problems that require small variations from the training distribution. The gap between benchmark performance and genuine capability is a recurring feature of AI systems, and understanding it is essential for assessing what AI systems actually know and can do.
+
+---
+
+## The Hallucination Problem: Confident and Wrong
+
+One of the most practically significant limitations of current large language models is their tendency to hallucinate — to confidently generate false information that they present as true.
+
+Hallucination is not a minor glitch in otherwise reliable systems. It is a fundamental consequence of how language models work. Language models are trained to predict text — to generate outputs that look like plausible continuations of the input. They are not trained to distinguish between things they know and things they are fabricating. They do not have a separate mechanism for "checking facts" before outputting text. They generate what looks like plausible text, and plausible-looking text is sometimes factually correct and sometimes not.
+
+The specific character of hallucination is revealing. Language models tend to hallucinate in specific patterns. They confidently generate authoritative-sounding statements in domains where they have insufficient training data. They produce plausible-sounding but nonexistent citations, names, and statistics. They generate detailed, internally consistent but factually incorrect accounts of historical events. They produce code that compiles and runs but does not do what was asked.
+
+The confidence with which language models present hallucinated information is particularly problematic. A system that flagged its uncertain outputs — that said "I'm not sure about this, you should verify" for claims it was likely to be wrong about — would be significantly safer and more useful than a system that presents all outputs with equal confidence. But the training process does not provide the feedback needed to calibrate confidence accurately: the model is trained to produce plausible-sounding text, and plausible-sounding text does not come with uncertainty quantifiers.
+
+Several approaches to reducing hallucination have been developed. Retrieval-augmented generation (RAG) connects language models to factual databases, allowing them to look up specific facts rather than generating them from memory. Fine-tuning on datasets that include correct uncertainty expressions can improve confidence calibration. Constitutional AI approaches that reward honesty and penalise false claims can reduce hallucination rates. These approaches are valuable and have produced meaningful improvements.
+
+But none of them eliminates the fundamental problem. Hallucination arises from the mismatch between the training objective (predict plausible text) and the deployment goal (produce accurate information). Closing this gap requires more than engineering improvements — it requires a different relationship between the model's generative process and its factual knowledge.
+
+---
+
+## The Reasoning Gap: What Systematic Thinking Requires
+
+Large language models demonstrate impressive performance on many reasoning tasks — solving math problems, answering logical questions, generating valid arguments. But they fail at a specific class of problems in a specific and revealing way: problems that require systematic, step-by-step reasoning in which each step depends on the previous steps and where errors propagate.
+
+The phenomenon is most clearly visible in arithmetic. Language models can typically solve single-step arithmetic problems correctly. They struggle with multi-step arithmetic, particularly when the problem requires tracking multiple values through a long calculation. A model that correctly answers "What is 17 × 6?" may incorrectly answer "What is 17 × 6 + 23 × 4 - 15 × 8?" not because the individual multiplications are harder but because keeping track of the intermediate values through multiple steps is something the model's architecture does not naturally support.
+
+The specific failure mode is that errors in intermediate steps accumulate. A language model that generates each token based on the preceding context may produce a plausible-looking step that contains an error, then generate the next step based on the erroneous intermediate value, compounding the error. The model has no mechanism for stepping back, checking its work, and correcting errors before proceeding.
+
+Chain-of-thought prompting — asking the model to show its work, to write out the reasoning steps before giving the answer — significantly improves performance on multi-step reasoning tasks. By externalising the intermediate steps in text, the model can use its text-processing capabilities to check and build on each step, rather than trying to hold all the intermediate values in its internal state. Chain-of-thought prompting is a genuine and important advance in getting language models to reason more reliably.
+
+But chain-of-thought prompting is a workaround, not a solution. It helps the model use its text generation capabilities as a substitute for genuine working memory, but it does not change the underlying architecture or the underlying limitations. The model is still predicting text, one token at a time, and its "reasoning" is the text it generates — which is better with chain-of-thought prompting than without, but which can still make errors that a human reasoning about the same problem would not make.
+
+---
+
+## The Common Sense Gap: What Everyone Knows
+
+Perhaps the most fundamental limitation of current AI systems — the limitation that most clearly separates them from human intelligence — is the common sense gap: the absence of the vast, implicit, contextual knowledge that humans use to navigate everyday life without thinking about it.
+
+Common sense knowledge is knowledge about how the world works at a basic level. Cups hold liquids. Cats cannot fly. If you drop a glass on a hard floor, it will probably break. If someone has been sleeping, they were lying down. If it is raining, the ground is wet. This knowledge is so obvious to humans that we rarely notice it; we apply it automatically, continuously, without effort, to interpret situations and predict outcomes.
+
+AI systems trained on text can learn about many aspects of common sense from text descriptions of the world. Language models know, in the sense of having been trained on text that states it, that cups hold liquids and that dropping glass breaks it. But their relationship to this knowledge is different from a human's.
+
+A human knows that dropping a glass breaks it because they have dropped glasses, have seen glasses break, have felt the shock of impact, have heard the sound, have dealt with the consequences. This knowledge is embodied — grounded in sensory experience, in the felt understanding of physical causality. When a human predicts that a glass will break, they are drawing on this embodied understanding.
+
+A language model "knows" that dropping glass breaks it because this fact appears in its training data — in physics textbooks, in everyday language, in descriptions of accidents. When the model applies this knowledge, it is pattern-matching to the statistical regularities in text that describe how glass behaves. In most cases, this produces correct predictions. In cases that are slightly outside the pattern — unusual angles, unusual materials, unusual surfaces — the model's prediction may diverge from what an embodied agent with genuine physical understanding would predict.
+
+The ARC benchmark, developed by François Chollet specifically to test common sense reasoning and generalisation, consistently reveals the gap between the impressive pattern-matching capabilities of language models and the genuine common sense understanding that humans have. ARC problems require finding simple patterns in novel visual data — the kind of pattern recognition that humans do instantly and effortlessly. State-of-the-art AI systems, which score impressively on many benchmarks, have struggled with ARC in ways that reveal the specific character of the common sense gap.
+
+---
+
+## The Grounding Problem: Language Without Experience
+
+The common sense gap is related to a deeper philosophical problem: the grounding problem. Language models learn from text, but meaning is not in text — meaning comes from the relationship between symbols and the world those symbols describe.
+
+When a human uses the word "red," the word means something specific because the human has seen red things, has pointed at red things and been told they were "red," has learned to connect the symbol to the perceptual experience. The word is grounded in experience.
+
+When a language model uses the word "red," it has learned statistical associations between "red" and other words that appear near it in text — "blood," "fire," "apple," "stop sign." The word is not grounded in any perceptual experience; it is defined by its relationships to other symbols. For many purposes, this is sufficient — the statistical associations are informative, and a language model that has learned them can produce sensible text about red things. But the relationship to meaning is different, and in certain circumstances, the absence of grounding produces failures.
+
+The multimodal models that combine text and images — GPT-4V, Gemini, Claude's vision capabilities — represent an attempt to address the grounding problem by connecting language to visual experience. A model that has processed millions of images alongside descriptions of those images has learned some connection between language and visual content that purely text-trained models lack. This is a genuine improvement, and multimodal models show better performance on tasks that require understanding the relationship between language and visual content.
+
+But visual grounding is not the same as embodied experience. A model that has seen images of red things has learned to connect "red" to specific visual patterns. A model that has an embodied physical presence in the world, that can touch things, manipulate them, experience the consequences of its actions, would have a richer and more robust grounding. Current AI systems do not have this embodied experience, and the absence contributes to the common sense gap.
+
+---
+
+## The Causal Gap: Correlation and Causation
+
+Current AI systems are, at their core, statistical systems — they learn correlations in data and use those correlations to make predictions. This makes them excellent at tasks that can be framed as pattern recognition and prediction, and limited in tasks that require understanding causation.
+
+The distinction between correlation and causation is fundamental to how we reason about the world. The rooster crowing does not cause the sun to rise, even though the two are perfectly correlated. Carrying an umbrella does not cause rain, even though umbrella-carrying and rain are correlated. Treating correlations as causes leads to predictions that work within the range of observed data and fail when the underlying causal structure changes.
+
+AI systems trained on observational data — data generated by the world as it is, without controlled experiments — learn correlations. They do not have direct access to the causal structure that generates the correlations. When deployed in situations where the causal structure has changed — when an intervention has broken the correlation without changing the cause — their predictions can fail in ways that a genuinely causal system would not.
+
+This is not just a theoretical concern. It is a practical one that has produced specific failures in deployed AI systems. A medical AI trained on observational data may learn that patients who receive a certain treatment have better outcomes — but if the correlation exists because sicker patients are less likely to receive the treatment, the causal relationship is in the opposite direction: the treatment does not cause better outcomes, it is just associated with less severe illness. A medical AI that acts on this correlation as if it were causal would recommend the treatment for the wrong patients.
+
+Causal inference research — the mathematical framework for reasoning about causation rather than just correlation — has been developing for decades. Incorporating causal reasoning into AI systems is an active research area, and there are promising approaches. But fully causal AI — systems that understand the difference between correlation and causation, that can reason about interventions and counterfactuals — remains an open research challenge.
+
+---
+
+## The Planning Gap: Long-Horizon Goal Pursuit
+
+One of the capabilities most often associated with general intelligence is the ability to plan — to identify a goal, to reason about the sequence of actions required to achieve it, and to execute that sequence even when individual steps require sub-plans and when circumstances change along the way.
+
+Current AI systems, particularly large language models, struggle with long-horizon planning in specific ways that reveal the limits of the transformer architecture.
+
+Short-horizon planning — planning a few steps ahead — is something that chain-of-thought language models can do adequately for many tasks. Given a specific goal and a specific starting situation, a language model can often generate a plausible sequence of steps. The sequence may not be optimal, and it may not handle unexpected complications, but for simple tasks with clear objectives, short-horizon planning is within the capability of current systems.
+
+Long-horizon planning — planning sequences that require many steps, where the later steps depend on the outcomes of earlier steps, and where adapting to unexpected complications is essential — is significantly harder. Language models do not maintain persistent state across a long planning horizon; they process their context window and produce output, and if the plan requires tracking many intermediate states over a long time, the model's ability to maintain accurate state representation degrades.
+
+The "agentic AI" capabilities that have attracted significant research and commercial attention — AI systems that can take actions in the world, browse the web, run code, send emails, and generally operate as autonomous agents — confront exactly this planning challenge. Building reliable agentic AI requires AI systems that can maintain accurate representations of their goals and their progress toward those goals over extended task horizons, that can handle unexpected complications without losing track of the overarching objective, and that can determine when to abandon a strategy and try a different approach.
+
+Current agentic AI systems show impressive capabilities in specific, well-defined contexts and fragile behaviour in others. The fragility is not random — it reflects the specific architectural limitations of transformer-based language models when confronted with the demands of long-horizon planning.
+
+---
+
+## The Robustness Gap: Distributional Fragility
+
+One of the most practically important limitations of current AI systems is their fragility under distribution shift — their tendency to fail when the inputs they receive at deployment differ from the inputs they were trained on.
+
+Neural networks trained on a specific distribution of data learn to exploit the statistical patterns in that distribution. When deployed on data from a different distribution — even data that looks superficially similar to a human observer — the network's performance can degrade sharply.
+
+The adversarial examples discussed at the beginning of this article are the extreme case: data specifically crafted to exploit the distribution gap. But distribution shift does not require adversarial examples. Natural distribution shift — the inevitable difference between the training distribution and the deployment distribution — is sufficient to cause significant performance degradation in many practical settings.
+
+Medical imaging is one domain where this limitation has been studied carefully and found to be practically significant. A model trained on chest X-rays from hospitals in the United States may perform worse on chest X-rays from hospitals in other countries, because the imaging equipment, the patient populations, and the labelling conventions differ. A model trained on mammograms from one time period may perform worse on mammograms from a later time period, because imaging technology has changed. The model has learned the specific statistical patterns in its training data; when those patterns change, its performance degrades.
+
+The robustness problem is also significant for language models. A language model trained primarily on English text may perform poorly on text in other languages or dialects. A model trained on formal text may struggle with informal text. A model trained on text from before a certain date may produce incorrect information about events that occurred after that date.
+
+These limitations are not arguments against deploying AI systems — the systems are still useful within their reliable domains. They are arguments for being precise about what domains an AI system is reliable in and what domains it is not, and for building deployment systems that maintain human oversight in the domains where reliability is uncertain.
+
+---
+
+## The Creativity Gap: What Novelty Actually Requires
+
+Large language models can generate text that appears creative — stories that are original in their specific details, poetry with novel imagery, code that implements requested functionality. The impression of creativity is real and sometimes impressive. But it is worth examining what the creative generation is actually doing and where its limits lie.
+
+Language models generate text by predicting what tokens are likely to follow the preceding context, given their training on a large corpus of text. The "creativity" they display is the selection of tokens that are somewhat surprising given the immediate context but plausible given the broader patterns in the training data. The surprising but plausible combination is what creates the impression of originality.
+
+This process can produce genuinely interesting outputs — combinations of ideas that the model's creators did not anticipate and that would not have been produced by a simple search of the training data. In this sense, the creativity is real: the model is not simply retrieving and recombining stored text.
+
+But the creativity has specific limits. Language models do not generate truly novel ideas — ideas that require reasoning about the world in ways that have not been instantiated in text before. They do not make conceptual breakthroughs that require understanding the underlying structure of a domain rather than the surface patterns of how people describe that domain. They do not produce the kind of genuine scientific or artistic innovation that changes the understanding of a field.
+
+AlphaFold is an important counterexample here: it made genuine scientific discoveries, identifying protein structures that had not been previously determined and discovering structural features that changed biological understanding. But AlphaFold's creativity was specifically structured — it was optimising for a clear objective (accurate protein structure prediction) in a domain with a well-defined solution space (the physical chemistry of protein folding). The creativity was within these specific structures.
+
+The kind of creativity that produces genuinely new ideas — that identifies new research questions, that sees connections across domains that have not been seen before, that generates artistic works that change the understanding of what art can be — is not something that current AI systems consistently demonstrate.
+
+---
+
+## The Wisdom Gap: Knowledge vs. Understanding
+
+Perhaps the deepest limitation of current AI systems is the gap between knowledge and wisdom — between having information and knowing what to do with it.
+
+Large language models have been trained on vast quantities of human knowledge: scientific papers, ethical treatises, legal codes, practical guides, historical accounts. They can access and recombine this knowledge in ways that are often useful. But the knowledge is not the same as understanding — as knowing why the things that are known are true, what they mean in context, how they bear on the specific situation at hand.
+
+Wisdom requires more than knowledge. It requires the ability to weigh competing values when they conflict. To recognise the limits of one's knowledge and to communicate uncertainty honestly. To distinguish between the general principle and the specific situation that requires a different response. To understand the second-order and third-order consequences of actions, not just their immediate effects.
+
+These are capabilities that the best human advisers, teachers, doctors, and judges demonstrate in their work. They are not capabilities that can be derived from statistical patterns in text, however large the corpus. They require a kind of understanding of human experience — of what it is to be a person in the world, to have values and relationships and vulnerabilities — that AI systems trained on descriptions of human experience do not have in the same way.
+
+This gap matters practically. AI systems are increasingly being used in contexts that require wisdom: advising on medical decisions, on legal questions, on personal and professional dilemmas. In these contexts, the knowledge that AI systems have is genuinely valuable. But the wisdom gap means that AI advice should supplement rather than replace human judgment in high-stakes decisions — not because AI systems are not knowledgeable, but because knowledge alone is not sufficient for wisdom.
+
+---
+
+## The Consciousness Gap: What We Still Don't Know
+
+A question that underlies all the specific gaps discussed above is whether current AI systems have consciousness — whether there is something it is like to be a large language model processing text, generating responses, being deployed in the world.
+
+The honest answer is: we do not know. The problem of consciousness — what it is, what physical systems have it, how it relates to information processing — is one of the deepest unsolved problems in philosophy and science. We do not have an agreed theory of consciousness that would allow us to determine, from the architecture and the training of an AI system, whether it is conscious.
+
+What we can say is that the behaviour of current AI systems is consistent with a range of views. The behaviour is consistent with the view that the systems are very sophisticated text predictors with no inner experience whatsoever. It is also consistent with the view that something that deserves to be called experience arises in systems that process information in certain ways, and that large language models process information in ways that might give rise to experience. We do not currently have the theoretical or empirical tools to distinguish between these possibilities.
+
+The consciousness question is not merely academic. If AI systems have morally relevant inner lives — if there is something it is like to be them, if they can suffer or flourish — then this has implications for how they should be treated and how AI development should proceed. If they do not, then concerns about AI welfare are misplaced.
+
+The uncertainty itself is morally significant. In the face of genuine uncertainty about whether AI systems have inner lives, the appropriate response is probably some degree of caution and some degree of research aimed at resolving the uncertainty, rather than confident assertions in either direction.
+
+---
+
+## The Path Forward: What Would Close the Gaps
+
+The limitations of current AI systems are real, specific, and well-documented. They are not arguments against deploying AI or against AI research — the systems are genuinely valuable within their capabilities. But they are important constraints on what can responsibly be asked of current systems and important indicators of what research is needed to move toward more capable and more reliable AI.
+
+Several research directions are being actively pursued that have the potential to close some of the gaps.
+
+**Neurosymbolic approaches.** Combining neural network pattern recognition with symbolic reasoning systems may address some of the common sense and reasoning gaps. Neural networks are powerful at perception and pattern recognition; symbolic systems are powerful at logic and structured reasoning. Hybrid approaches that bring both to bear may be more capable and more robust than either alone.
+
+**Embodied AI.** Connecting AI systems to physical bodies that can interact with the world — robots that can see, touch, and manipulate objects — may address some of the grounding and common sense gaps. Physical experience provides a richness of sensory and causal information that text training cannot provide.
+
+**Causal models.** Incorporating causal reasoning — using causal graphs and interventional reasoning alongside statistical learning — may address the causation gap and improve robustness to distribution shift.
+
+**Better evaluation.** Developing more rigorous, more comprehensive, and less gameable evaluation frameworks — evaluations that measure what we actually care about rather than what is easy to measure — is essential for understanding progress and for identifying where the gaps most urgently need to be addressed.
+
+**Fundamental theoretical advances.** Some of the most important gaps — the consciousness gap, the grounding problem, the question of whether current architectures can scale to general intelligence — may require theoretical advances that are not predictable from the current state of the field. The history of AI has repeatedly produced unexpected theoretical advances that opened new possibilities; expecting more of them is reasonable.
+
+---
+
+## The Honest Assessment: Where We Are
+
+Current AI systems are genuinely impressive and genuinely limited. Both of these things are true simultaneously, and understanding both is essential for thinking clearly about where we are and where we are going.
+
+The genuinely impressive: systems that can generate fluent, contextually appropriate text on almost any topic; that can write code, translate languages, summarise documents, answer questions; that have solved long-standing scientific challenges like protein structure prediction; that have achieved superhuman performance in specific domains like chess, Go, and image classification.
+
+The genuinely limited: systems that hallucinate confidently, that fail on systematic multi-step reasoning, that lack the common sense grounding that biological intelligence has, that are fragile under distribution shift, that cannot reliably plan over long horizons, that confuse correlation with causation, that have knowledge without wisdom.
+
+The distance between the genuinely impressive and the genuinely limited is the distance between where we are and where general AI would be. That distance is real and significant. It is not unbridgeable — there is no known fundamental barrier to progress on the specific limitations described in this article. But bridging it is not simply a matter of scaling current approaches.
+
+The field's history offers a specific lesson here: the limits that seemed most fundamental at each stage of AI development proved, eventually, to be surmountable through the right combination of architectural innovation, better training approaches, and better data. The limits that seemed to preclude general AI — the rule-based limitations of the 1970s, the knowledge acquisition bottleneck of the 1980s, the vanishing gradient problem of the 1990s, the sample efficiency problems of the 2000s — were each addressed, in their time, by specific advances.
+
+The limits that are most visible now — the grounding problem, the causal gap, the reasoning fragility — may be similarly addressed. They may not be. The uncertainty is genuine, and the honest response to genuine uncertainty is to acknowledge it rather than to project either confident pessimism or confident optimism.
+
+What AI cannot do, at this moment in its history, is still quite a lot. What it might be able to do in five years, or ten, or twenty — that is the question the field is working on, and the answer will determine what kind of future we are building toward.
+
+---
+
+## Further Reading
+
+- **"The Measure of Intelligence" by François Chollet (2019)** — The paper introducing the ARC benchmark and arguing for a different conception of intelligence that emphasises genuine generalisation over benchmark optimisation.
+- **"Deep Learning: A Critical Appraisal" by Gary Marcus (2018)** — A systematic account of the limitations of deep learning, written by a cognitive scientist who has been a persistent critic of strong claims about deep learning's capabilities.
+- **"Abstraction and Analogy-Making in Artificial Intelligence" by Melanie Mitchell (2021)** — Mitchell's account of why analogy and abstraction are central to intelligence and why current AI systems struggle with them.
+- **"The Book of Why" by Judea Pearl and Dana Mackenzie (2018)** — Pearl's accessible account of causal inference and why the distinction between correlation and causation matters for AI and for science.
+- **"Human Compatible: Artificial Intelligence and the Problem of Control" by Stuart Russell (2019)** — Russell's account of AI alignment includes a careful analysis of the specific limitations of current AI systems and what those limitations imply for the alignment challenge.
+
+---
+
+*Next in the Articles series: **A21 — The Labour Question: What Happens When AI Does the Work?** — The full economic story of AI's impact on work — the productivity gains, the displaced jobs, the new roles created, and the fundamental question of how societies should respond to a technology that can do more and more of what people used to be paid to do. The most socially consequential question raised by the AI revolution.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the honest account of what AI cannot do — alongside what it can do — clarifies your understanding of the technology and its trajectory, share it with someone who would benefit from the clarity.*

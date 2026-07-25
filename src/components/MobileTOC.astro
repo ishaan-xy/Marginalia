@@ -1,0 +1,85 @@
+---
+// Mobile table-of-contents: collapsible dropdown shown above the article body
+// on small screens. Hidden on desktop where the sticky TOC takes over.
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+{tocItems.length >= 3 && (
+  <details class="mobile-toc xl:hidden">
+    <summary>
+      <span>On this page</span>
+      <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </summary>
+    <ul>
+      {tocItems.map((h) => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            class:list={[h.depth === 3 && 'indent']}
+          >
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </details>
+)}
+
+<style>
+  .mobile-toc {
+    margin: 0 0 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--fg) 2%, transparent);
+    overflow: hidden;
+  }
+  .mobile-toc summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+    user-select: none;
+  }
+  .mobile-toc summary::-webkit-details-marker { display: none; }
+  .mobile-toc summary:hover { color: var(--fg); }
+  .mobile-toc .chevron {
+    transition: transform 0.2s ease;
+  }
+  .mobile-toc[open] .chevron { transform: rotate(180deg); }
+  .mobile-toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 1rem 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+  }
+  .mobile-toc li { margin: 0.2rem 0; }
+  .mobile-toc a {
+    display: block;
+    color: var(--fg-soft);
+    text-decoration: none;
+    padding: 0.2rem 0;
+    line-height: 1.4;
+  }
+  .mobile-toc a:hover { color: var(--accent); }
+  .mobile-toc a.indent { padding-left: 0.75rem; font-size: 0.8125rem; }
+</style>

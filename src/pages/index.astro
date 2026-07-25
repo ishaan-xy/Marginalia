@@ -1,0 +1,187 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostCard from '@/components/PostCard.astro';
+import FeaturedPost from '@/components/FeaturedPost.astro';
+import SubscribeForm from '@/components/SubscribeForm.astro';
+import { SITE } from '@/lib/site';
+import { getAllPosts, getAllSeries } from '@/lib/post-cache';
+import { formatDate, slugifySeries } from '@/lib/format';
+
+const allPosts = await getAllPosts();
+
+// Pick the most recent flagged-as-featured post; fall back to the newest post.
+let featured = allPosts.find((p) => p.data.featured) ?? null;
+const rest = featured ? allPosts.filter((p) => p.id !== featured!.id) : allPosts;
+
+if (!featured) {
+  featured = rest[0] ?? null;
+}
+const afterFeatured = featured ? rest.filter((p) => p.id !== featured!.id) : rest;
+const recentThree = afterFeatured.slice(0, 3);
+const olderPosts = afterFeatured.slice(3, 3 + SITE.postsPerPage);
+
+// Series summary — shown as a first-class browse unit above recent posts
+const series = await getAllSeries();
+---
+<BaseLayout>
+  {/* ─────────────────────────────────────────────
+      1. Hero — short tagline + inline subscribe
+      ───────────────────────────────────────────── */}
+  <section class="fade-up mb-12">
+    <h1 class="font-serif text-3xl sm:text-[2.5rem] leading-[1.15] font-semibold tracking-tight text-[var(--fg)] mb-4">
+      {SITE.title}
+    </h1>
+    <p class="font-serif text-lg sm:text-xl leading-relaxed text-[var(--fg-soft)] max-w-prose mb-5">
+      {SITE.tagline}
+    </p>
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+      <a
+        href="/about"
+        class="font-sans text-[var(--fg-soft)] hover:text-[var(--accent)] transition-colors underline underline-offset-2"
+      >
+        Read the manifesto &rarr;
+      </a>
+      <a
+        href="/about#subscribe"
+        class="font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+      >
+        Or subscribe
+      </a>
+    </div>
+  </section>
+
+  {/* ─────────────────────────────────────────────
+      2. Series — first-class browse unit
+      Multiple long series are the heart of this site, so they get
+      prominent placement above the post list.
+      ───────────────────────────────────────────── */}
+  {series.length > 0 && (
+    <section class="mb-16">
+      <div class="flex items-baseline justify-between gap-4 mb-6 pb-2 border-b border-[var(--line)]">
+        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)]">
+          Series
+        </h2>
+        <a href="/series/" class="text-xs font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors">
+          All {series.length} →
+        </a>
+      </div>
+      <ul class="space-y-5">
+        {series.map((s) => {
+          const slug = slugifySeries(s.name);
+          const hours = Math.round(s.totalReadingTime / 60);
+          return (
+            <li>
+              <a href={`/series/${slug}/`} class="block group">
+                <div class="flex items-baseline justify-between gap-4 mb-1">
+                  <h3 class="font-serif text-xl font-semibold tracking-tight text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors">
+                    {s.name}
+                  </h3>
+                  <span class="text-xs font-sans text-[var(--fg-faint)] shrink-0">
+                    {s.count} parts · ~{hours}h
+                  </span>
+                </div>
+                {s.description && (
+                  <p class="font-serif text-[0.9375rem] text-[var(--fg-soft)] leading-relaxed line-clamp-2">
+                    {s.description}
+                  </p>
+                )}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  )}
+
+  {/* ─────────────────────────────────────────────
+      3. Featured post (if any)
+      ───────────────────────────────────────────── */}
+  {featured && <FeaturedPost post={featured} />}
+
+  {/* ─────────────────────────────────────────────
+      4. Recent posts — 3 full cards
+      ───────────────────────────────────────────── */}
+  {recentThree.length > 0 && (
+    <section class="space-y-10">
+      {recentThree.map((post, i) => (
+        <PostCard post={post} index={i} />
+      ))}
+    </section>
+  )}
+
+  {/* ─────────────────────────────────────────────
+      5. More posts — compact list
+      ───────────────────────────────────────────── */}
+  {olderPosts.length > 0 && (
+    <section class="mt-16 pt-10 border-t border-[var(--line)]">
+      <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-6">
+        More posts
+      </h2>
+      <ul class="space-y-5">
+        {olderPosts.map((post) => (
+          <li class="flex items-baseline gap-3">
+            <time
+              datetime={post.data.pubDate.toISOString()}
+              class="text-xs font-sans text-[var(--fg-faint)] tabular-nums shrink-0 w-20"
+            >
+              {new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC',
+              }).format(post.data.pubDate)}
+            </time>
+            <a
+              href={`/${post.id}/`}
+              class="font-serif text-[1.0625rem] text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+            >
+              {post.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {afterFeatured.length === 0 && (
+    <p class="font-serif text-lg text-[var(--fg-soft)]">
+      No posts yet — check back soon.
+    </p>
+  )}
+
+  {/* ─────────────────────────────────────────────
+      6. Browse-all row — quiet, single line
+      ───────────────────────────────────────────── */}
+  <div class="mt-12 pt-8 border-t border-[var(--line)] flex items-center justify-between">
+    <a
+      href="/archive"
+      class="text-sm font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+    >
+      View all posts &rarr;
+    </a>
+    <a
+      href={SITE.social.rss}
+      class="text-sm font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+    >
+      RSS feed
+    </a>
+  </div>
+
+  {/* ─────────────────────────────────────────────
+      7. Subscribe band — last thing on the page
+      ───────────────────────────────────────────── */}
+  <section class="mt-16 p-6 sm:p-8 rounded-xl border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_4%,var(--bg))] fade-up">
+    <div class="text-center">
+      <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
+        Newsletter
+      </p>
+      <h2 class="font-serif text-2xl font-semibold mb-2">Subscribe</h2>
+      <p class="font-serif text-[1.0625rem] text-[var(--fg-soft)] mb-5 max-w-md mx-auto leading-relaxed">
+        New essays delivered to your inbox. About once a month, never on a schedule.
+      </p>
+      <div class="max-w-md mx-auto">
+        <SubscribeForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

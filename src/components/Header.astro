@@ -1,0 +1,163 @@
+---
+import { SITE } from '@/lib/site';
+import ThemeToggle from '@/components/ThemeToggle.astro';
+
+const pathname = Astro.url.pathname;
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/series', label: 'Series' },
+  { href: '/archive', label: 'Archive' },
+  { href: '/search', label: 'Search' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+---
+<header class="border-b border-[var(--line)] sticky top-0 z-40 bg-[var(--bg)]/85 backdrop-blur-md">
+  <div class="mx-auto w-full max-w-2xl px-5 sm:px-6 py-4 flex items-center justify-between gap-4">
+    <a
+      href="/"
+      class="font-serif text-lg font-semibold tracking-tight text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+    >
+      {SITE.title}
+    </a>
+
+    <nav class="flex items-center gap-5 sm:gap-6">
+      {/* Desktop nav links — hidden on mobile */}
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'text-sm transition-colors hidden sm:inline',
+            isActive(item.href)
+              ? 'text-[var(--fg)] font-medium'
+              : 'text-[var(--fg-faint)] hover:text-[var(--fg)]',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+
+      {/* Subscribe pill — hidden on mobile (moved into the dropdown) */}
+      <a
+        href="/about#subscribe"
+        class="hidden sm:inline-block text-xs font-sans uppercase tracking-wider px-3 py-1.5 rounded-full border border-[var(--line)] hover:border-[var(--accent)] hover:text-[var(--accent)] text-[var(--fg-soft)] transition-colors"
+      >
+        Subscribe
+      </a>
+
+      {/* Theme toggle — visible on both mobile and desktop (small, always accessible) */}
+      <ThemeToggle />
+
+      {/* Mobile hamburger — far-right corner on mobile only */}
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="sm:hidden p-1 text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="menu-open-icon"
+        >
+          <path d="M3 12h18M3 6h18M3 18h18" />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="menu-close-icon hidden"
+        >
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </nav>
+  </div>
+
+  {/* Mobile menu dropdown — nav links + Subscribe.
+      Theme toggle stays in the header bar (visible on mobile too). */}
+  <div
+    id="mobile-menu"
+    class="sm:hidden hidden border-t border-[var(--line)] bg-[var(--bg)]"
+  >
+    <nav class="mx-auto w-full max-w-2xl px-5 sm:px-6 py-3 flex flex-col">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'py-2.5 text-sm transition-colors border-b border-[var(--line)] last:border-b-0',
+            isActive(item.href)
+              ? 'text-[var(--fg)] font-medium'
+              : 'text-[var(--fg-soft)] hover:text-[var(--accent)]',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+
+      <a
+        href="/about#subscribe"
+        class="mt-4 self-start text-xs font-sans uppercase tracking-wider px-3 py-1.5 rounded-full border border-[var(--line)] hover:border-[var(--accent)] hover:text-[var(--accent)] text-[var(--fg-soft)] transition-colors"
+      >
+        Subscribe
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const openIcon = toggle?.querySelector('.menu-open-icon');
+  const closeIcon = toggle?.querySelector('.menu-close-icon');
+
+  function setMenuOpen(open: boolean) {
+    if (!menu || !toggle || !openIcon || !closeIcon) return;
+    menu.classList.toggle('hidden', !open);
+    openIcon.classList.toggle('hidden', open);
+    closeIcon.classList.toggle('hidden', !open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    setMenuOpen(!isOpen);
+  });
+
+  menu?.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => setMenuOpen(false));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenuOpen(false);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menu?.classList.contains('hidden')) {
+      const target = e.target as Node;
+      if (menu && !menu.contains(target) && toggle && !toggle.contains(target)) {
+        setMenuOpen(false);
+      }
+    }
+  });
+</script>

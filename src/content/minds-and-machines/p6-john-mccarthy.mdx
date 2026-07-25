@@ -1,0 +1,259 @@
+---
+title: "John McCarthy: The Man Who Named AI"
+description: "He organised the Dartmouth Conference, coined the term artificial intelligence, invented LISP, and founded the Stanford AI Laboratory. For half a century he was the field's most important institution-builder and its most stubborn defender of symbolic reasoning. The complicated legacy of the man who gave AI its name and its mission."
+pubDate: "2026-04-19"
+tags:
+  - "Key Figure"
+  - "John McCarthy"
+  - "LISP"
+  - "Symbolic AI"
+  - "Stanford AI Lab"
+series:
+  name: "Minds & Machines"
+  part: 17
+draft: false
+featured: false
+dropCap: true
+---
+
+*Stanford, California. 1971. A professor sits in his office in the Stanford AI Laboratory — a building that would not exist without him, in a field that would not have its name without him. He is forty-four years old. His hair is wild, his beard is full, his office is organised in the way that offices occupied by people who think very fast and file very slowly tend to be organised: not at all.*
+
+*He is working on a problem that he has been working on, in various forms, for the better part of twenty years: how to represent what a computer needs to know about the world in order to act intelligently within it. Not how to play chess, not how to prove theorems — though he has contributed to both of those projects. How to represent the ordinary, everyday, common-sense knowledge about the world that any intelligent agent needs in order to function: that objects fall when dropped, that people who leave a room are no longer in it, that an event that has not yet happened can be prevented, that an action performed yesterday cannot be undone today.*
+
+*The problem is harder than it looks. It is, in fact, one of the hardest problems in AI. McCarthy has been working on it for years. He will continue working on it for the rest of his life.*
+
+*He will not fully solve it. Neither will anyone else. But the framework he develops — the formal, logical approach to knowledge representation that he calls situation calculus — will shape how AI researchers think about the problem for decades, and will eventually be recognised as a foundational contribution to the field he named.*
+
+*This is what it looks like to be John McCarthy: always working on the hardest problem, always convinced that the right approach is rigorous logical formalism, always somewhat ahead of what the technology can support, always somewhat behind what the field has moved on to. Correct about the destination. Occasionally wrong about the road.*
+
+---
+
+## The Boston Boy Who Became a California Institution
+
+John McCarthy was born on September 4, 1927, in Boston, Massachusetts, the son of John Patrick McCarthy, an Irish immigrant who worked as an organiser for the Communist Party USA, and Ida Glatt McCarthy, a Jewish Lithuanian immigrant who was active in the same political movement. His parents were, by any measure, extraordinary people — deeply committed to political and social change, intellectually serious, engaged with the great questions of their era in a direct and consequential way.
+
+Growing up in a household shaped by left-wing politics and working-class immigrant experience gave McCarthy a perspective that was, in some respects, unusual among the academics and scientists he would later work alongside. He was not naive about power, not inclined to defer to authority, not particularly impressed by credentials or institutional prestige. He formed his own views and held them with a tenacity that could make him a difficult colleague and an excellent researcher.
+
+The family moved frequently during his childhood — from Boston to New York to Los Angeles, following his father's union organizing work — and McCarthy's education was correspondingly varied. He showed an early and passionate interest in mathematics, an interest that was partly self-directed: he found mathematics textbooks in the Los Angeles library and worked through them independently, ahead of what his school was teaching, because he found the material genuinely compelling rather than because anyone had directed him to it.
+
+He enrolled at Caltech at seventeen, completing his undergraduate degree in mathematics in 1948. The Caltech environment — intensely mathematical, strongly oriented toward physics and engineering, populated by exceptionally talented students who took intellectual competition seriously — suited him perfectly. He was not merely a strong student. He was a student who could see further than most of his peers, who grasped the structure of problems quickly and completely, who was not intimidated by difficulty.
+
+He went on to graduate work at Princeton, where he received his PhD in mathematics in 1951, working on operator theory. Princeton in the late 1940s was one of the great centres of world mathematics and physics — Einstein was there, von Neumann was there, the Institute for Advanced Study was just up the road — and the atmosphere of the place, the sense of being in a community where the deepest questions in science were being taken seriously and making progress, reinforced McCarthy's ambition and his standards.
+
+But by the time he received his PhD, McCarthy's attention had already shifted away from pure mathematics toward a problem that he found more compelling: the question of whether machines could think, and if so, how to make them do it.
+
+---
+
+## The Idea Before the Name
+
+McCarthy's interest in machine intelligence predated the Dartmouth Conference by several years. By the time he organised the 1956 gathering, he had been thinking seriously about the problem for at least five years, and had already developed views about the right approach that he would hold, with relatively minor modifications, for the rest of his career.
+
+The views were shaped by his mathematical training and his philosophical inclinations. McCarthy was, at his core, a logician — someone who believed that rigorous, formal reasoning was the right tool for every hard problem, and that the discipline of making things precise enough to be stated formally was valuable both for its own sake and because precision was the precondition for making genuine progress. He had been deeply influenced by the work of Frege, Russell, and the mathematical logic tradition — by the project of placing all of mathematics on rigorous logical foundations.
+
+This background led him to a specific view of AI: that intelligence was, at its core, a matter of reasoning — of drawing correct conclusions from available information — and that reasoning was something that could be formalised. If you could represent what an agent knew about its situation in a formal language, and you could specify the rules of valid inference in that language, then you could build a program that reasoned correctly about its situation. The program would not be guessing or pattern-matching. It would be reasoning, in the precise, formal sense that logicians meant by the term.
+
+This view was both McCarthy's greatest strength and his most significant limitation. It was his strength because formal reasoning is real, important, and computationally tractable in ways that other approaches to intelligence are not. Logic programming, formal verification, knowledge representation in description logics — these are mature and productive research areas that have produced real results and real applications. McCarthy was pointing at something genuine.
+
+It was his limitation because intelligence — real-world intelligence, the kind that navigates the messy, uncertain, context-dependent situations of actual life — requires more than formal reasoning from explicit premises. It requires perception, which is not a logical process. It requires learning, which is not deduction. It requires common sense, which is vast and tacit and cannot be fully made explicit. It requires the ability to act under uncertainty, to make decisions when the information available is incomplete and the time for deliberation is limited. Formal logic can handle some of this, in a carefully designed and carefully limited context. It cannot handle all of it.
+
+McCarthy understood the limitations — he was not unaware of the difficulty of perception or the problem of uncertain reasoning. He spent years developing approaches to these problems within the logical framework he preferred. But he never fully accepted that the limitations were fundamental — that there were aspects of intelligence that formal logic was constitutionally unsuited to handle. This conviction, held against the evidence that accumulated through the decades, was the most significant blindspot of a mind that was otherwise remarkably clear-sighted.
+
+---
+
+## Naming the Field: The Choice That Made History
+
+We have discussed, in the article on the Dartmouth Conference, the choice of the name "artificial intelligence" and why it mattered. But the choice deserves further attention here, because it was a deeply personal and deeply considered decision by McCarthy — not a casual choice of terminology but an act of intellectual positioning.
+
+McCarthy was choosing a name for a field that did not yet fully exist — that was a collection of scattered individuals and research programmes that he was trying to cohere into something more organised. The name he chose would shape how the field was perceived from outside, how researchers within it understood what they were doing, and what kinds of problems would be considered central versus peripheral.
+
+He considered and rejected several alternatives. "Automata studies" was too narrow — it suggested the mathematical theory of computation rather than the practical project of building intelligent machines. "Cybernetics" was Wiener's term, and McCarthy wanted to mark a distinction from the cybernetics tradition — a distinction in emphasis rather than in fundamental goals. Cybernetics was interested in feedback and control in general; AI was interested in intelligence specifically. "Machine intelligence" was acceptable but lacked the boldness McCarthy wanted.
+
+"Artificial intelligence" was direct, specific, and ambitious. It said exactly what the project was: making intelligence by artificial means. It did not hedge, did not qualify, did not suggest that the goal was something more modest than intelligence. It claimed the full ambition of the project — and in claiming it, committed the field to delivering on it.
+
+The boldness of the name was both its strength and part of its eventual problem. By claiming intelligence as the goal, McCarthy set a standard against which every result would be measured — and in measuring, would inevitably be found wanting. Every impressive AI result — every theorem proved, every game won, every conversation held — was followed by the observation that the program was not really intelligent, that it was doing something different from what human intelligence did, that the goal had not been achieved. The name created permanent vulnerability to the charge of underachievement, because the goal it described was always distant, always partially achieved, always subject to redefinition.
+
+This is the paradox of the name McCarthy chose: it was the right name for what the field was trying to do, and it created a standard that the field would spend decades being measured against and found short. A more modest name — "automated reasoning" or "intelligent systems" — would have been easier to defend and less inspiring to pursue. McCarthy chose inspiration over defensibility. The field he named spent decades defending his choice.
+
+---
+
+## LISP: The Language That Built Early AI
+
+In the months before and after the Dartmouth Conference, McCarthy was developing what would become the most important contribution of his technical career: a programming language called LISP.
+
+LISP — List Processing — was published in 1958, and it became the dominant language of AI research for the next thirty years. Understanding what LISP was and why it mattered requires understanding what was inadequate about the programming languages that preceded it for the purposes of AI.
+
+The dominant programming languages of the mid-1950s — FORTRAN, which appeared in 1957, and the various assembly languages that preceded it — were designed for numerical computation. They were built around the manipulation of numbers: reading them from memory, performing arithmetic on them, writing them back. They were good at exactly what computers had been built to do: add up columns of numbers, calculate trajectories, solve differential equations.
+
+AI programs needed to do something different. They needed to manipulate symbols — logical propositions, knowledge structures, representations of situations and actions and objects. A theorem-proving program needed to represent mathematical statements as data and manipulate them according to logical rules. A planning program needed to represent states of the world and sequences of actions. A language understanding program needed to represent words and grammatical structures and meanings. None of these things were naturally representable as numbers.
+
+McCarthy designed LISP from the ground up for symbolic manipulation. The fundamental data structure of LISP was not the number but the list — an ordered collection of elements that could themselves be lists, creating nested, hierarchical structures of arbitrary complexity. A logical proposition could be represented as a list. A knowledge structure could be represented as a list of lists. A program could be represented as a list — and this last fact, which McCarthy recognised as fundamental, had profound consequences.
+
+In LISP, programs and data had the same form: both were lists. This meant that a LISP program could manipulate other LISP programs as data — could read them, analyse them, transform them, generate them. A LISP program could write LISP programs. This property — programs as data, data as programs — is called homoiconicity, and it made LISP uniquely powerful for the purposes of AI.
+
+It made LISP powerful because intelligence, on McCarthy's view, was precisely the ability to reason about reasoning — to represent knowledge about the world, including knowledge about inference and knowledge about what one knows and does not know, and to manipulate those representations to draw valid conclusions. A language in which programs were data was a language in which a program could represent its own reasoning process as data and reason about it. This meta-cognitive capacity was, for McCarthy, essential to genuine intelligence.
+
+LISP also introduced several features that were unusual for 1958 and that became standard in later programming languages: recursive function definitions, garbage collection (automatic management of memory), conditional expressions, and functions as first-class objects that could be passed as arguments and returned as values. These were not ornaments — they were the features that made LISP expressive enough to represent the kinds of complex, recursive reasoning structures that AI programs needed.
+
+The language became the de facto standard for AI research within a few years of its publication. The MIT AI Lab, which McCarthy co-founded with Minsky in 1959, ran almost entirely on LISP for its first two decades. The Stanford AI Laboratory, which McCarthy founded in 1963, was similarly LISP-centric. The expert systems of the 1980s were largely built in LISP. The early natural language processing systems, the early vision systems, the early robotic planning systems — all LISP.
+
+LISP did not survive as a dominant language beyond the 1980s. The rise of workstations and personal computers, with their limited memory and processing power, made LISP's memory-intensive garbage collection a liability. The rise of C as a systems programming language, and the subsequent rise of object-oriented languages, provided alternative approaches that were more suitable for many applications. LISP's influence persisted through the languages it inspired — Scheme, Common Lisp, and more recently Clojure — and through the concepts it introduced that became standard in modern languages.
+
+But in its heyday, LISP was not just a programming language. It was an expression of a philosophical position about what intelligence was and how it should be built. It was McCarthy's vision of AI, made executable.
+
+---
+
+## The Stanford AI Laboratory: Building an Institution
+
+In 1963, McCarthy left MIT — where he had co-founded the AI Lab with Minsky — and moved to Stanford University in California, where he founded the Stanford Artificial Intelligence Laboratory.
+
+The move reflected several things. Partly it was an opportunity: Stanford was building its science and engineering programmes aggressively in the 1960s, and it offered McCarthy the resources and the latitude to build something substantial. Partly it was a temperamental fit: the Bay Area culture — more open, less hierarchical, more eclectic than the East Coast academic establishment — suited McCarthy's personality and politics.
+
+And partly it was a desire to build something distinctively his own. The MIT AI Lab, which he had co-founded with Minsky, had developed a culture that was as much Minsky's as his. Minsky was the more charismatic and publicly prominent of the two, the more natural leader of people, the more willing to engage with journalists and the public and the world beyond the laboratory. McCarthy was more internal, more focused on the technical work, less interested in the social and political dimensions of running a research enterprise. At Stanford, he could build an institution that reflected his own intellectual priorities without the complications of shared leadership.
+
+The Stanford AI Laboratory — known as SAIL — became one of the two great centres of AI research in the United States, alongside MIT's AI Lab. Its culture was distinctive: more formal, more concerned with mathematical rigour, more oriented toward the logical and knowledge-representation approaches that McCarthy favoured, and somewhat more collaborative with the broader Stanford computer science community. SAIL attracted a remarkable concentration of talent over its first two decades, producing important results in robotics, computer vision, natural language processing, and the formal foundations of AI.
+
+Among the researchers who passed through SAIL were people who would go on to shape the field fundamentally: Raj Reddy, who pioneered speech recognition; Feigenbaum, who would develop the expert systems approach; Terry Winograd, who built the SHRDLU natural language understanding system; Hans Moravec, who worked on robot navigation; Douglas Lenat, who worked on formal knowledge representation. The intellectual genealogy of significant portions of American AI runs directly through SAIL and through the culture McCarthy established there.
+
+McCarthy ran SAIL for many years, and his leadership style was characteristically direct and egalitarian. He was not particularly interested in hierarchy or in the management of people — he was interested in ideas, in problems, in results. He expected the researchers at SAIL to work hard and to work on important problems, and he was largely uninterested in the social management that effective institutional leadership usually requires. This could make SAIL a somewhat difficult environment — researchers who needed more guidance or more structure than McCarthy provided found the laboratory challenging. Researchers who could work independently, who had their own clear research agenda and needed only the resources and the intellectual community that SAIL provided, thrived.
+
+McCarthy's decades at Stanford — he remained there from 1962 until his retirement in 2000 and his death in 2011 — were the longest and most institutionally significant part of his career. He built SAIL, sustained it through the lean years of the AI winter, and maintained it as a productive research environment through the period when much of the field was moving toward the machine learning approaches he viewed with scepticism.
+
+---
+
+## Situation Calculus and the Problem of Common Sense
+
+Throughout the 1960s, 1970s, and 1980s, McCarthy's technical work centred on a project that was both fundamental and frustrating: the formal representation of knowledge about the real world.
+
+The project had a specific motivation. If AI systems were going to act intelligently in the real world — not just prove theorems or play chess but navigate everyday situations, execute plans, respond to unexpected events — they needed to know things about the world. They needed to know that moving an object from one place to another changes its location. That actions have effects. That time passes. That other agents have beliefs and goals. That the state of the world changes continuously, and that an agent's knowledge needs to be updated to track those changes.
+
+Representing this knowledge in a form that a computer could use — and reasoning about it correctly — turned out to be extraordinarily difficult. Not because the knowledge itself was complicated, but because the world was full of implicit assumptions, default inferences, and contextual dependencies that humans handled effortlessly but that formal systems found deeply problematic.
+
+McCarthy's approach was to develop a formal logical framework — which he called situation calculus — that could represent the state of the world at different times, the effects of actions on that state, and the relationship between an agent's actions and the situations that resulted. Situation calculus was a first-order logical framework: it represented the world in terms of objects, properties, and relations, and it expressed knowledge about the world as logical formulas that could be manipulated by inference rules.
+
+The framework was elegant and mathematically precise. It provided a clean way to represent many of the things an intelligent agent needed to know. But it immediately ran into a problem that McCarthy identified clearly and worked on for years: the frame problem.
+
+The frame problem, as McCarthy and Patrick Hayes first described it in a 1969 paper, was this: when an action is performed, some things about the world change and other things stay the same. An agent that moves a block from one location to another changes the block's location, but it does not change the colours of the other blocks, the positions of the furniture, the time of day, or the vast majority of other facts about the world. An agent needs to know that these things have not changed — needs to know that the world has not altered in all the ways it might have, except in the specific ways that the action caused.
+
+For a human being, this is trivial. We know, without thinking about it, that picking up a cup does not change the colour of the walls or the position of other people in the room. This knowledge is so basic, so deeply embedded in our understanding of how the world works, that we never need to reason about it explicitly.
+
+For a formal logical system, it is not trivial. In a formal representation of the world, every fact is either explicitly stated or must be derived from explicit statements. If you don't explicitly say that picking up the cup left the walls unchanged, the system has no basis for concluding that they are unchanged. But explicitly stating that an action leaves every other fact in the world unchanged is impossible — there are infinitely many facts that might be affected, and specifying for each one that this particular action does not change it would require an infinite number of axioms.
+
+The frame problem was not just a technical annoyance. It was a symptom of something deeper: the gap between the explicit representations that formal systems required and the implicit, contextual, background knowledge that real-world intelligence relied on. Human intelligence was deeply informal in this sense — it operated against a background of tacit knowledge so vast and so fine-grained that making it fully explicit seemed impossible. Formal AI needed everything to be explicit. The gap between formal and informal was the gap between what formal AI could handle and what real-world intelligence required.
+
+McCarthy and others worked on the frame problem for decades, developing partial solutions: non-monotonic logics that allowed default assumptions to be overridden by new information, closed-world assumptions that treated what was not stated as false, circumscription and other logical minimisation principles that allowed efficient default reasoning. None of these fully solved the problem. Each made progress on some aspects while leaving others unaddressed.
+
+The eventual response to the frame problem that proved most practically effective was not a logical solution but a learning-based one: train a system on vast quantities of data about the world, and let it develop implicit representations of how the world typically works. A large language model, trained on billions of examples of human language use, develops something that functions like common sense — not because it has been given explicit axioms about what actions change and what they leave unchanged, but because it has seen countless examples of how the world behaves and has learned statistical regularities that capture much of the relevant knowledge.
+
+McCarthy would not have been satisfied by this solution. It was not the formal, principled, logically transparent approach he sought. It was a statistical approximation — powerful, yes, but approximate, opaque, and without the guarantee of correctness that formal reasoning could provide. The learning-based approach could produce wrong answers confidently. It could fail in ways that were difficult to predict or understand. It was not the kind of intelligence McCarthy wanted to build.
+
+He was not entirely wrong to be dissatisfied. The problems with large language models that McCarthy would have pointed to — the tendency to produce plausible-sounding but incorrect information, the difficulty of providing formal guarantees of behaviour, the opacity of what the system has "learned" — are real problems that the field is actively grappling with. McCarthy's demand for rigour and transparency was not misplaced. But his insistence that formal logic was the only acceptable path to rigour meant that he spent his career on a road that did not lead where he hoped.
+
+---
+
+## The Cold War Context: DARPA, Russia, and the Race for Machine Minds
+
+McCarthy's career was shaped, in ways that are easy to overlook from the present, by the Cold War context in which it unfolded. The funding that built SAIL, the research priorities that defined early AI, the urgency that McCarthy and his contemporaries brought to the project of machine intelligence — all of these were influenced, sometimes directly and sometimes indirectly, by the competition with the Soviet Union.
+
+The Soviet Union's 1957 launch of Sputnik — the first artificial satellite, which demonstrated that the Soviets had rocket technology capable of reaching orbit — had sent a shock through American science and education. The US response included a massive increase in federal investment in science and technology, channelled partly through the National Science Foundation and partly through DARPA. AI research was one of the beneficiaries: DARPA saw potential military applications in machine reasoning, automatic translation of Russian documents, and intelligent systems for command and control.
+
+McCarthy navigated this funding landscape with pragmatism. He was not uncritical of the military and its uses of technology — his parents' left-wing politics had given him a sceptical view of American military and foreign policy, and he maintained that scepticism throughout his career. But he was willing to accept DARPA funding for basic AI research that he regarded as genuinely valuable regardless of its potential military applications, and he did not share Wiener's principled refusal to work on defence-funded projects.
+
+The language of the Cold War also shaped how AI was discussed and funded. Machine translation was funded not because it was intellectually interesting but because it would allow American intelligence services to process Soviet scientific and military documents more efficiently. Chess-playing programs were interesting partly because the Soviet Union had a strong chess tradition, and a machine that could beat Soviet grandmasters would be a symbolic victory in the intellectual competition between the two systems. The question of which system — capitalist or communist — could build more capable machines was genuinely contested in the 1950s and 1960s.
+
+McCarthy's own intellectual agenda was not primarily shaped by Cold War priorities — he was interested in formal reasoning and knowledge representation because he found them compelling problems, not because they had obvious military applications. But the funding environment that made SAIL possible was deeply shaped by the Cold War, and McCarthy operated within that environment more comfortably than some of his contemporaries.
+
+---
+
+## McCarthy and Minsky: The Most Important Friendship in AI
+
+McCarthy's relationship with Marvin Minsky is one of the most interesting and most consequential in the history of AI. They co-founded the MIT AI Lab. They were co-organisers of the Dartmouth Conference. They were, for a time, the two most influential people in the field. And they were, in fundamental ways, different enough from each other to represent the two poles of a tension that ran through early AI.
+
+McCarthy was the formalist — the logician who wanted precision, explicit representation, provable correctness. Minsky was the pragmatist — the eclecticist who was interested in intelligence as a phenomenon and was willing to use any approach that seemed to illuminate it, from neural networks to frame theory to the Society of Mind conception of intelligence as the interaction of many simple agents.
+
+Their friendship was warm and genuine — they respected each other's intelligence, they shared a commitment to the fundamental project of understanding and building intelligence, they maintained personal warmth throughout decades of intellectual disagreement. But they were intellectually different in ways that sometimes pulled them in different directions and occasionally produced genuine friction.
+
+The most significant point of disagreement was over the neural network approach that Minsky and Seymour Papert attacked in their 1969 book *Perceptrons*. The book demonstrated mathematical limitations of single-layer perceptrons — showing that certain classes of problems, including the XOR problem, could not be solved by a single-layer linear classifier. The book was technically correct and argued with great rigour. It was also, many subsequent researchers believe, misleading in its implications — the limitations it demonstrated for single-layer perceptrons did not apply to multi-layer networks, but the book's influence discouraged work on neural networks for a decade.
+
+McCarthy was not the author of *Perceptrons*, and the book's conclusions did not directly align with his own approach — he was working on logical approaches, not perceptrons. But the book's general effect — of concentrating AI research on symbolic approaches and discouraging connectionist alternatives — was broadly consistent with the direction McCarthy was pointing. The first AI winter fell hardest on the approaches that McCarthy's framework did not favour, which was not entirely coincidental.
+
+In retrospect, both McCarthy and Minsky were wrong about the prospects of neural networks, though in different ways. McCarthy was wrong to be so committed to formal logic as the primary path to intelligence — the success of statistical learning demonstrated that intelligence could be achieved without formal explicit reasoning. Minsky was wrong in the implications he drew from *Perceptrons*, implications that delayed the development of the approach that would ultimately prove most productive. Their shared underestimation of what neural networks would eventually achieve is one of the most significant intellectual errors in the history of AI.
+
+McCarthy, to his credit, was more honest than most in acknowledging that the approaches he favoured had not fully delivered. In his later career he regularly noted the limitations of symbolic AI and the importance of the problems — learning, perception, common sense — that his approach had not solved. He did not claim that his vision had been vindicated. He continued to believe it pointed in the right direction, but he acknowledged the distance remaining.
+
+---
+
+## The Later Career: Correctness and the Limits of Logic
+
+From the 1980s onward, McCarthy's career had a quality that is best described as honourable persistence. The field around him was changing — neural networks were returning to prominence, machine learning was developing rapidly, the statistical approaches he had long regarded as inferior to formal methods were producing results that were difficult to dismiss. McCarthy continued to work on logical approaches to knowledge representation and common sense, continuing to believe that the formal path was the right one, continuing to make genuine technical contributions.
+
+His work on non-monotonic reasoning — on logical systems that could represent default assumptions and retract them in the light of new information — was important and influential. His development of circumscription — a logical principle that formalised the "closed world assumption" and allowed efficient default reasoning — was a significant technical achievement. His continued work on situation calculus and its relationship to the representation of action and change remained relevant to researchers working on formal AI.
+
+But the big picture was not going the way he had hoped. The knowledge-based expert systems of the 1980s — which were, in many ways, implementations of the symbolic knowledge representation approach he had advocated — had their moment of commercial success and then collapsed. The symbolic AI research programme that Dartmouth had launched and SAIL had sustained did not produce the general intelligent systems that had been hoped for. The machine learning revolution that began in the 2000s and exploded in the 2010s was built on statistical and neural network approaches, not on formal logic.
+
+McCarthy watched all of this with a combination of genuine intellectual engagement and stubborn loyalty to his own approach. He was not dismissive of machine learning — he understood what it was doing and recognised its practical achievements. But he believed that the achievements were incomplete — that machine learning systems lacked something essential that formal reasoning provided — and he continued to believe that the formal approach would eventually need to be part of any fully satisfying solution.
+
+He published a 2007 paper titled "From Here to Human-Level AI," which laid out his views on what remained to be done. The paper identified several capabilities that current AI systems lacked — including the ability to reason about their own knowledge and its limitations, the ability to represent and reason about the knowledge of others, and the ability to learn from very few examples the way humans did. These were real gaps. The paper was not wrong about what was missing. But its proposed solution — more formal logic, better knowledge representation, improved logical reasoning — was a solution that the field had been trying for decades without achieving general intelligence.
+
+McCarthy died on October 24, 2011, at the age of eighty-four. He had been working until close to the end, still engaged with the foundational questions he had spent his career on, still convinced that the formal approach was right even as the world moved decisively toward statistical learning.
+
+---
+
+## The Legacy: What McCarthy Actually Built
+
+John McCarthy's legacy is easier to assess now, more than a decade after his death and with the benefit of the deep learning revolution that has transformed the field he named, than it was when he was alive.
+
+The permanent contributions are clear. The name: "artificial intelligence" gave the field its identity and its mission, and the identity and mission have endured even as the specific approaches have changed completely. The language: LISP shaped how an entire generation of AI researchers thought about programming, introduced concepts — functions as first-class objects, garbage collection, list processing — that became standard in modern languages, and made possible the implementation of the symbolic AI programs that defined the field's first three decades. The institution: SAIL produced an extraordinary concentration of important results and important people, and its culture of rigorous, ambitious, mathematically serious AI research left a lasting mark on the field.
+
+The influence on research directions is more complicated to assess. The symbolic AI programme that McCarthy championed produced real results — expert systems, knowledge representation languages, formal verification methods — that have genuine applications and genuine value. But it did not produce general machine intelligence, and the approaches that are currently making the most progress toward that goal are approaches that McCarthy did not favour and that are in some ways antithetical to his vision.
+
+This is not an unusual fate for a scientific pioneer. Newton's approach to mechanics was indispensable for the understanding of classical physics and eventually had to be superseded by relativity and quantum mechanics to handle the phenomena it could not explain. Darwin's understanding of evolution was correct in its fundamentals and needed to be supplemented by genetics, molecular biology, and population genetics to achieve its full form. McCarthy's logical approach to AI was correct in its insistence on precision and explicitness, and it needed to be supplemented — and in some domains replaced — by learning-based approaches to handle the problems it could not solve.
+
+What McCarthy got permanently right was the ambition. The insistence that intelligence was a real phenomenon that could be understood and built — that it was not magical, not uniquely human, not beyond the reach of rigorous scientific investigation — was the founding conviction of the field, and it has been vindicated. Not in the timescale McCarthy imagined, and not by the methods he preferred. But the conviction was right.
+
+What he got permanently right was also the standard. The demand that AI systems do something real — not just appear to be intelligent, not just satisfy a superficial behavioural test, but actually represent and reason and know — is a standard that the field needs to hold itself to. The worry that current AI systems are impressive but brittle, powerful but opaque, capable of producing correct-sounding answers without genuine understanding — this is McCarthy's worry, and it is a legitimate worry. He would not be satisfied by the current state of the art. He would be asking harder questions.
+
+---
+
+## McCarthy the Person: Brilliant, Difficult, Essential
+
+McCarthy's personality was, by all accounts, distinctive. He was direct to the point of bluntness — he said what he thought, without the diplomatic softening that academic culture typically requires, and he was not particularly concerned with whether his directness was comfortable for the people on the receiving end. He was generous with his ideas — he shared his thinking freely, gave credit honestly, was not territorial about the problems he was working on. He was intellectually competitive in the way that highly capable people often are: he genuinely enjoyed the contest of ideas, the process of having his arguments challenged and of challenging others'.
+
+He was also capable of great warmth, particular with students and younger researchers who were genuinely trying to understand what he was working on. He was a patient teacher when the student was serious — when they wanted to understand the ideas, not just acquire the credentials. He was impatient with superficiality, with people who wanted to seem to understand without doing the work of actually understanding.
+
+He was politically engaged throughout his life, in ways that reflected his parents' influence. He was deeply concerned about nuclear weapons and the risk of nuclear war, and he contributed to arms control discussions from a technical perspective. He was interested in the relationship between AI and democracy, in the question of whether intelligent machines would increase or decrease the equality of power in society. He was sceptical of authority — of governments, of corporations, of established institutions — and this scepticism showed up in his intellectual work as well as in his politics: he was not inclined to accept received views without examination, and he was not deterred by the fact that his views were minority views.
+
+He maintained, throughout a long career, the quality that had made him extraordinary as a young researcher: the ability to work on the hardest problems, to sustain attention on questions that resisted easy answers, to keep asking the question even when the answer was not coming. This is rarer than it sounds. Most researchers, faced with decades of difficulty on a central problem, find ways to redirect their attention toward questions that are more tractable. McCarthy did not. He kept working on knowledge representation and common sense reasoning until the end of his career, because he believed those were the right problems and he was not willing to work on problems he found less important.
+
+He was right that they were the right problems. He was right that they had not been solved. He was, about the solution, probably wrong.
+
+---
+
+## The Name Lives On
+
+John McCarthy gave AI its name in 1955. The name is still with us, still defining the field, still carrying the ambition and the vulnerability that he built into it when he chose it.
+
+The field that bears the name he chose is now one of the most important in the world — economically, socially, politically, intellectually. It employs millions of people, consumes hundreds of billions of dollars of investment, and produces systems that are reshaping virtually every domain of human activity. McCarthy did not imagine the specific form this would take. He could not have. But he imagined that intelligence could be built, that it was worth building, and that the project was fundamental enough to deserve its own name and its own field.
+
+He was right. The name was right. The ambition was right. The specific technical approach he championed was, in the end, not sufficient — but it was not nothing. It was a necessary part of the journey, a stage in the development of the field that produced real understanding and real results even as it revealed, through its limitations, the need for different approaches.
+
+McCarthy was not the greatest technical contributor to AI — Turing's foundational work in computability and the philosophy of machine intelligence, Shannon's information theory, Hinton's development of deep learning, and a dozen other contributions were more technically foundational or more practically consequential. But he was the field's most important institution-builder, the person who did more than anyone else to give AI its identity, its community, and its mission.
+
+That is enough. That is, perhaps, exactly what the field needed from him, and what it got.
+
+---
+
+## Further Reading
+
+- **"Programs with Common Sense" by John McCarthy (1958)** — McCarthy's classic paper on the Advice Taker — his first proposal for a general knowledge-based AI system. Still worth reading as a statement of the symbolic AI vision at its most ambitious.
+- **"Some Expert Systems Need Common Sense" by John McCarthy (1984)** — McCarthy's own assessment of what expert systems lacked and what was needed to go further. Honest about the limitations of the symbolic approach.
+- **"From Here to Human-Level AI" by John McCarthy (2007)** — His late-career synthesis of what remained to be done. A clear statement of what he thought was missing in current AI.
+- **"Hackers: Heroes of the Computer Revolution" by Steven Levy** — Captures the culture of the early AI community that McCarthy helped create at MIT, with vivid portraits of the people who built the field.
+- **"The History of LISP" by John McCarthy (1978)** — McCarthy's own account of how LISP was developed. Essential for understanding the ideas behind the language and their relationship to his broader vision of AI.
+
+---
+
+*Next in the Profiles series: **P7 — Marvin Minsky: The Brilliant Optimist Who Got It Wrong** — His towering influence on early AI, his wildly overconfident predictions that a generation would see machine intelligence, the devastating critique of neural networks that sent the field in the wrong direction for a decade, and the late-career vision of the Society of Mind that remains one of the most original theories of intelligence ever proposed. The most complex figure in the history of AI.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If McCarthy's story — the man who named the field and spent his life trying to build what he had named — opened up questions about the relationship between ambition and method in science, share it with someone who would find those questions worth exploring.*

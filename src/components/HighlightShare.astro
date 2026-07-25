@@ -1,0 +1,82 @@
+---
+// Highlight-to-share popup: when user selects text inside an article,
+// a small popup appears with a "Quote on X" link.
+// Pure vanilla JS, no dependencies.
+---
+<div id="highlight-share" class="highlight-share" aria-hidden="true">
+  <button type="button" data-action="quote-twitter" title="Quote on X">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  </button>
+  <button type="button" data-action="copy" title="Copy quote">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"/>
+      <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  const popup = document.getElementById('highlight-share');
+  if (popup) {
+    const article = document.querySelector('article .prose, .prose');
+    const quoteBtn = popup.querySelector('[data-action="quote-twitter"]');
+    const copyBtn = popup.querySelector('[data-action="copy"]');
+
+    function selectionText(): string {
+      const sel = window.getSelection();
+      return sel ? sel.toString().trim() : '';
+    }
+
+    function showPopup() {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || sel.toString().trim().length < 4) {
+        popup.classList.remove('visible');
+        return;
+      }
+      if (article && !article.contains(sel.anchorNode)) {
+        popup.classList.remove('visible');
+        return;
+      }
+      const range = sel.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      // Position relative to viewport, then offset by scroll
+      popup.style.left = `${rect.left + rect.width / 2 + window.scrollX}px`;
+      popup.style.top = `${rect.top + window.scrollY - 12}px`;
+      popup.classList.add('visible');
+    }
+
+    document.addEventListener('mouseup', () => {
+      // Defer so the selection is finalized
+      setTimeout(showPopup, 10);
+    });
+    document.addEventListener('selectionchange', () => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed) popup.classList.remove('visible');
+    });
+    document.addEventListener('scroll', () => {
+      popup.classList.remove('visible');
+    }, { passive: true });
+
+    quoteBtn?.addEventListener('click', () => {
+      const q = selectionText();
+      const url = window.location.href;
+      const text = q.length > 200 ? `"${q.slice(0, 197)}…"` : `"${q}"`;
+      window.open(
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)} ${encodeURIComponent(url)}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    });
+
+    copyBtn?.addEventListener('click', async () => {
+      const q = selectionText();
+      try {
+        await navigator.clipboard.writeText(q);
+        copyBtn.setAttribute('title', 'Copied!');
+        setTimeout(() => copyBtn.setAttribute('title', 'Copy quote'), 1500);
+      } catch {}
+    });
+  }
+</script>

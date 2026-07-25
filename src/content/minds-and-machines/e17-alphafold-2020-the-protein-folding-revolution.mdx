@@ -1,0 +1,264 @@
+---
+title: "AlphaFold, 2020: The Protein Folding Revolution"
+description: "The full story of how DeepMind's AlphaFold 2 solved one of biology's grand challenges — predicting protein structures from amino acid sequences — and why this single AI achievement has already transformed drug discovery, biological research, and the relationship between AI and science. The most scientifically consequential AI result since the deep learning revolution began, and the event that earned AI its first Nobel Prize."
+pubDate: "2026-04-26"
+tags:
+  - "Key Event"
+  - "AlphaFold"
+  - "DeepMind"
+  - "Protein Folding"
+  - "Scientific AI"
+  - "Nobel Prize"
+series:
+  name: "Minds & Machines"
+  part: 51
+draft: false
+featured: false
+dropCap: true
+---
+
+*Hinxton, England. November 30, 2020. The Critical Assessment of Protein Structure Prediction — CASP14 — announces its results. CASP is a biennial competition that has been running since 1994, evaluating how accurately computational methods can predict protein structures from amino acid sequences. The competition is the gold standard for measuring progress on one of biology's most important computational problems.*
+
+*The results are unexpected in the way that truly transformative results are always unexpected: the gap between what was expected and what happened is so large that the observers at first question their own reading of the numbers.*
+
+*AlphaFold 2 — a system developed by DeepMind, a London AI company owned by Google — has achieved a median GDT score of approximately 92.4 on the CASP14 targets. The previous best score was approximately 75. The current standard for what counts as "experimental quality" accuracy — the accuracy comparable to expensive, time-consuming physical determination of structure — is considered to be around 90.*
+
+*AlphaFold 2 has not just improved on the previous best. It has solved the problem.*
+
+*John Moult, who has chaired CASP since its founding, says: "In some sense the problem is solved."*
+
+*The fifty-year-old grand challenge of computational biology — the protein folding problem — has been solved by an AI system in a single competition cycle.*
+
+---
+
+## The Problem: Why Protein Structure Matters
+
+To understand why AlphaFold's achievement is important, you need to understand what proteins are and why their structure matters.
+
+Proteins are the molecular machines of life. They perform virtually every biological function: enzymes catalyse chemical reactions, receptors receive signals from the environment, structural proteins give cells their shape, transporters carry molecules across membranes, antibodies recognise and neutralise pathogens. A single human cell contains thousands of different proteins, each with a specific three-dimensional structure that determines its specific function.
+
+The three-dimensional structure of a protein is determined by its one-dimensional sequence of amino acids — the specific order of the twenty types of amino acid that comprise the protein. The sequence is specified by the DNA that encodes the gene. When the protein is manufactured by the cell's ribosome, the chain of amino acids spontaneously folds into its specific three-dimensional structure, guided by physical forces: the charges of atoms, the hydrophobicity of different amino acids, the formation of hydrogen bonds and other molecular interactions.
+
+The specific three-dimensional structure is everything. A small change in sequence — even a single amino acid mutation — can dramatically change the structure and therefore the function of a protein. The diseases caused by protein misfolding — Alzheimer's, Parkinson's, ALS, many others — involve proteins that fold into incorrect structures. The targets of most drugs are proteins whose function is altered by the drug's binding; understanding the protein's structure is essential for designing drugs that bind to the right site with the right effect.
+
+For fifty years, the protein folding problem — predicting the three-dimensional structure from the one-dimensional sequence — was one of the most important unsolved problems in computational biology. The experimental methods for determining protein structure — X-ray crystallography, cryo-electron microscopy, nuclear magnetic resonance spectroscopy — could determine structures accurately, but they were slow (taking months to years per structure), expensive, and technically demanding. They required large quantities of purified protein, specialised equipment, and expert researchers. And they could not determine structures for all proteins — some proteins were too small, too large, too flexible, or too difficult to purify in sufficient quantities for experimental determination.
+
+The result was a massive structural knowledge gap. By 2020, the sequences of hundreds of millions of proteins were known — sequencing had become cheap and fast. But the structures of only approximately 170,000 proteins had been experimentally determined, most of them redundant (many structures determined for the same protein or closely related proteins). The vast majority of known proteins had no experimentally determined structure.
+
+---
+
+## Fifty Years of Trying: The History of the Problem
+
+The protein folding problem was formally articulated by Cyrus Levinthal in 1969, in what became known as "Levinthal's paradox." Levinthal pointed out that a protein with a hundred amino acids could theoretically fold into an astronomical number of possible configurations — if the protein explored configurations randomly, it would take longer than the age of the universe to find the correct folded structure. Yet proteins fold in microseconds to milliseconds. There must be folding pathways — specific routes through the conformational space that guided the protein rapidly to its correct structure.
+
+Levinthal's paradox implied that understanding protein folding required understanding these folding pathways — the specific mechanisms by which the physical forces guiding folding navigated the protein to its correct structure. This was both a theoretical problem (understanding the physics of folding) and a computational problem (building algorithms that could predict the correct structure from the sequence).
+
+The competition CASP, established in 1994, provided a common benchmark for progress on the computational problem. Every two years, CASP provided researchers with protein sequences whose experimental structures had recently been determined but had not been publicly released. Teams would submit their structure predictions, and the predictions would be evaluated against the experimentally determined structures when the results were announced.
+
+CASP allowed the field to track progress rigorously and to compare different computational approaches on a common test set. For the first twenty-five years of CASP, progress was steady but slow. The best methods improved gradually, reducing the error in structure predictions by a small amount each cycle. By 2018 — CASP13 — the best methods were achieving GDT scores of approximately 60-70, clearly better than random but far from the experimental accuracy that would make computational prediction genuinely useful for research.
+
+The first AlphaFold — AlphaFold 1, submitted to CASP13 in 2018 — performed dramatically better than any other system, winning that competition with a substantial margin. But the GDT scores it achieved were still not in the range that would count as solving the problem. The protein structure prediction community recognised that AlphaFold represented a significant advance, but the gap to solving the problem still seemed large.
+
+The development of AlphaFold 2 — the system that would be submitted to CASP14 in 2020 — involved a fundamental reimagining of the approach, building on the Transformer architecture that had been transforming NLP since 2017. The development was intense and fast-moving, representing some of the most creative and technically ambitious AI research of its era.
+
+---
+
+## The Development of AlphaFold 2: A New Approach
+
+John Jumper, the researcher who led AlphaFold 2's development, joined DeepMind in 2017 with a specific background: a PhD in computational chemistry and theoretical biophysics, and a postdoctoral position at the University of Chicago where he had been working on exactly the protein folding problem. He was, in the specific technical sense, one of the most qualified people in the world to work on the problem that AlphaFold 2 would solve.
+
+Jumper's insight, developed in collaboration with the DeepMind team, was that protein structure prediction could be reformulated as a geometric learning problem. Rather than approaching the problem primarily through physical simulation — using molecular dynamics to simulate the folding process — or through statistical methods based on patterns in known structures, Jumper proposed an approach that combined physical constraints with learned representations of the specific patterns of amino acid co-evolution.
+
+The key insight was that amino acids that were physically close in the three-dimensional structure of a protein tended to co-evolve — to change together over evolutionary time — because mutations that disrupted the physical interaction between them tended to be deleterious and were therefore selected against. By analysing large multiple sequence alignments — collections of homologous protein sequences from many different species — AlphaFold 2 could identify which pairs of amino acid positions tended to co-evolve, and from these co-evolutionary patterns, infer which pairs were physically close in the three-dimensional structure.
+
+This co-evolutionary information was combined with geometric attention — an application of the Transformer architecture to the specific problem of representing and reasoning about three-dimensional molecular geometry. The resulting system could process the amino acid sequence of a protein, extract co-evolutionary patterns from a database of related sequences, and produce a detailed prediction of the protein's three-dimensional structure.
+
+The training of AlphaFold 2 used the PDB — the Protein Data Bank — the central repository of experimentally determined protein structures, which by 2020 contained approximately 170,000 structures. The network was trained to predict the known structures from the sequences, learning the patterns of amino acid chemistry, co-evolution, and geometric constraint that determined how sequences folded into structures.
+
+The development process involved multiple cycles of architectural innovation, training at scale, and evaluation against known structures. The team explored many alternative approaches, discarded approaches that didn't work, and built iteratively on the approaches that did. The competitive pressure of CASP14 — the knowledge that the performance would be publicly evaluated against other methods — drove the development with a specific urgency that Jumper and Hassabis have both described as productive.
+
+---
+
+## The CASP14 Result: A Moment of Recognition
+
+The CASP14 results, announced in November 2020, were a moment of recognition rather than surprise for the DeepMind team — they knew, from their evaluation against held-out training data, that AlphaFold 2 was performing at a qualitatively different level than any previous system. But the public announcement — the confirmation that the performance held on the actual CASP14 targets — was still an emotional moment.
+
+The assessment by the CASP community was immediate and clear. Many CASP participants are professional protein structure predictors who have devoted their careers to this problem. Their reaction to the AlphaFold 2 results combined admiration for the technical achievement with something more complicated — the recognition that the problem they had been working on was now solved, and that the solving had been done by an AI system from outside their field.
+
+Some of the reaction was concerned with credit. DeepMind's submission to CASP14 did not include a paper describing the technical details of AlphaFold 2, which was unconventional for a scientific competition. The technical details were eventually published in Nature in 2021, but the delay created some friction with the scientific community that had been trying to understand and build on the approach.
+
+Some of the reaction was concerned with access. If AlphaFold 2 solved protein structure prediction, what would happen to the researchers whose careers had been built on experimental structure determination or on developing computational prediction methods? The democratisation of structure prediction that AlphaFold enabled was clearly good for biology broadly, but the specific researchers whose expertise was being superseded faced a specific challenge.
+
+The reaction also included genuine, largely unambiguous excitement from the broader biological community. For researchers who were working on diseases, on drug targets, on understanding fundamental biology — and who had been dealing with the gap between what they needed to know and what structure determination could tell them — AlphaFold 2's capability was not a threat but an extraordinary gift.
+
+---
+
+## The Biology: What AlphaFold Has Already Enabled
+
+In the years since AlphaFold 2's CASP14 result, the specific scientific impact of the system has become concrete and measurable. The list of research that has been enabled or accelerated by AlphaFold predictions is long and growing.
+
+**Structural genomics at scale.** DeepMind released, in 2021, predicted structures for the entire human proteome — all approximately 20,000 proteins encoded in the human genome — and for the proteomes of twenty other organisms. This database, hosted by the European Bioinformatics Institute, has been used by tens of thousands of researchers worldwide. By 2023, the database had been expanded to cover more than 200 million proteins from across the tree of life — virtually every protein whose sequence is known.
+
+**Drug discovery acceleration.** Pharmaceutical companies have incorporated AlphaFold predictions into their drug discovery pipelines, using predicted structures to identify potential drug binding sites, to design molecules that bind those sites, and to understand how existing drugs interact with their targets. The specific acceleration is hard to quantify precisely, but companies have reported significant reductions in the time required for certain phases of the drug discovery process.
+
+**Malaria research.** Researchers studying the malaria parasite Plasmodium falciparum — a parasite with many poorly understood proteins — used AlphaFold predictions to identify structural homologs for P. falciparum proteins with no known function. The structural homologs suggested functional hypotheses that could be tested experimentally, accelerating the understanding of parasite biology and the identification of potential drug targets.
+
+**SARS-CoV-2 research.** AlphaFold predictions of SARS-CoV-2 protein structures contributed to the rapid research response to the COVID-19 pandemic, providing structural information about viral proteins that was used in the design of therapeutic antibodies and in the understanding of the viral replication cycle.
+
+**Fundamental biology.** Beyond disease-relevant proteins, AlphaFold predictions have been used to understand the proteins of species across the tree of life — insects, plants, bacteria, archaea — for which experimental structure determination would have been practically impossible at the scale AlphaFold enables. The structural characterisation of the proteomes of diverse organisms has revealed evolutionary relationships, functional conservation, and structural diversity that would have taken decades to understand through experimental methods alone.
+
+---
+
+## The Technical Achievement: What AlphaFold Actually Does
+
+The technical approach of AlphaFold 2 is worth describing in some detail, because understanding what it does illuminates both the achievement and its relationship to the broader deep learning research programme.
+
+AlphaFold 2 processes three types of information about a target protein:
+
+**The sequence.** The amino acid sequence of the target protein, represented as a string of characters corresponding to the twenty amino acid types.
+
+**The multiple sequence alignment (MSA).** A collection of sequences from homologous proteins — proteins with similar sequences from other organisms. The MSA captures the co-evolutionary patterns that reflect the physical constraints of the three-dimensional structure: positions that co-evolve tend to be physically close in the structure.
+
+**Templates.** Known structures of homologous proteins from the PDB. The structural templates provide direct information about the overall fold if closely related structures are available, or indirect information about likely structural features if more distant homologs are used.
+
+AlphaFold 2 processes all three types of information using a novel neural network architecture called "Evoformer" — a Transformer-based architecture specifically designed for the protein structure prediction problem. The Evoformer processes the MSA and the pairwise relationships between amino acid positions in a coupled way, allowing the co-evolutionary patterns to inform the pairwise distance predictions and vice versa.
+
+The output of the Evoformer is a representation of the amino acid sequence and the pairwise relationships between positions that encodes both the co-evolutionary signals and the learned patterns of protein folding. This representation is then processed by a structure module that converts it into explicit three-dimensional coordinates, producing a detailed prediction of each atom's position in the folded structure.
+
+The confidence measure — AlphaFold's estimate of how accurate each part of its prediction is — is one of the most practically useful features of the system. AlphaFold assigns a per-residue confidence score (pLDDT — predicted local distance difference test) to each position in the predicted structure. High-confidence regions are very likely to be accurately predicted; low-confidence regions are more uncertain and may represent flexible parts of the protein that lack a stable structure in isolation.
+
+The confidence measure allows researchers to use AlphaFold predictions intelligently — trusting the high-confidence parts of predictions for drug binding site analysis and other applications, while treating the low-confidence parts with appropriate uncertainty.
+
+---
+
+## What AlphaFold Cannot Do: The Remaining Challenges
+
+For all its extraordinary capabilities, AlphaFold 2 has specific limitations that are important for understanding both what has been solved and what remains to be done.
+
+**Intrinsically disordered regions.** Many proteins contain regions that do not have a stable three-dimensional structure under physiological conditions — they are intrinsically disordered. AlphaFold correctly assigns low confidence to these regions, but it cannot predict the ensemble of structures that disordered regions sample, which is important for understanding their function.
+
+**Protein complexes.** Many proteins function in complexes with other proteins, and their structure in the complex may be different from their structure in isolation. The original AlphaFold 2 was designed to predict single-chain structures, though subsequent work by AlphaFold-Multimer and by academic researchers has extended the approach to protein-protein complexes.
+
+**Membrane proteins.** Proteins embedded in cell membranes have specific structural features and experimental challenges that make them difficult to study and that create specific challenges for computational prediction. AlphaFold performs less well on membrane proteins than on soluble proteins, though still much better than previous methods.
+
+**Dynamic aspects of protein function.** Proteins are not static structures — they move, flex, and undergo conformational changes that are often essential for their function. AlphaFold predicts a single structure (the ground-state or lowest-energy structure) rather than an ensemble of structures representing the protein's dynamics. Understanding the dynamics requires additional approaches.
+
+**Protein design.** AlphaFold solves the forward problem (predicting structure from sequence) but not the inverse problem (designing sequences that fold into a desired structure). Protein design — the ability to engineer proteins with specific functions — is a separate challenge that requires different approaches, though AlphaFold predictions are valuable inputs to design algorithms.
+
+These limitations are real but should not obscure the magnitude of what has been achieved. The core prediction problem — predicting the structure of a protein from its sequence to experimental quality accuracy — has been solved for the vast majority of proteins. The remaining challenges are real and are being actively worked on, but they do not diminish the fundamental significance of what AlphaFold 2 accomplished.
+
+---
+
+## The Database: Democratising Structural Biology
+
+DeepMind's decision to release AlphaFold's predictions as a free, publicly accessible database — rather than commercialising them exclusively — was as consequential for the scientific impact of the system as the technical achievement itself.
+
+The AlphaFold Protein Structure Database, launched in partnership with the European Bioinformatics Institute in July 2021, initially contained predicted structures for approximately 350,000 proteins, including the human proteome and the proteomes of a range of important model organisms. By 2022, the database had been expanded to approximately 200 million proteins from across the tree of life.
+
+The database is freely available — any researcher, anywhere in the world, can download structure predictions for any protein of interest. This is a significant democratisation of structural biology. Previously, the ability to access protein structures depended on either the resources to determine them experimentally or the luck of having a homologous protein in the PDB. Now, any researcher with internet access can obtain a structure prediction for any protein they care about.
+
+The impact on researchers in lower-income countries has been particularly significant. Protein structure determination requires expensive equipment, specialised expertise, and significant resources. The AlphaFold database makes structural information accessible to researchers who would not otherwise have access to it, enabling science that would not have happened.
+
+The decision to make the database free and open was not inevitable — a commercial alternative, in which access to structure predictions was provided through a paid API, would have generated significant revenue. The choice to provide the information freely reflects both the mission of DeepMind — to benefit humanity broadly, not just to generate commercial value — and the specific decision by Hassabis and the DeepMind leadership to prioritise scientific impact over commercial extraction.
+
+---
+
+## The Commercial Dimension: Isomorphic Labs and Drug Discovery
+
+DeepMind's scientific mission and the commercial opportunities created by AlphaFold are not entirely separate. In 2021, DeepMind announced the establishment of Isomorphic Labs — a sister company specifically focused on applying AI to drug discovery.
+
+Isomorphic Labs licenses AlphaFold technology from DeepMind and builds on it with additional proprietary methods to create an end-to-end AI drug discovery pipeline. The company has formed partnerships with major pharmaceutical companies — Eli Lilly and Novartis announced multi-hundred-million-dollar research collaborations in 2023 — to apply its AI-driven approach to specific drug targets.
+
+The commercial potential is substantial. Drug discovery is extremely expensive — the average cost of bringing a new drug to market is estimated at over $2 billion, largely due to the high failure rate in clinical trials. If AI can improve the success rate of early-stage drug discovery — by better predicting which molecules will bind to which targets, by better predicting which targets are most relevant to disease — the economic value is enormous.
+
+The Isomorphic Labs model reflects a specific theory of how to translate scientific achievement into commercial value: create a separate commercial entity to pursue the applications, while maintaining the research culture of the parent organisation. This structure allows DeepMind to maintain its scientific focus while the commercial applications are pursued through an entity with the appropriate commercial culture and accountability.
+
+Whether this model will produce the drug discovery results that Isomorphic Labs is promising — whether AI can genuinely transform the economics of drug discovery in the ways that the company's research suggests — is still to be demonstrated at clinical scale. The early results are encouraging but the clinical evidence is still developing.
+
+---
+
+## Beyond Proteins: Generative AI for Biology
+
+The success of AlphaFold has been followed by a wave of AI applications in biology that extend beyond structure prediction to the broader challenge of understanding and engineering biological systems.
+
+**Protein design.** David Baker's group at the University of Washington, whose work was recognised alongside AlphaFold in the 2024 Nobel Prize, has developed computational methods for designing novel proteins from scratch — proteins that fold into desired structures and have desired functions. The combination of Baker's design methods with AlphaFold's structure prediction has produced a generation of designed proteins with remarkable properties, including designed enzymes, designed protein assemblies, and designed molecules for therapeutic applications.
+
+**RNA structure prediction.** The success of AlphaFold has inspired similar approaches for RNA — the other major class of biomolecules with complex three-dimensional structures that determine their function. Systems like AlphaFold2-RNA and RhoFold have been developed to predict RNA structures, addressing challenges in understanding gene regulation, in designing RNA therapeutics, and in understanding the structural basis of RNA virus biology.
+
+**Protein language models.** Large language models trained on protein sequences — analogues of BERT and GPT trained on the language of amino acids — have been developed that produce rich representations of protein sequences useful for many downstream tasks. ESM (Evolutionary Scale Modelling) from Meta Research, ProtTrans from various academic groups, and proprietary models from several companies have demonstrated that the pre-training paradigm transfers to biological sequences, producing representations that are useful for structure prediction, function prediction, and protein design.
+
+**Cell biology at scale.** The application of deep learning to imaging data from cells and tissues — a field called computational pathology or AI-assisted microscopy — has produced systems capable of identifying cell types, detecting disease indicators, and analysing cellular organisation at scales and resolutions that human analysis could not approach. These applications, while distinct from protein structure prediction, draw on the same deep learning paradigm and represent the extension of AI-driven science from the molecular level to the cellular and tissue level.
+
+---
+
+## The Nobel Prize: Science Recognises AI
+
+In October 2024, the Royal Swedish Academy of Sciences announced the Nobel Prize in Chemistry for AlphaFold. The Prize was awarded to Demis Hassabis and John Jumper from DeepMind, and to David Baker from the University of Washington.
+
+The Nobel committee's citation described the award as recognising "protein structure prediction" — the computational prediction of protein structures — and "protein design" — the computational design of novel proteins. Baker's work on protein design and his development of the Rosetta protein design software were recognized alongside the AlphaFold achievement.
+
+The award was historic in several specific ways.
+
+It was the first Nobel Prize awarded for work primarily produced by an AI system. The committee was explicit that AlphaFold 2 had "solved" the protein structure prediction problem — not just improved it, but solved it. This acknowledgment that an AI system had made a scientific discovery of Nobel Prize calibre was itself historically significant.
+
+It was recognition that deep learning — the paradigm that had been developing in the margins of AI research through two AI winters, that had been vindicated by AlexNet in 2012 and by the Transformer in 2017 — could produce results of fundamental scientific importance, not just commercial applications. The Nobel Prize is the highest recognition that the scientific community can give; that it was given for an AI achievement confirmed the transformation of deep learning from a promising engineering approach to a genuine scientific tool.
+
+The award also prompted reflection on what "scientific discovery" meant when the discoverer was an AI system. AlphaFold 2 produced structure predictions, but it did not generate biological hypotheses, design experiments, or interpret what the structures meant for biology. The scientists who used AlphaFold predictions to make biological discoveries were doing something that AlphaFold itself was not doing. The Prize was given for the tool, not for the specific biological discoveries the tool enabled — a recognition that building the right tool was itself a scientific achievement of the highest order.
+
+---
+
+## The Philosophical Dimension: What AlphaFold Means for Science
+
+AlphaFold's achievement raises philosophical questions about the nature of scientific discovery that the field is still working through.
+
+**Can AI do science?** AlphaFold solved a problem that had resisted human scientific effort for fifty years. But solving a prediction problem — even an extraordinarily hard prediction problem — is different from doing science in the broader sense: forming hypotheses, designing experiments, interpreting results, generating theories. AlphaFold is a tool that scientists use; it is not itself doing science in the way that scientists understand science.
+
+But the distinction may be less sharp than it appears. AlphaFold has not just predicted structures — it has revealed patterns in protein folding that were not previously understood. The co-evolutionary signals it uses are patterns in biological data that contain information about the physical constraints of folding; the representations that AlphaFold learns encode aspects of protein physics and chemistry that were implicit in the training data but not previously articulated. In this sense, AlphaFold is doing something that looks more like discovery than mere prediction.
+
+**What is the relationship between AI-generated knowledge and human understanding?** AlphaFold predictions are being incorporated into scientific understanding in ways that raise questions about how scientific knowledge is generated and validated. A researcher who uses an AlphaFold prediction to form a hypothesis about a protein's function and then tests that hypothesis experimentally is doing science that depends on an AI-generated result. The knowledge chain — from protein sequence to AlphaFold prediction to experimental hypothesis to experimental test to scientific conclusion — involves human understanding at the hypothesis, design, and interpretation stages, with the AI providing the structural intermediate. Is this a new kind of science, or is it continuous with the way scientists have always used computational tools?
+
+**What scientific problems are next?** If AlphaFold solved protein structure prediction, what other grand challenges in biology are amenable to similar approaches? The generalisation of the AlphaFold approach to other biological problems — RNA structure, protein-DNA interactions, metabolic pathway prediction, phenotype prediction from genotype — is an active research programme at DeepMind and at academic institutions. The question is which of these problems share the structural properties that made AlphaFold possible: large datasets of labelled examples, clear objective functions, and a problem structure amenable to learned representations.
+
+---
+
+## The Accelerating Programme: What Comes After AlphaFold
+
+DeepMind has not stopped at AlphaFold. The scientific programme has continued, applying similar approaches to other biological and scientific problems.
+
+**AlphaFold3.** Published in 2024, AlphaFold 3 extended the AlphaFold approach to predict the structure of protein complexes with DNA, RNA, and small molecules — the interactions that are most directly relevant to drug discovery and to understanding gene regulation. The expansion of the approach from single-chain proteins to multi-molecular assemblies represented a significant technical advance and brought AlphaFold's capabilities closer to the full range of structural biology applications.
+
+**AlphaMissense.** A 2023 DeepMind system that predicted the effects of protein-coding mutations — single amino acid changes — on protein function. AlphaMissense classified approximately 71 million possible missense mutations (mutations that change one amino acid to another) as likely benign or likely pathogenic, providing a comprehensive resource for understanding the genetic basis of disease.
+
+**GNoME.** Published in 2023, GNoME (Graph Networks for Materials Exploration) used deep learning to predict the stability of novel inorganic materials, discovering approximately 2.2 million new stable materials — including 380,000 stable crystals — that had not previously been identified. The application of AlphaFold-like approaches to materials science represents the extension of the scientific AI programme from biology to physics and chemistry.
+
+**AlphaGeometry.** Published in 2024, a system that solved International Mathematical Olympiad geometry problems — complex mathematical reasoning problems that require multi-step proof construction — at a level competitive with the best human competitors. The extension of AI-driven scientific problem solving to mathematics represented a new domain for the approach.
+
+---
+
+## The Impact After the Prize
+
+The Nobel Prize in Chemistry awarded to AlphaFold in 2024 recognised an achievement that had, by then, already transformed multiple fields. The database had been used by more than a million researchers. The scientific literature citing AlphaFold had grown to tens of thousands of papers. Drug discovery pipelines had been transformed. The pace of biological research had accelerated.
+
+The Prize also changed the AI field's self-understanding. AlphaFold had demonstrated that AI systems could make genuine scientific discoveries — that the tools being built by AI researchers were not just commercially valuable but scientifically important in the deepest sense. This demonstration changed how scientists in other fields thought about AI, and it changed how AI researchers thought about the scope and significance of what they were building.
+
+Whether AlphaFold is the beginning of a transformation of science — whether AI systems will eventually make discoveries across physics, chemistry, biology, and mathematics at a pace and scale that transforms human knowledge — is still to be determined. The evidence from AlphaFold, from AlphaGo, from the applications of deep learning to climate modelling, materials science, and particle physics suggests that the transformation is underway. The pace at which it proceeds depends on the technical advances yet to come and on the decisions of the organisations and individuals who are making them.
+
+What is certain is that AlphaFold changed the history of AI and the history of science simultaneously. It demonstrated that the two histories, which had run in parallel for seven decades, were converging — that AI was becoming a tool of fundamental scientific discovery, and that the future of science would be written, in significant part, with AI assistance.
+
+---
+
+## Further Reading
+
+- **"Highly Accurate Protein Structure Prediction with AlphaFold" by Jumper et al. (2021)** — The AlphaFold 2 paper in Nature. The full technical description of the system. Demanding but rewarding.
+- **"Protein Structure Determination Using Metagenome Sequence Data" by Ovchinnikov et al. (2017)** — A 2017 paper that showed the power of co-evolutionary signals for structure prediction, laying intellectual groundwork for AlphaFold 2.
+- **"The Protein Folding Problem" by Ken Dill and Justin MacCallum (Science, 2012)** — A clear scientific overview of the protein folding problem and the state of computational prediction before AlphaFold.
+- **"What is a Protein?" — accessible biology resources** — For readers who want to understand the biological context before the technical details, many excellent accessible resources exist, from textbooks to Khan Academy videos.
+- **"Science in the Age of AI" — various perspectives** — Multiple perspectives on what AI means for the future of science, from the Royal Society, the National Academies of Sciences, and individual researchers, are available online and provide context for the philosophical questions AlphaFold raises.
+
+---
+
+*Next in the Events series: **E18 — ChatGPT, 2022: When AI Became Everyone's Business** — The full story of the ChatGPT launch — the five days to a million users, the hundred million users in two months, the reactions from educators, lawyers, journalists, and programmers, and what it meant that AI had crossed the threshold from specialised tool to mainstream reality.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If AlphaFold's story — the fifty-year problem, the solution that arrived faster than anyone expected, the Nobel Prize for an AI system — changes how you think about what AI is capable of and what it might do next, share it with someone who would find the transformation worth understanding.*

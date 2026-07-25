@@ -1,0 +1,32 @@
+---
+interface Props {
+  tags: { name: string; count: number }[];
+}
+const { tags } = Astro.props;
+
+// Size based on count (log scale for readability)
+const maxCount = Math.max(1, ...tags.map((t) => t.count));
+function sizeClass(count: number): string {
+  const ratio = count / maxCount;
+  if (ratio > 0.75) return 'text-xl';
+  if (ratio > 0.5) return 'text-lg';
+  if (ratio > 0.25) return 'text-base';
+  return 'text-sm';
+}
+---
+{tags.length > 0 && (
+  <div class="flex flex-wrap gap-x-3 gap-y-2 items-baseline">
+    {tags.map((tag) => (
+      <a
+        href={`/tags/${tag.name}/`}
+        class:list={[
+          'font-serif hover:text-[var(--accent)] transition-colors text-[var(--fg-soft)]',
+          sizeClass(tag.count),
+        ]}
+      >
+        <span class="text-[var(--fg-faint)]">#</span>{tag.name}
+        <sup class="ml-0.5 text-xs text-[var(--fg-faint)]">{tag.count}</sup>
+      </a>
+    ))}
+  </div>
+)}

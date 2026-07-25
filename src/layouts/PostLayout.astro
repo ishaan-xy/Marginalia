@@ -1,0 +1,264 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SITE } from '@/lib/site';
+import { formatDateLong, readingTime } from '@/lib/format';
+import ReadingProgress from '@/components/ReadingProgress.astro';
+import FloatingShare from '@/components/FloatingShare.astro';
+import HighlightShare from '@/components/HighlightShare.astro';
+import TableOfContents from '@/components/TableOfContents.astro';
+import ClapButton from '@/components/ClapButton.astro';
+import ShareButtons from '@/components/ShareButtons.astro';
+import AuthorBio from '@/components/AuthorBio.astro';
+import RelatedPosts from '@/components/RelatedPosts.astro';
+import SeriesNav from '@/components/SeriesNav.astro';
+import SubscribeForm from '@/components/SubscribeForm.astro';
+import BackToTop from '@/components/BackToTop.astro';
+import MobileTOC from '@/components/MobileTOC.astro';
+import { getPublishedPosts, getSeriesPosts, getRelatedPosts } from '@/lib/post-cache';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { post, headings = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, draft, tags, series, dropCap } = post.data;
+const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
+const url = new URL(`/${post.id}/`, Astro.site ?? SITE.url).toString();
+
+// Hero image: use coverImage if it exists, otherwise the generated OG PNG
+const heroImage = post.data.coverImage
+  ? post.data.coverImage
+  : `/og/${post.id}.png`;
+
+// The OG image URL (for social sharing meta tags)
+const ogImageUrl = post.data.coverImage
+  ? post.data.coverImage
+  : `/og/${post.id}.png`;
+
+// Related posts: shared tags + same-series boost.
+const relatedPosts = await getRelatedPosts(post);
+
+// Series posts — memoized per series name
+const seriesPosts = series ? await getSeriesPosts(series.name) : [];
+
+// Compute tag frequencies for conditional tag links
+const allPublishedForTags = await getPublishedPosts();
+const tagFreq = new Map<string, number>();
+for (const p of allPublishedForTags) {
+  for (const t of p.data.tags) {
+    tagFreq.set(t, (tagFreq.get(t) ?? 0) + 1);
+  }
+}
+function tagHasPage(tag: string): boolean {
+  return (tagFreq.get(tag) ?? 0) >= 2;
+}
+
+// Date to display: updatedDate if it exists, otherwise pubDate
+const displayDate = updatedDate ?? pubDate;
+
+// JSON-LD Article schema
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description,
+  datePublished: pubDate.toISOString(),
+  ...(updatedDate ? { dateModified: updatedDate.toISOString() } : {}),
+  author: {
+    '@type': 'Person',
+    name: SITE.author,
+    url: SITE.url,
+  },
+  publisher: {
+    '@type': 'Person',
+    name: SITE.author,
+    url: SITE.url,
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url,
+  },
+  image: ogImageUrl,
+  keywords: tags.join(', '),
+  ...(series ? { isPartOf: { '@type': 'BlogSeries', name: series.name, position: series.part } } : {}),
+};
+---
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImageUrl}
+  type="article"
+  publishedTime={pubDate.toISOString()}
+  jsonLd={articleSchema}
+>
+  {/* Fixed-position chrome (no layout impact) */}
+  <ReadingProgress />
+  <FloatingShare url={url} title={title} />
+  <HighlightShare />
+  <BackToTop />
+
+  <article class="fade-up">
+    {/* ─────────────────────────────────────────────
+        1. Hero image — coverImage if exists, else generated OG PNG
+        ───────────────────────────────────────────── */}
+    {heroImage && (
+      <div class="-mx-5 sm:-mx-6 mb-8 overflow-hidden">
+        <img
+          src={heroImage}
+          alt=""
+          class="w-full h-[200px] sm:h-[280px] md:h-[340px] object-cover"
+          loading="eager"
+        />
+      </div>
+    )}
+
+    {/* ─────────────────────────────────────────────
+        2. Title + subtitle
+        ───────────────────────────────────────────── */}
+    <header class="mb-8">
+      <h1 class="font-serif text-3xl sm:text-[2.5rem] leading-[1.15] font-semibold tracking-tight text-[var(--fg)] mb-4">
+        {title}
+      </h1>
+
+      {description && (
+        <p class="font-serif text-lg sm:text-xl italic leading-relaxed text-[var(--fg-soft)]">
+          {description}
+        </p>
+      )}
+    </header>
+
+    {/* ─────────────────────────────────────────────
+        3. Series banner (between subtitle and writer section)
+        ───────────────────────────────────────────── */}
+    {series && seriesPosts.length > 0 && (
+      <SeriesNav
+        variant="banner"
+        seriesName={series.name}
+        currentPart={series.part}
+        posts={seriesPosts}
+      />
+    )}
+
+    {/* ─────────────────────────────────────────────
+        4. Writer section (author byline only — no tags)
+        ───────────────────────────────────────────── */}
+    <div class="mb-4">
+      <AuthorBio variant="inline" />
+    </div>
+
+    {/* ─────────────────────────────────────────────
+        5. Metadata row: date (left) · reading time (right)
+        ───────────────────────────────────────────── */}
+    <div class="flex items-center justify-between text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-6 pb-6 border-b border-[var(--line)]">
+      <div class="flex items-center gap-3">
+        <time datetime={displayDate.toISOString()}>
+          {updatedDate && 'Updated '}
+          {formatDateLong(displayDate)}
+        </time>
+        {draft && (
+          <span class="text-[var(--accent)] font-medium">Draft</span>
+        )}
+      </div>
+      <span>{minutes} min read</span>
+    </div>
+
+    {/* ─────────────────────────────────────────────
+        6. Share buttons (top — for "share before reading")
+        ───────────────────────────────────────────── */}
+    <div class="mb-8">
+      <ShareButtons url={url} title={title} />
+    </div>
+
+    {/* ─────────────────────────────────────────────
+        7. Mobile TOC (collapsible, above the body on small screens)
+        ───────────────────────────────────────────── */}
+    <MobileTOC headings={headings} />
+
+    {/* ─────────────────────────────────────────────
+        8. Article body + sticky TOC sidebar (desktop xl+)
+        ───────────────────────────────────────────── */}
+    <div class:list={['grid grid-cols-1 xl:grid-cols-[1fr_180px] gap-8 xl:gap-12']}>
+      <div class:list={['prose min-w-0', dropCap && 'drop-cap']}>
+        <slot />
+      </div>
+      <div class="order-first xl:order-last">
+        <TableOfContents headings={headings} />
+      </div>
+    </div>
+
+    {/* ─────────────────────────────────────────────
+        9. Tags (moved to end — before engagement bar)
+        ───────────────────────────────────────────── */}
+    {tags.length > 0 && (
+      <div class="mt-12 pt-6 border-t border-[var(--line)]">
+        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">Tags</h2>
+        <ul class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <li>
+              {tagHasPage(tag) ? (
+                <a
+                  href={`/tags/${tag}/`}
+                  class="tag-pill"
+                >
+                  #{tag}
+                </a>
+              ) : (
+                <span class="tag-pill">
+                  #{tag}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {/* ─────────────────────────────────────────────
+        10. Engagement bar — clap + share (end of article)
+        ───────────────────────────────────────────── */}
+    <section
+      class="mt-8 pt-6 border-t border-[var(--line)] flex flex-wrap items-center justify-between gap-4"
+      aria-label="Engagement"
+    >
+      <ClapButton slug={post.id} />
+      <ShareButtons url={url} title={title} />
+    </section>
+
+    {/* ─────────────────────────────────────────────
+        11. Author bio card
+        ───────────────────────────────────────────── */}
+    <AuthorBio variant="card" />
+
+    {/* ─────────────────────────────────────────────
+        12. Discovery — series nav + related posts
+        ───────────────────────────────────────────── */}
+    {series && seriesPosts.length > 0 && (
+      <SeriesNav
+        variant="nav"
+        seriesName={series.name}
+        currentPart={series.part}
+        posts={seriesPosts}
+      />
+    )}
+
+    <RelatedPosts posts={relatedPosts} title="Read next" />
+
+    {/* ─────────────────────────────────────────────
+        13. Subscribe CTA — last thing in the article
+        ───────────────────────────────────────────── */}
+    <section id="subscribe" class="mt-12 p-6 rounded-lg border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_4%,var(--bg))]">
+      <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
+        Subscribe
+      </p>
+      <h3 class="font-serif text-xl font-semibold mb-2">
+        Get new essays in your inbox.
+      </h3>
+      <p class="font-serif text-[1.0625rem] text-[var(--fg-soft)] mb-4 leading-relaxed">
+        Slow, considered writing — about once a month. No spam, unsubscribe anytime.
+      </p>
+      <SubscribeForm />
+    </section>
+  </article>
+</BaseLayout>

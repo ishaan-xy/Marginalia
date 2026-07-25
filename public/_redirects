@@ -1,0 +1,6 @@
+# Redirects for the URL restructure (Cloudflare Pages / Netlify format)
+# Old: /posts/<series>/<slug>/  →  /<series>/<slug>/
+# Old: /posts/<slug>/            →  /<slug>/
+
+/posts/:series/:slug/  /:series/:slug/  301
+/posts/:slug/          /:slug/          301

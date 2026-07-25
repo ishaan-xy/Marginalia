@@ -1,0 +1,126 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { slugifySeries } from '@/lib/format';
+
+interface Props {
+  seriesName: string;
+  currentPart: number;
+  posts: CollectionEntry<'blog'>[]; // already sorted by part
+  /**
+   * 'banner' — compact top-of-post banner showing "Series · Part N of M"
+   *            and the series name. Sits between the article header and the
+   *            prose body, above the writer block.
+   * 'nav'     — end-of-post prev/next navigation block with progress bar.
+   */
+  variant?: 'banner' | 'nav';
+}
+
+const { seriesName, currentPart, posts, variant = 'nav' } = Astro.props;
+const idx = posts.findIndex((p) => p.data.series?.part === currentPart);
+
+// Guard: if currentPart doesn't match any post in the series (e.g., misconfigured
+// frontmatter or a stale series list), findIndex returns -1. In that case the
+// prev/next logic below would compute posts[-2] (undefined) for prev and posts[0]
+// for next — showing part 1 as "next" on a post that isn't even in the list.
+// Bail out gracefully: render the banner only, no nav.
+const prev = idx > 0 ? posts[idx - 1] : null;
+const next = idx >= 0 && idx < posts.length - 1 ? posts[idx + 1] : null;
+const isFinal = idx >= 0 && !next;
+const total = posts.length;
+
+// Progress percentage — drives the slim bar fill
+const progressPct = total > 1 ? (currentPart / total) * 100 : 100;
+---
+{variant === 'banner' && (
+  <aside class="series-banner mb-8" aria-label={`Part of the series: ${seriesName}`}>
+    <p class="text-[0.6875rem] uppercase tracking-wider text-[var(--accent)] font-medium mb-0.5">
+      Series · Part {currentPart} of {total}
+    </p>
+    <p class="font-serif text-[1.0625rem] text-[var(--fg)]">{seriesName}</p>
+  </aside>
+)}
+
+{variant === 'nav' && (
+  <section class="mt-12 pt-8 border-t border-[var(--line)]">
+    <div class="flex items-baseline justify-between gap-4 mb-1">
+      <p class="text-[0.6875rem] uppercase tracking-wider text-[var(--accent)] font-medium">
+        {isFinal ? 'Series complete' : `Series · Part ${currentPart} of ${total}`}
+      </p>
+      <a
+        href={`/series/${slugifySeries(seriesName)}/`}
+        class="text-[0.6875rem] uppercase tracking-wider text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+      >
+        View all →
+      </a>
+    </div>
+    <p class="font-serif text-[1.125rem] text-[var(--fg)] mb-4">{seriesName}</p>
+
+    {/* Slim progress bar — works at any series length (5 parts or 500) */}
+    <div
+      class="series-progress-bar"
+      role="progressbar"
+      aria-valuenow={currentPart}
+      aria-valuemin={1}
+      aria-valuemax={total}
+      aria-label={`Part ${currentPart} of ${total}`}
+    >
+      <div class="series-progress-fill" style={`width: ${progressPct}%`}></div>
+    </div>
+
+    {(prev || next) && (
+      <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6" aria-label="Series navigation">
+        {prev ? (
+          <a
+            href={`/${prev.id}/`}
+            class="block p-4 sm:p-5 border border-[var(--line)] rounded-lg lift hover:border-[var(--accent)] hover:bg-[color-mix(in_srgb,var(--accent)_3%,transparent)] transition-all group"
+          >
+            <p class="text-xs uppercase tracking-wider text-[var(--fg-faint)] mb-2 flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Previous · Part {prev.data.series?.part}
+            </p>
+            <p class="font-serif text-[1rem] text-[var(--fg)] leading-snug group-hover:text-[var(--accent)] transition-colors">{prev.data.title}</p>
+          </a>
+        ) : <span class="hidden sm:block"></span>}
+        {next ? (
+          <a
+            href={`/${next.id}/`}
+            class="block p-4 sm:p-5 border border-[var(--accent)] rounded-lg lift bg-[color-mix(in_srgb,var(--accent)_5%,transparent)] hover:bg-[color-mix(in_srgb,var(--accent)_10%,transparent)] transition-all group sm:text-right"
+          >
+            <p class="text-xs uppercase tracking-wider text-[var(--accent)] mb-2 flex items-center gap-1 sm:justify-end">
+              Next · Part {next.data.series?.part}
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </p>
+            <p class="font-serif text-[1rem] text-[var(--fg)] leading-snug group-hover:text-[var(--accent)] transition-colors">{next.data.title}</p>
+          </a>
+        ) : (
+          // End of series — show a friendly note instead of an empty next slot
+          <div class="p-4 sm:p-5 border border-[var(--line)] rounded-lg bg-[color-mix(in_srgb,var(--fg)_2%,transparent)] sm:text-right">
+            <p class="text-xs uppercase tracking-wider text-[var(--fg-faint)] mb-2">End of series</p>
+            <p class="font-serif text-[1rem] text-[var(--fg-soft)] leading-snug">
+              You've reached the end. Thanks for reading the whole thing.
+            </p>
+          </div>
+        )}
+      </nav>
+    )}
+  </section>
+)}
+
+<style>
+  /* Slim progress bar — replaces the dot-per-part visualization that
+     became unreadable for long series (78+ parts). */
+  .series-progress-bar {
+    position: relative;
+    height: 4px;
+    width: 100%;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .series-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+</style>

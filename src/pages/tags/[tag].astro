@@ -1,0 +1,86 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
+
+// Only generate tag pages for tags that appear on 2+ posts.
+// Single-post tags are noise — they generate a page with one link on it,
+// which adds URL clutter, sitemap bloat, and provides no value to the
+// reader (they could have just clicked the post).
+export async function getStaticPaths() {
+  const MIN_POSTS_PER_TAG = 2;
+  const posts = await getPublishedPosts();
+  const tagMap = new Map<string, typeof posts>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      if (!tagMap.has(tag)) tagMap.set(tag, []);
+      tagMap.get(tag)!.push(post);
+    }
+  }
+  // Filter out single-post tags
+  return [...tagMap.entries()]
+    .filter(([, posts]) => posts.length >= MIN_POSTS_PER_TAG)
+    .map(([tag, postsForTag]) => ({
+      params: { tag },
+      props: {
+        tag,
+        count: postsForTag.length,
+        posts: postsForTag.sort(byDateDesc),
+      },
+    }));
+}
+
+const { tag, count, posts } = Astro.props;
+---
+<BaseLayout
+  title={`#${tag}`}
+  description={`Posts tagged ${tag} — ${count} posts.`}
+>
+  <section class="fade-up mb-10">
+    <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-2">
+      Tagged
+    </p>
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight">
+      #{tag}
+    </h1>
+    <p class="font-serif text-[var(--fg-soft)] mt-2">
+      {count} {count === 1 ? 'post' : 'posts'}.
+    </p>
+  </section>
+
+  <ul class="space-y-6">
+    {posts.map((post) => (
+      <li class="border-t border-[var(--line)] pt-6 first:border-t-0 first:pt-0">
+        <div class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {new Intl.DateTimeFormat('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              timeZone: 'UTC',
+            }).format(post.data.pubDate)}
+          </time>
+        </div>
+        <a
+          href={`/${post.id}/`}
+          class="font-serif text-xl text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+        >
+          {post.data.title}
+        </a>
+        {post.data.description && (
+          <p class="font-serif text-[1.0625rem] text-[var(--fg-soft)] mt-1.5">
+            {post.data.description}
+          </p>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <div class="mt-12 pt-6 border-t border-[var(--line)]">
+    <a
+      href="/archive"
+      class="text-sm font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+    >
+      &larr; Back to archive
+    </a>
+  </div>
+</BaseLayout>

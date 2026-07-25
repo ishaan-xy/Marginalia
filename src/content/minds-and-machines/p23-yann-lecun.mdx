@@ -1,0 +1,246 @@
+---
+title: "Yann LeCun: The Architect Who Disagrees"
+description: "The Meta AI chief scientist who has spent his career doing foundational deep learning work, winning the Turing Award alongside Hinton and Bengio, and is now the most prominent voice disagreeing with the catastrophic AI risk narrative. Why the person who built so much of what AI is has such a different view of where it is going — and why his disagreement deserves as much serious attention as the warnings of those who fear AI most."
+pubDate: "2026-04-26"
+tags:
+  - "Key Figure"
+  - "Yann LeCun"
+  - "Meta AI"
+  - "Convolutional Networks"
+  - "AI Safety Debate"
+  - "Open Source AI"
+series:
+  name: "Minds & Machines"
+  part: 68
+draft: false
+featured: false
+dropCap: true
+---
+
+*Paris, France. October 2024. Yann LeCun is giving a lecture at the École Polytechnique, his alma mater, on the future of artificial intelligence. The lecture hall is full — students, faculty, and a collection of journalists who have come because LeCun is, reliably, the most quotable and most contentious figure in an increasingly contentious field.*
+
+*He is making an argument that a growing number of his colleagues find frustrating: that the AI doom narrative — the idea that large language models are on a trajectory to dangerous superintelligence — is wrong. That the people warning about AI existential risk are fundamentally misunderstanding what AI systems are doing. That the most important AI safety challenge is not alignment of superintelligent systems but the near-term practical problems of bias, reliability, and misuse.*
+
+*"People are saying we need to stop AI research because it is too dangerous," he says. "This is like saying we need to stop aviation research because airplanes might be weaponised. It is a ridiculous argument. The solution to dangerous technology is not less technology but better technology, more transparency, and better governance."*
+
+*The lecture attracts the usual mix of applause and criticism. LeCun, who has been making versions of this argument for years, is not surprised by either.*
+
+*He is not popular with the AI safety community. He is not trying to be. He is trying to be right.*
+
+---
+
+## Amiens to Paris to New York: The Formation of a Dissident
+
+Yann LeCun was born in 1960 in Soissons, in northern France, and grew up in the Parisian suburbs — in a family that was solidly middle-class, with parents who valued education and scientific curiosity without being academics themselves. He was drawn to physics and mathematics from an early age, the kind of student who found the abstract precision of formal systems aesthetically compelling in a way that was recognisably different from mere facility.
+
+He studied electrical engineering at the École Polytechnique — one of the Grandes Écoles that have defined French technical education for two centuries — and continued to the École Nationale Supérieure des Télécommunications, where he completed his PhD in 1987. His doctoral work was on connectionist learning — neural network approaches to learning from data — at a time when such work was deeply unfashionable in the French academic establishment, which was dominated by a symbolic AI tradition that viewed connectionism as insufficiently rigorous.
+
+The choice to work on connectionism was already an act of intellectual dissidence. The French AI establishment of the 1980s was committed to expert systems and knowledge representation — the symbolic approaches that LeCun found inadequate to the complexity and variability of real-world perception and cognition. He was not persuaded by the symbolic approach, and he pursued the connectionist alternative against the grain of his own intellectual environment.
+
+After his PhD, he spent a year as a postdoctoral researcher at the University of Toronto, where he worked with Geoffrey Hinton. The Toronto year was formative — Hinton's group was one of the few places in the world where neural network research was being pursued seriously, and the collaboration gave LeCun both technical depth in connectionist methods and the collegial network that would sustain his career through the difficult years of the first and second AI winters.
+
+He then moved to Bell Labs in New Jersey, joining the research department of one of the world's most distinguished industrial research organisations. Bell Labs in the late 1980s and early 1990s was not primarily an AI laboratory, but it had a culture of basic research that allowed LeCun to pursue the fundamental questions in neural network learning that interested him without immediate commercial pressure.
+
+---
+
+## LeNet and the Invention of the CNN
+
+LeCun's most important technical contribution — the development of convolutional neural networks (CNNs) and their demonstration on image recognition — came at Bell Labs in the late 1980s and early 1990s.
+
+The key paper was "Gradient-Based Learning Applied to Document Recognition," published in 1998, which described LeNet — a convolutional neural network trained to recognise handwritten digits. The paper was a demonstration not just of a specific system but of a specific approach: the use of convolutional operations (which exploit the spatial structure of images by applying the same pattern detector at every location) and hierarchical feature learning (in which simple detectors in early layers are combined into complex patterns in later layers).
+
+LeNet and its successors were deployed commercially in the 1990s — the AT&T and NEC systems that read handwritten digits on cheques and postal addresses used LeCun's convolutional networks. These were among the first commercially successful applications of deep learning, and they demonstrated that the approach could work at a scale and reliability level that practical applications required.
+
+The demonstration that convolutional networks could work for real-world visual recognition problems — not just on carefully cleaned laboratory datasets but on the messy variability of handwritten digits encountered in real postal systems — was a significant achievement. LeCun had not just developed a theoretical framework; he had shown that the framework could be implemented in systems that worked.
+
+But the demonstration was not enough to transform the field. Computer vision in the 1990s remained dominated by hand-crafted feature representations — SIFT, HOG, and their variants — and the prevailing view was that these hand-crafted approaches, refined over decades of research, were more reliable than learned features. The convolutional network approach had demonstrated proof of concept; it had not yet demonstrated the capability that would make the AI research community convert.
+
+The conversion would come with AlexNet in 2012 — a direct descendant of LeNet, trained on GPU hardware and the ImageNet dataset, that demonstrated performance levels that made the field's conversion to deep learning inevitable. LeCun had been right all along; the world had simply needed to catch up.
+
+---
+
+## The Move to Academia and Facebook: From Bell Labs to the World
+
+LeCun left Bell Labs in 2003 to join NYU as the Silver Professor of Computer Science and Neural Science — a position that reflected both his technical achievements and his broader intellectual interests in the cognitive and neuroscientific dimensions of learning and perception.
+
+At NYU, LeCun built a research group that was one of the most productive in deep learning during the difficult period of the mid-2000s, when GPU computing was beginning to make the training of larger networks practical but before the AlexNet breakthrough had demonstrated the full potential of the approach. The NYU group's work on unsupervised learning, on energy-based models, and on the theoretical foundations of deep learning contributed to the intellectual infrastructure of the deep learning revolution.
+
+In 2013, LeCun was recruited by Facebook — then the social network, not yet Meta — to lead the company's AI research. Mark Zuckerberg wanted a distinguished academic AI researcher to build a world-class AI research organisation, and LeCun — with his track record and his academic standing — was the person he recruited.
+
+The decision to go to Facebook raised eyebrows in some parts of the academic AI community. Facebook was a social network with specific commercial interests in AI for content recommendation, advertising targeting, and content moderation — interests that were not always aligned with the kind of basic research that distinguished academic AI. The concern was that LeCun's leadership of Facebook AI Research (FAIR) would be constrained by commercial imperatives in ways that his academic work had not been.
+
+LeCun's response to this concern has been, essentially, that the concern was wrong. FAIR has maintained a commitment to basic research — publishing in top academic venues, training graduate students, pursuing fundamental questions — while also contributing to Facebook's/Meta's commercial interests. The publication record of FAIR, which has included contributions to image recognition, natural language processing, neural architecture search, and self-supervised learning, is comparable to top academic AI departments.
+
+The most significant contribution of LeCun's FAIR period to the broad AI ecosystem has been Meta's open-source AI strategy — the decision to release major AI models, including the LLaMA series of large language models, as open-weight models accessible to researchers and developers worldwide. LeCun has been the most prominent advocate for this strategy both within Meta and in the broader AI governance conversation.
+
+---
+
+## The Open Source Argument: Why LeCun Believes in Open AI
+
+LeCun's advocacy for open-source AI — for making AI model weights, training code, and research results publicly available — is one of his most distinctive and most contested positions, and it deserves careful analysis.
+
+The argument for open-source AI that LeCun makes has several components.
+
+**The security argument.** LeCun argues that open AI is safer than closed AI, not less safe. A closed AI system with safety vulnerabilities can be exploited by bad actors who discover those vulnerabilities before the developer does. An open AI system, whose code and weights are publicly available, can be examined by the full research community, making safety vulnerabilities more likely to be discovered and addressed. The analogy is to open-source software security: open-source code is not automatically more secure than closed-source code, but it can be audited by a larger and more diverse community.
+
+**The concentration argument.** LeCun argues that closed AI systems concentrate AI power in the small number of organisations that can afford to develop and control them. Open AI systems democratise access, allowing researchers, smaller companies, and organisations in the global south to access and build on frontier AI capabilities without depending on the proprietary systems of a few large American companies. The concentration of AI power is itself a safety risk — the risk that AI capabilities are controlled by a small number of entities whose interests may not align with the public interest.
+
+**The innovation argument.** The history of computing and the internet suggests that open platforms produce more innovation than closed ones. The web was built on open standards; the internet was built on open protocols; Linux and other open-source software underpin the global computing infrastructure. LeCun argues that open AI will produce more innovation, more diverse applications, and more rapid safety research than a world in which frontier AI is controlled by a small number of proprietary systems.
+
+**The governance argument.** Open AI systems can be regulated and governed by external parties — governments, civil society organisations, independent researchers — who can examine and evaluate the systems without depending on the developer's self-reporting. Closed AI systems can only be governed through the developer's voluntary cooperation or through legal requirements for disclosure, which are difficult to enforce without technical access.
+
+The counterarguments to open-source AI are also significant, and LeCun engages with them.
+
+The most important counterargument is that open-source AI enables misuse by removing the safety guardrails that closed AI systems incorporate. If a frontier AI model is publicly available, it can be fine-tuned to remove safety training and deployed for harmful purposes — generating detailed instructions for weapons, creating non-consensual intimate imagery, enabling personalised disinformation campaigns.
+
+LeCun's response is that this concern is overstated. The safety guardrails incorporated in frontier AI systems are not the primary barrier to harmful use; they are one layer of protection that can be supplemented by other layers — platform policies, legal frameworks, detection systems. The availability of open models does not significantly increase the risk of the most serious harms because those harms — bioweapons design, cyberweapon development — require capabilities that current open models do not provide and that significantly more advanced closed models also do not provide.
+
+Whether LeCun is right about this is an empirical question that the field is actively debating. The evidence from the LLaMA releases — which have been used for a wide range of legitimate applications and have also been fine-tuned for some harmful applications — does not yet clearly vindicate either the open or the closed position.
+
+---
+
+## The Risk Disagreement: LeCun vs. the AI Safety Community
+
+The most consequential and most persistent aspect of LeCun's public profile is his disagreement with the AI safety community's account of the risks of advanced AI. This disagreement has played out publicly over several years, and understanding its content is important for understanding the genuine empirical uncertainty about AI risk.
+
+LeCun's disagreement with the AI safety community's dominant narrative has several specific components.
+
+**The architectural argument.** LeCun argues that large language models — the systems that are the primary focus of the AI safety community's concern — are fundamentally limited in ways that make them unlikely to be the path to dangerous artificial general intelligence. His specific argument is that LLMs lack the kind of world model — the structured representation of how the world works — that general intelligence requires. A system that predicts text tokens does not thereby have a model of physical causality, of social relationships, of the temporal structure of events in the world. Without such a world model, LLMs cannot be the basis for the kind of general intelligence that would pose existential risks.
+
+This is a substantive technical argument, not a dismissal. LeCun is one of the most technically capable people in the field, and his argument reflects genuine engagement with what LLMs are doing and what they are not doing.
+
+The counterargument — from Hinton, from the alignment research community, from some empirical AI researchers — is that the emergent capabilities of large language models suggest that scale may produce capabilities that the architectural analysis does not predict. The in-context learning of GPT-3, the reasoning capabilities of GPT-4, the apparent understanding of social context in advanced language models — these were not predicted by analyses of what LLMs could not do, and they suggest that the architectural limitations may not be as constraining as LeCun argues.
+
+**The capability prediction argument.** LeCun argues that the AI safety community's predictions about the near-term development of dangerous AI capabilities are wrong — that the timeline to the kind of systems that pose existential risks is much longer and more uncertain than the safety community suggests. He is specifically critical of claims that AGI is years away and of warnings that treat current AI safety concerns as urgent in the same register as longer-horizon catastrophic risk concerns.
+
+This is also a substantive argument. The history of AI is full of over-optimistic predictions about near-term capabilities, and scepticism about timeline predictions is warranted. The specific empirical question — how fast are frontier AI capabilities advancing, and where is the boundary between current systems and the kind of systems that would pose the risks the safety community worries about — is genuinely uncertain.
+
+**The anthropomorphism concern.** LeCun argues that much of the AI safety community's reasoning is infected by anthropomorphism — by the projection of human-like goals, values, and motivations onto AI systems that do not have them. The paperclip maximiser scenario, the deceptive alignment scenario, the instrumental convergence thesis — all of these, LeCun argues, assume that AI systems will pursue goals in the way that humans pursue goals, with the kind of long-horizon planning, self-interest, and strategic deception that characterise goal-directed human behaviour. AI systems, he argues, simply do not work this way.
+
+This is the most philosophically interesting component of LeCun's position. The alignment research community would respond that the question is not whether current AI systems work this way but whether future, more capable systems might, and that the potential for goal-directed behaviour to emerge from sufficiently capable systems trained on specific objectives is a genuine concern that deserves serious analysis.
+
+---
+
+## The Social Media Period: Online Debate and Its Discontents
+
+LeCun's disagreements with the AI safety community have been conducted, in significant part, on social media — primarily on Twitter/X, where he is an active participant in the sometimes heated debates about AI risk, AI regulation, and AI ethics.
+
+The online debates have been productive in some respects. LeCun's willingness to engage directly with critics, to defend his positions, to engage with specific arguments rather than dismissing them, has raised the level of public discourse about AI in ways that more careful, academic disagreement would not have. His public profile has given him a platform for his views that has influenced the governance conversation and has provided a counterweight to the catastrophic risk narrative.
+
+The online debates have also been less productive in some respects. The Twitter format rewards punchy claims and rhetorical victories rather than careful argument, and LeCun's participation in online debates has sometimes produced exchanges that generated more heat than light. Some of his critics have found his online persona combative in ways that make genuine intellectual engagement more difficult.
+
+LeCun is, by the accounts of people who know him well, a person of genuine intellectual integrity who believes what he says and says what he believes. The combative online persona is not, in this account, a performance — it is the genuine expression of a person who is frustrated that what he considers bad arguments are being taken seriously and who is willing to say so directly.
+
+Whether his directness serves the overall goal of advancing the AI governance conversation is a question that different observers answer differently. The AI safety community tends to find his directness counterproductive; his supporters tend to find it refreshing; neutral observers tend to find it illuminating even when they disagree with his positions.
+
+---
+
+## The Open Source Bet: LLaMA and Its Consequences
+
+Meta's decision to release the LLaMA family of large language models — LLaMA in February 2023, LLaMA 2 in July 2023, LLaMA 3 in April 2024 — as open-weight models was the most consequential implementation of LeCun's open-source AI philosophy.
+
+The LLaMA releases made frontier-quality language model capabilities available to researchers, developers, and organisations worldwide who could not access the proprietary systems of OpenAI, Anthropic, or Google. The practical impact was significant and broad.
+
+**Research acceleration.** Academic researchers without the resources to train large language models gained access to frontier-quality models that could be studied, fine-tuned, and extended. The volume of academic research building on LLaMA was enormous — within a year of the first LLaMA release, thousands of research papers had been published building on the open models.
+
+**Application development.** Small companies and individual developers who could not afford the API costs of proprietary models could build AI applications on LLaMA and run them locally, without ongoing API dependencies. The ecosystem of applications built on LLaMA covered an extraordinary range of domains and use cases.
+
+**Global south access.** Organisations in developing countries that could not afford proprietary AI costs could access and deploy frontier-quality AI capabilities using LLaMA. The democratising effect on AI access globally was one of the most significant consequences of the open release.
+
+**Safety research.** Safety researchers could examine and evaluate LLaMA models in detail — studying their internal representations, their failure modes, their susceptibility to specific types of manipulation — in ways that were not possible with closed models. The interpretability research that has advanced the field's understanding of language models has been significantly enabled by access to open models.
+
+The consequences that concerned the AI safety community were also real. LLaMA models were fine-tuned to remove safety training and deployed for harmful applications. The availability of open-weight models made it easier for bad actors to develop AI-enabled tools for specific harmful purposes. The specific harms were real, even if they were less severe than the most alarming predictions had suggested.
+
+The honest assessment of the LLaMA releases is that they produced both significant benefits and some meaningful harms, and that the balance between these is genuinely uncertain. LeCun's claim that the benefits significantly outweigh the harms is contested; the AI safety community's claim that the harms significantly outweigh the benefits is also contested. The empirical evidence available is consistent with several different conclusions.
+
+---
+
+## The World Model Vision: LeCun's Alternative to LLMs
+
+LeCun's most technically interesting contribution is not his criticism of the AI safety narrative but his positive vision of how AI should be built — a vision that is substantially different from the dominant large language model approach.
+
+LeCun argues that the path to genuine AI intelligence — the kind of AI that would be genuinely useful for complex tasks and that would, for better or worse, be comparable to human intelligence — runs through "world models," not through language modelling.
+
+A world model, in LeCun's usage, is an internal model of how the world works — a representation of the physical and social regularities that govern how events unfold, how objects interact, how agents behave, and how actions produce consequences. A system with a world model can predict the consequences of actions, plan sequences of actions to achieve goals, and understand the world in a way that goes beyond the statistical patterns in its training data.
+
+Current large language models, LeCun argues, do not have world models in this sense. They have learned the statistical patterns of language — what words and phrases tend to co-occur, what topics tend to be discussed in what ways, what kinds of text tend to follow what other kinds of text. This is genuinely impressive, and it produces genuinely impressive capabilities. But it is not a world model.
+
+His alternative is a system architecture that learns about the world primarily from observation — from watching video of the world, from experiencing the consequences of actions in a physical or simulated environment — rather than primarily from language. The observation-based approach can produce representations of physical causality, of spatial relationships, of the temporal structure of events, that language-based training cannot.
+
+LeCun's JEPA (Joint Embedding Predictive Architecture) is his specific technical proposal for how to build systems that can learn world models from observation. The architecture learns to predict representations of future states from current states in a learned embedding space, rather than learning to predict raw pixel values or text tokens. The embedding space can, in principle, capture the abstract structure of the world rather than the surface statistics of a specific modality.
+
+Whether JEPA or analogous architectures will produce the kind of world models that LeCun envisions is an empirical question that is still being investigated. The preliminary results are encouraging but not yet at the level that would demonstrate the approach's superiority over large language models.
+
+---
+
+## The Productive Tension: Why LeCun's Disagreement Matters
+
+The AI field is better for having Yann LeCun in it, arguing publicly and persistently for positions that the mainstream finds uncomfortable. This is true even if LeCun is wrong about some of the specific claims he makes.
+
+The AI safety community's risk narrative — which has become increasingly mainstream in AI policy discussions — benefits from serious, technically credible challenge. If the catastrophic risk predictions are wrong, the governance and research resources devoted to addressing them are misallocated. If the architectural limitations that LeCun identifies are real, the approaches to AI safety that assume LLMs are on a path to AGI are addressing the wrong problem.
+
+LeCun's challenge to the mainstream narrative serves a specific function: it keeps the empirical questions open. The question of whether current AI architectures can produce the kind of general intelligence that poses existential risks is genuinely uncertain, and treating it as settled — in either direction — is epistemically unjustified. LeCun's persistent dissent from the catastrophic risk narrative keeps the question open in a productive way.
+
+His advocacy for open-source AI serves a similar function in the governance conversation. The presumption that AI safety requires keeping powerful AI in the hands of a small number of large organisations — a presumption that is implicit in many AI governance proposals — deserves challenge. The governance benefits of open AI, and the risks of concentrated AI power, deserve as much attention as the safety risks of widespread access.
+
+LeCun is also right that the near-term, practical problems of AI — bias, reliability, misuse, economic displacement — deserve more attention and more resources relative to the long-term, speculative risks of catastrophic AI. The people who are harmed by biased AI systems today need governance responses today, not eventually. The resources allocated to long-term risk mitigation exist in tension with the resources available for near-term harm mitigation.
+
+---
+
+## The Turing Award Reunion: Three Godfathers, Three Views
+
+In 2018, LeCun, Hinton, and Bengio received the Turing Award — the highest honour in computer science — for their contributions to the deep learning revolution. The award recognised a shared intellectual project that had transformed AI; it did not imply agreement about what AI development required next.
+
+By 2024, the three Turing Award laureates had reached substantially different views about AI risk and AI governance:
+
+Hinton had resigned from Google and was actively warning about existential risks from advanced AI. He believed that current AI trajectories posed serious risks and that the field needed to slow down and invest much more in safety research.
+
+Bengio had become increasingly engaged with AI safety concerns, signing the pause letter, advocating for stronger AI regulation, and contributing to the governance conversation with the specific authority of technical expertise combined with genuine concern.
+
+LeCun remained sceptical of the existential risk narrative, continued to advocate for open-source AI, and continued to argue that the near-term practical challenges of AI deserved more attention than the long-term speculative risks.
+
+The disagreement between the three Turing Award laureates is itself significant. These are three of the most technically capable and most experienced AI researchers in the world, who share a foundational view about how AI works and who have engaged seriously with the current state of the field. If they reach substantially different conclusions about the risks and the appropriate governance responses, the uncertainty is real.
+
+The appropriate response to genuine expert disagreement is not to pick sides based on which experts are more alarming or more reassuring. It is to engage seriously with the arguments on each side, to invest in the empirical research that can reduce the uncertainty, and to design governance frameworks that are robust to the uncertainty — that would be beneficial across the range of scenarios that experts consider plausible.
+
+---
+
+## The Honest Assessment: What LeCun Gets Right and Wrong
+
+A balanced assessment of LeCun's contributions and positions requires acknowledging both.
+
+**What he gets right.** LeCun is right that LLMs have fundamental limitations that the field has sometimes underemphasised — limitations in physical reasoning, in causal understanding, in genuine world modelling. He is right that anthropomorphism distorts some AI safety reasoning. He is right that the near-term practical harms of AI deserve serious attention. He is right that open AI has significant benefits, including for governance, that the safety community has not fully acknowledged. And he is right that the technical path from current LLMs to dangerous AGI is less clear than some risk narratives suggest.
+
+**What he may get wrong.** LeCun may be wrong about the extent to which scaling can produce emergent capabilities that his architectural analysis does not predict. He may be wrong about the timeline to capabilities that are significantly more dangerous than current systems. He may be underweighting the tail risks — the low-probability, high-consequence scenarios — that dominate alignment researchers' concerns. And he may be too confident that the benefits of open AI outweigh the risks, given the genuine uncertainty about how open models will be used as capabilities increase.
+
+The honest assessment is that LeCun's positions deserve serious engagement, not dismissal, and that the field is better for the specific challenge he provides to the mainstream AI safety narrative. But serious engagement means taking his arguments where they are strongest and identifying where they face genuine empirical uncertainty, not simply endorsing them because they are less alarming than the alternatives.
+
+---
+
+## The Legacy in Progress
+
+Yann LeCun's legacy is already substantial and still developing. He invented the convolutional neural network architecture that made the deep learning revolution possible. He has been a consistent voice for specific technical approaches — self-supervised learning, world models, energy-based models — that continue to shape AI research. He has been the most prominent advocate for open-source AI, with consequences for the global AI ecosystem that are still unfolding.
+
+His legacy in the AI governance conversation is more contested. He has challenged the dominant risk narrative in ways that have kept important empirical questions open, and he has advocated for approaches to AI governance — particularly open-source AI — that deserve serious consideration. But he has also sometimes made the mistake of dismissing concerns more quickly than the available evidence justifies.
+
+What will determine the ultimate assessment of his governance contributions is the empirical evidence that the next decade produces. If AI development continues along its current trajectory and produces the kind of catastrophic risks that the safety community warns about, LeCun's dismissal of those risks will look like a serious error. If the safety community's most alarming predictions prove wrong and the near-term practical challenges prove to be the primary concerns, his persistent dissent will look like an important corrective to an overweighted narrative.
+
+He is, in either case, one of the most important figures in the history of AI. The convolutional neural network will be his enduring technical legacy. The ongoing argument about what AI risks are real and what governance responses are appropriate will be his intellectual legacy — and one that deserves as much careful engagement as the warnings of those who fear most.
+
+---
+
+## Further Reading
+
+- **"Gradient-Based Learning Applied to Document Recognition" by LeCun et al. (1998)** — The LeNet paper. The foundational work in convolutional neural networks.
+- **"A Path Towards Autonomous Machine Intelligence" by Yann LeCun (2022)** — LeCun's comprehensive statement of his vision for the path to autonomous machine intelligence through world models and JEPA.
+- **"Open Source AI is the Path Forward" — Meta blog post** — LeCun's most comprehensive statement of the case for open-source AI.
+- **"The Turing Lecture" by LeCun, Hinton, and Bengio (2019)** — The acceptance lecture for the 2018 Turing Award, which provides the three Godfathers' shared vision at the moment of recognition.
+- **LeCun's social media presence (@ylecun on X)** — LeCun is unusually active and direct on social media, and his posts provide the most immediate access to his ongoing thinking on AI governance and safety debates.
+
+---
+
+*Next in the Profiles series: **P24 — Yoshua Bengio: The Scientist Who Changed Sides** — The third Godfather of Deep Learning, who spent his career building the foundations of neural network learning and who has, in the years since the ChatGPT moment, become one of the most active and most credible advocates for AI safety research and AI regulation. Why the person who built so much of the mathematics of deep learning now believes that the field's progress requires governance that it has been reluctant to accept.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If LeCun's story — the CNN inventor, the open-source advocate, the productive dissenter — illuminates something about how intellectual disagreement in a rapidly moving field produces better thinking than consensus, share it with someone who would find the dissent worth engaging with.*

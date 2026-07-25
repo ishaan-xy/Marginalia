@@ -1,0 +1,28 @@
+---
+// Inline script that sets the .dark class on <html> before first paint,
+// reading from localStorage or falling back to prefers-color-scheme.
+// Runs synchronously in <head>, no FOUC.
+---
+<script is:inline>
+  (function () {
+    try {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = stored ? stored === 'dark' : prefersDark;
+      document.documentElement.classList.toggle('dark', isDark);
+    } catch (e) {
+      // localStorage might be unavailable (private mode); fall back to system.
+    }
+  })();
+</script>
+
+<script>
+  // When the user hasn't picked a theme explicitly, follow the system's
+  // color scheme preference as it changes (e.g. dark mode kicks in at sunset).
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  media.addEventListener('change', (e) => {
+    const stored = localStorage.getItem('theme');
+    if (stored) return; // user has explicitly chosen; respect that
+    document.documentElement.classList.toggle('dark', e.matches);
+  });
+</script>

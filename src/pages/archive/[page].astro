@@ -1,0 +1,116 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getPublishedPosts } from '@/lib/post-cache';
+import { formatDate } from '@/lib/format';
+
+export async function getStaticPaths() {
+  const POSTS_PER_PAGE = 50;
+  const posts = (await getPublishedPosts()).sort(
+    (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+  );
+  const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
+  // Page 1 is the /archive/ index — pagination starts at page 2.
+  return Array.from({ length: totalPages - 1 }, (_, i) => i + 2).map((pageNum) => {
+    const start = (pageNum - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+    return {
+      params: { page: String(pageNum) },
+      props: {
+        posts: posts.slice(start, end),
+        pageNum,
+        totalPages,
+        totalPosts: posts.length,
+      },
+    };
+  });
+}
+
+const { posts, pageNum, totalPages, totalPosts } = Astro.props;
+
+// Group by year
+const byYear = new Map<string, typeof posts>();
+for (const post of posts) {
+  const year = String(post.data.pubDate.getUTCFullYear());
+  if (!byYear.has(year)) byYear.set(year, []);
+  byYear.get(year)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
+---
+<BaseLayout
+  title={`Archive · Page ${pageNum}`}
+  description={`Archive page ${pageNum} of ${totalPages}.`}
+>
+  <section class="fade-up mb-12">
+    <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-3">
+      <a href="/archive/" class="hover:text-[var(--accent)] transition-colors">← Back to archive</a>
+    </p>
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+      Archive · Page {pageNum}
+    </h1>
+    <p class="font-serif text-lg text-[var(--fg-soft)]">
+      {totalPosts} posts total · showing {(pageNum - 1) * 50 + 1}–{Math.min(pageNum * 50, totalPosts)}
+    </p>
+  </section>
+
+  {years.map((year) => (
+    <section class="mb-12">
+      <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-5 pb-2 border-b border-[var(--line)]">
+        {year}
+      </h2>
+      <ul class="space-y-4">
+        {byYear.get(year)!.map((post) => (
+          <li class="flex flex-col sm:flex-row sm:items-baseline sm:gap-4">
+            <time
+              datetime={post.data.pubDate.toISOString()}
+              class="text-xs font-sans text-[var(--fg-faint)] tabular-nums shrink-0 sm:w-24"
+            >
+              {new Intl.DateTimeFormat('en-US', {
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC',
+              }).format(post.data.pubDate)}
+            </time>
+            <div class="flex-1">
+              <a
+                href={`/${post.id}/`}
+                class="font-serif text-lg text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+              >
+                {post.data.title}
+              </a>
+              {post.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mt-1">
+                  {post.data.tags.slice(0, 5).map((tag) => (
+                    <span class="text-xs text-[var(--fg-faint)]">#{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <nav class="mt-12 pt-8 border-t border-[var(--line)] flex items-center justify-between" aria-label="Pagination">
+    {/* pageNum is always ≥ 2 here (pagination starts at page 2), so the
+        "Newer posts" link always shows. The empty span on the right only
+        appears when this is the last page (no "Older posts" link). */}
+    <a
+      href={pageNum === 2 ? '/archive/' : `/archive/${pageNum - 1}/`}
+      class="text-sm font-sans text-[var(--fg-soft)] hover:text-[var(--accent)] transition-colors"
+    >
+      ← Newer posts
+    </a>
+    <span class="text-sm font-sans text-[var(--fg-faint)]">
+      Page {pageNum} of {totalPages}
+    </span>
+    {pageNum < totalPages ? (
+      <a
+        href={`/archive/${pageNum + 1}/`}
+        class="text-sm font-sans text-[var(--fg-soft)] hover:text-[var(--accent)] transition-colors"
+      >
+        Older posts →
+      </a>
+    ) : <span></span>}
+  </nav>
+</BaseLayout>

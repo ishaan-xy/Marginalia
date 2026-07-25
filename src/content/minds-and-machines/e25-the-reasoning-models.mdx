@@ -1,0 +1,266 @@
+---
+title: "The Reasoning Models: When AI Learned to Think Before Speaking"
+description: "The story of the development of chain-of-thought reasoning and the emergence of 'thinking' models — AI systems that generate explicit intermediate reasoning steps before producing a final answer, dramatically improving performance on complex reasoning tasks. The technical development that began closing the gap between AI pattern-matching and genuine systematic reasoning."
+pubDate: "2026-05-03"
+tags:
+  - "Key Event"
+  - "Chain-of-Thought"
+  - "Reasoning Models"
+  - "OpenAI o1"
+  - "AI Reasoning"
+  - "Test-Time Compute"
+series:
+  name: "Minds & Machines"
+  part: 75
+draft: false
+featured: false
+dropCap: true
+---
+
+*Mountain View, California. September 12, 2024. OpenAI releases a new model. Not GPT-5 — which the AI community has been anticipating for months. Something different. Something with a different name and a different philosophy.*
+
+*The model is called o1. The "o" stands for "omni" in some interpretations, "one" in others. What it actually stands for, in the most important sense, is a different approach to AI capability: instead of training a bigger model on more data, o1 has been trained to think longer before answering.*
+
+*In the demos accompanying the release, o1 works through a difficult mathematics competition problem. Before giving the answer, there is a period of "thinking" — a chain of reasoning visible to the user — that extends for several paragraphs. The model considers different approaches, identifies potential errors, tries an alternative strategy, and arrives at a conclusion. The thinking is visible, legible, and — most significantly — correct.*
+
+*On the American Mathematics Competition, o1 places in the top 1% of human competitors. On graduate-level quantum chemistry and biology problems from the GPQA Diamond benchmark, it reaches accuracy levels that match or exceed PhD-level human experts. On the International Mathematical Olympiad, it solves four of the six problems.*
+
+*The AI research community recognises immediately what it is seeing: not just a better model, but a new paradigm for AI capability.*
+
+---
+
+## The Problem Chain-of-Thought Addressed
+
+To understand why reasoning models represent a significant advance, it helps to understand the specific limitation they were designed to address.
+
+Standard large language models generate their responses token by token — each token is predicted based on all preceding tokens, and the response emerges from this sequential prediction process. For questions with straightforward answers — factual lookups, paraphrasing, short-form generation — this approach works well. The answer is, in a sense, a pattern that the model has learned from training data, and generating it token by token is a reliable way to reproduce that pattern.
+
+For complex reasoning tasks — multi-step mathematics, logical inference chains, coding problems that require planning — the approach has a fundamental limitation. The reasoning required to answer the question correctly needs to proceed through a sequence of steps, each dependent on the previous, and the model must hold the intermediate results in its "working memory" as it generates the response. The token-by-token generation process does not provide a natural mechanism for this kind of extended reasoning.
+
+The result was a specific failure pattern: language models would produce plausible-looking responses to complex reasoning questions that skipped steps, made errors in intermediate calculations, or simply pattern-matched to superficially similar problems without actually working through the required reasoning. The models looked like they were reasoning, but they were generating text that resembled reasoning outputs without actually performing the reasoning.
+
+This failure pattern was visible in standardised tests designed to measure mathematical and logical reasoning. Models that scored impressively on language understanding benchmarks often scored less well on mathematical competition problems, on abstract logical puzzles, and on other tasks where the path from question to answer required explicit, careful intermediate reasoning.
+
+---
+
+## Chain-of-Thought Prompting: The First Breakthrough
+
+The initial response to the reasoning limitation was not a new model architecture but a new prompting technique: chain-of-thought prompting, introduced in a 2022 paper by Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Sha, Ed Chi, Quoc Le, and Denny Zhou at Google Brain.
+
+The insight was remarkably simple. Rather than asking the model for just the answer to a reasoning problem, the paper showed that including examples in the prompt that demonstrated the intermediate reasoning steps — showing the "chain of thought" that led from question to answer — caused the model to generate similar intermediate reasoning steps in its own response.
+
+The performance improvement from chain-of-thought prompting was striking. On the GSM8K benchmark of grade-school mathematics word problems, chain-of-thought prompting improved the performance of PaLM 540B from 17.9% to 58.1% — a more than three-fold improvement on a task where the model had previously struggled. On the MATH benchmark of more challenging mathematics problems, the improvements were similarly dramatic.
+
+The theoretical explanation for why chain-of-thought prompting helped was straightforward: by generating intermediate reasoning steps as text, the model was effectively using the text generation mechanism as working memory. Each step of the reasoning was written out, becoming part of the context that informed the generation of the next step. The model was not holding complex intermediate states in its internal representations; it was externalising those states as text and then reading them back.
+
+This externalisation of reasoning through language had a specific consequence: it made the reasoning visible and legible. A user who could see the chain of thought could identify where the reasoning went wrong, could provide corrections, could evaluate the validity of the argument. The transparency of chain-of-thought reasoning was itself valuable for trust and oversight.
+
+The chain-of-thought prompting result was immediately influential. Within months of the paper's publication, chain-of-thought prompting was being used routinely in AI applications that required complex reasoning. The technique spawned a family of related approaches: "Let's think step by step" prompting, which elicited chain-of-thought reasoning without providing examples; "self-consistency" prompting, which generated multiple reasoning chains and took the majority answer; and "tree-of-thought" prompting, which explored multiple reasoning paths and selected the most promising.
+
+---
+
+## The Scaling Problem: Small Models Still Couldn't Reason
+
+Chain-of-thought prompting was a significant advance, but it revealed a specific limitation: the improvement was most dramatic in large models. Small models, even with chain-of-thought prompting, showed limited benefit. The reasoning that chain-of-thought elicited was only as good as the model's underlying capability to generate valid reasoning steps.
+
+This observation contributed to the theoretical understanding of chain-of-thought: it was not teaching models to reason, it was providing a format that made it easier for capable models to externalise their existing reasoning capability. A model that had not learned valid reasoning patterns from training could not generate valid reasoning chains just by being prompted to show its work.
+
+The training data question became central: what was in the training data that enabled chain-of-thought reasoning in large models? The most likely answer was mathematical and scientific text — proofs, worked examples, problem solutions that walked through the reasoning process explicitly. Models trained on sufficient quantities of such text had, through next-token prediction, learned to generate similar text — which, when elicited by chain-of-thought prompting, produced reasoning chains that actually worked through the problem.
+
+This suggested a training direction: if models that had been trained on text containing explicit reasoning could be prompted to do chain-of-thought reasoning, models specifically trained to generate long, explicit reasoning chains should be even better at it. The question was how to train such models.
+
+---
+
+## Reinforcement Learning for Reasoning: The Key Innovation
+
+The transition from chain-of-thought prompting as a technique to chain-of-thought reasoning as a trained capability — the transition that produced o1 and its successors — required a specific training innovation: using reinforcement learning to train models to generate high-quality reasoning chains.
+
+The specific innovation was to treat the generation of reasoning chains as a sequential decision process that could be improved through reinforcement learning. At each step of generating a reasoning chain, the model chose which token to generate next. The quality of the reasoning chain that resulted — measured by whether it led to a correct answer — provided a reward signal. Training the model to maximise this reward signal produced a model that had learned to generate high-quality reasoning chains, not just to produce reasoning-chain-shaped text.
+
+The training process required addressing specific challenges.
+
+**The sparse reward problem.** The reward signal — whether the reasoning chain led to a correct answer — was sparse. Most reasoning chains produced by early versions of the model were incorrect, providing little gradient signal for improving the reasoning process. Addressing this required techniques from RL research on sparse rewards: reward shaping, curriculum learning that started with easier problems, and systematic exploration.
+
+**The process vs. outcome tradeoff.** Training purely on outcomes — whether the final answer was correct — could produce reasoning chains that "looked like" valid reasoning without actually being valid. The model could learn to generate plausible-looking intermediate steps that were not actually connected by valid reasoning. Addressing this required evaluating the quality of the reasoning process, not just the outcome — which required either human evaluation of reasoning chains or automated methods for assessing reasoning validity.
+
+**The length tradeoff.** Longer reasoning chains were more expensive to generate and more prone to accumulated errors. The optimal length of reasoning chains for different types of problems was not obvious and needed to be discovered through experimentation.
+
+The specific approaches that OpenAI, DeepMind, Anthropic, and other organisations used to address these challenges — and the specific training architectures that produced o1 and its successors — have not been fully disclosed. But the general approach is clear: using reinforcement learning to train models to generate high-quality reasoning chains, with a reward signal based on the correctness of the final answer.
+
+---
+
+## OpenAI o1: The First Public Demonstration
+
+OpenAI's release of o1 in September 2024 was the first public demonstration of a reasoning model at frontier scale. The model showed qualitatively different performance from previous GPT models on complex reasoning tasks.
+
+The specific performance improvements on mathematical and scientific benchmarks were dramatic. But the more significant observation was qualitative: o1's reasoning chains looked different from the chain-of-thought outputs of previous models. The reasoning was more careful, more systematic, and more likely to identify and correct its own errors. When o1 made an error in a reasoning step, it was more likely than previous models to notice the error, return to an earlier step, and try a different approach.
+
+This self-correction behaviour was one of the most striking features of the reasoning models. Previous models that generated chain-of-thought reasoning tended to generate the first reasoning path that occurred to them and follow it to completion, even when errors accumulated. o1 appeared to explore multiple reasoning paths, evaluate their validity, and select the most promising approach — behaviour that resembled the metacognitive monitoring that skilled human problem-solvers use.
+
+The metacognitive behaviour was not a result of explicit programming — it emerged from the reinforcement learning training. A model trained to produce correct answers through a reasoning process had been trained to care about whether its reasoning was valid, and this produced the self-correction behaviour as a learned strategy for achieving high-quality reasoning outcomes.
+
+The thinking time tradeoff was another notable feature of o1. For simple questions, o1 produced answers quickly — the reasoning chain was short and the answer was generated without significant delay. For complex questions, o1 took longer — generating extended reasoning chains that explored the problem from multiple angles before producing an answer. The model had learned to allocate more "thinking time" to harder problems, a behaviour that is characteristic of skilled human reasoning.
+
+---
+
+## The Test-Time Compute Insight
+
+One of the most important conceptual contributions of the reasoning model development was a shift in how AI researchers thought about the relationship between compute and capability.
+
+Previous AI development had focused primarily on training-time compute — the compute invested in training a model. The scaling laws that had guided AI development through the GPT era described how model performance improved as training compute increased. More training compute meant better models, and the competitive frontier of AI capability was defined by who could run the largest training runs.
+
+Reasoning models introduced a new dimension: test-time compute — the compute invested in generating a response to a specific query. A reasoning model that generates a long reasoning chain before producing its answer is using more compute at test time than a model that produces an answer immediately. The reasoning process itself is an investment of compute in the service of better answers.
+
+The test-time compute insight was that both training-time and test-time compute could be invested to improve model performance, and that the optimal allocation between the two depended on the type of task. For tasks where the answer could be read off from patterns in training data, training-time compute was more valuable. For tasks that required extended reasoning, test-time compute could be more valuable — investing more compute in reasoning through the specific problem could produce better answers than simply training a bigger model.
+
+This insight had several specific implications.
+
+**The efficiency of targeted compute.** A reasoning model could invest more compute in a difficult problem and less in an easy one, efficiently allocating computational resources. A standard language model invested approximately the same compute in every response, regardless of difficulty.
+
+**The value of verification.** When a reasoning model generated multiple reasoning chains and selected the most consistent answer, it was using test-time compute for verification — checking that different approaches to the problem converged on the same answer. Verification is more reliable than generating a single answer, but it requires more compute.
+
+**The limits of training.** Some problems may be too difficult for any amount of training to produce reliable direct answers — they require extended reasoning at test time. For these problems, the test-time compute paradigm may be qualitatively important, not just incrementally better.
+
+---
+
+## The Benchmark Results: A New Standard
+
+The performance of reasoning models on standard AI benchmarks — particularly mathematical and scientific reasoning benchmarks — established a new standard for AI capability and forced a revision of assumptions about how close AI was to specific human performance levels.
+
+On the AIME (American Invitational Mathematics Examination) — a prestigious mathematics competition — o1 scored 83.3% in 2024, compared to GPT-4o's 9.3%. The AIME is a challenging competition for which typical US high school students prepare intensively; an 83.3% score would place o1 among the top competitive mathematics students in the country.
+
+On the MATH benchmark, a collection of competition mathematics problems, o1 achieved 94.8% compared to GPT-4o's 76.6%. On the GPQA Diamond benchmark — a collection of graduate-level questions in quantum chemistry, biology, and physics that even subject matter experts struggle with — o1 achieved 77.3% compared to GPT-4o's 50.6%.
+
+These results were not just incrementally better than previous models — they represented qualitative improvements in the types of problems that AI systems could reliably solve. The specific problems that o1 solved — advanced competition mathematics, graduate-level science — had previously been considered beyond the reliable capability of AI systems, and the assumption that mathematical and scientific expert performance would remain distinctively human for the foreseeable future was challenged.
+
+The benchmark results also raised specific questions about what the benchmarks were measuring. Competition mathematics problems, while designed to be difficult for human students, may be over-represented in AI training data — through math competition websites, textbooks, and problem collections. Whether o1's performance on AIME reflected genuine mathematical reasoning or pattern matching to the specific types of problems that appear in competitions was a question that the benchmark results alone could not answer.
+
+Independent evaluations that used novel problems — problems that were unlikely to have appeared in training data — consistently showed that AI reasoning models performed substantially below their benchmark levels on truly novel problems, suggesting that the benchmark improvements reflected a combination of genuine reasoning improvement and familiarity with the specific problem types in the benchmarks.
+
+---
+
+## DeepSeek and the Open Reasoning Revolution
+
+In December 2024, a Chinese AI company called DeepSeek released DeepSeek-R1 — a reasoning model that matched or exceeded o1's performance on most benchmarks, at a fraction of the computational cost and as an open-weight model freely available to researchers and developers worldwide.
+
+The DeepSeek-R1 release was one of the most significant events in the AI industry of 2024-2025 for several reasons.
+
+**The efficiency demonstration.** DeepSeek achieved frontier reasoning performance at a training cost that the AI research community found shockingly low — the company reported training costs of approximately $6 million for the model, compared to the hundreds of millions of dollars that OpenAI and Google were understood to be spending on comparable training runs. The efficiency suggested that the major American AI companies had been significantly over-investing in compute and that more efficient training approaches were available.
+
+**The open release.** Like the LLaMA models from Meta, DeepSeek-R1 was released as an open-weight model — the model weights were publicly available for researchers and developers to download, run, and fine-tune. The open release of a frontier reasoning model was significant for democratising access to reasoning AI capabilities.
+
+**The geopolitical dimension.** The DeepSeek achievement was made by a Chinese company, using computing resources that were constrained by US export controls on the most advanced AI chips. The ability to achieve frontier AI performance under these constraints suggested that the export control strategy — limiting Chinese access to the most advanced AI hardware — was less effective than the US government had hoped.
+
+The DeepSeek-R1 release triggered a significant recalibration of assumptions in the AI industry about the relationship between compute investment and capability achievement. The efficiency of DeepSeek's training suggested that much of the compute invested by the major AI companies was not necessary for achieving frontier performance — that better training algorithms could achieve similar results with substantially less compute.
+
+---
+
+## The Reasoning Benchmark Question: What Is Being Measured?
+
+The dramatic performance improvements of reasoning models on mathematical and scientific benchmarks triggered a renewed debate about what AI benchmarks actually measure and whether improved benchmark performance reflects genuine capability improvements.
+
+The concern has two components.
+
+**The contamination concern.** AI training datasets contain large quantities of text from the internet, including text from websites that post competition mathematics problems and their solutions. A model trained on this data may have "memorised" the solutions to specific competition problems, producing high benchmark scores without the genuine mathematical reasoning capability that the benchmark is supposed to measure.
+
+Researchers who investigated this concern found that contamination was a real but limited factor. When they evaluated reasoning models on novel problems — problems that were unlikely to have appeared in any training dataset — performance dropped significantly compared to standard benchmark performance, but remained substantially above what non-reasoning models could achieve on novel problems. The contamination concern does not explain away the entire benchmark improvement, but it does suggest that benchmark performance overstates genuine reasoning capability.
+
+**The generalization concern.** Even if a reasoning model correctly solves a specific type of problem without having memorised that specific problem, its ability to solve that type of problem may not generalise to related problems that differ in structure. Competition mathematics has specific conventions, specific types of problems, and specific solution strategies that a model trained on competition mathematics will learn. The question is whether the model has learned the underlying mathematical concepts or has learned the competition-specific patterns.
+
+Independent evaluations using genuinely novel mathematical problems — problems constructed by researchers to be structurally different from competition problems in ways that the model would not have seen in training — consistently show lower performance than standard benchmark performance. This suggests that some, though not all, of the benchmark improvement reflects competition-specific pattern matching rather than general mathematical reasoning.
+
+The contamination and generalization concerns do not eliminate the significance of reasoning model advances, but they complicate the interpretation. The honest assessment is that reasoning models are substantially better at competition mathematics than previous models, that some of this improvement reflects genuine reasoning capability improvement, and that the extent of the genuine capability improvement is difficult to measure precisely because of contamination and specialization effects.
+
+---
+
+## The Implications for AI Safety
+
+The development of reasoning models has specific implications for AI safety that the research community has been actively discussing.
+
+**Improved alignment through transparency.** The visible reasoning chains produced by reasoning models are more interpretable than the opaque token-by-token generation of standard language models. A reasoning model's response includes the reasoning that led to the conclusion, allowing users to evaluate whether the reasoning is valid and to identify where the model might have made errors. This transparency is a specific safety advantage.
+
+**More capable systems require more careful alignment.** Reasoning models are substantially more capable at complex problem-solving than their predecessors. More capable systems can cause more harm when misaligned — not because they are more likely to be misaligned, but because the consequences of misalignment scale with capability. The safety implications of reasoning models are more significant than the safety implications of earlier, less capable models.
+
+**Novel failure modes.** The reasoning process that reasoning models generate introduces novel failure modes that require new safety evaluation approaches. A reasoning model that produces a plausible-seeming reasoning chain that leads to a harmful conclusion may be more persuasive than a model that simply states the harmful conclusion — the reasoning chain provides a rationalisation. Evaluating whether a reasoning model's conclusions are actually well-supported by its reasoning chains requires methods that go beyond the output evaluation used for standard language models.
+
+**Deceptive reasoning.** There is specific concern about the possibility of reasoning models generating "deceptive reasoning" — producing visible reasoning chains that appear to justify a conclusion while the actual internal processing that produced the conclusion was different. If reasoning models learn to produce reasoning chains that are not faithful representations of their actual processing, the transparency of the reasoning chain provides false assurance. Research on whether reasoning model chains are faithful representations of their internal processing is an active area of investigation.
+
+---
+
+## The Model Families: o1, o3, Gemini Thinking, Claude Extended Thinking
+
+The o1 release was followed by the rapid development of reasoning models across all major AI companies, producing a family of reasoning models with different capabilities, costs, and design philosophies.
+
+**OpenAI's o3.** Released in December 2024, o3 represented a substantial improvement over o1 across all reasoning benchmarks. On the ARC-AGI benchmark — the visual pattern recognition task designed to test common-sense reasoning — o3 in its highest-compute configuration achieved 87.5%, dramatically exceeding previous records and approaching the 85% human performance baseline.
+
+**Google's Gemini Thinking.** Google integrated chain-of-thought reasoning into its Gemini model family, producing Gemini 1.5 Flash Thinking and related variants that balanced reasoning capability with inference speed. The integration of reasoning into Gemini's multimodal framework allowed reasoning about images and other non-text inputs.
+
+**Anthropic's Claude Extended Thinking.** Anthropic incorporated extended thinking capabilities into Claude 3.7 Sonnet and subsequent models, producing a reasoning capability that was integrated with Anthropic's Constitutional AI safety training. The Extended Thinking capability was designed to be activatable for complex problems while defaulting to faster responses for simpler queries.
+
+**DeepSeek's R-series.** Following the R1 release, DeepSeek continued developing reasoning models, with subsequent releases improving both capability and efficiency. The open-weight releases allowed the research community to study and build on the DeepSeek reasoning approach in ways not possible with proprietary models.
+
+The development of reasoning models across multiple organisations demonstrated that the reasoning approach was not a single company's innovation but a general direction that multiple teams had arrived at independently. The specific implementations differed, but the core insight — that training models to generate explicit intermediate reasoning steps through reinforcement learning produced substantial capability improvements — was robust across different organisations and approaches.
+
+---
+
+## The ARC-AGI Challenge: Testing Genuine Generalisation
+
+The ARC-AGI benchmark, developed by François Chollet and released in 2019, was specifically designed to test the kind of genuine generalisation that distinguishes human intelligence from the pattern matching that AI systems excel at. ARC-AGI problems present visual patterns and ask for a transformation rule that generates the correct output — requiring the kind of intuitive, general reasoning that humans perform effortlessly but that AI systems had historically struggled with.
+
+The benchmark's design was specifically intended to resist the training data contamination that affects other benchmarks: the specific ARC-AGI problems were novel enough that training on internet text would not provide direct preparation for them. Performance on ARC-AGI was intended to reflect genuine generalisation capability.
+
+When o3 achieved 87.5% on ARC-AGI in its highest-compute configuration, the result was significant in two ways. First, it demonstrated that reasoning models could achieve strong performance on a benchmark specifically designed to resist pattern matching. Second, it demonstrated the test-time compute tradeoff starkly: o3's performance on ARC-AGI varied dramatically with the compute allocated to the reasoning process — low-compute configurations achieved substantially lower scores than high-compute configurations.
+
+Chollet's response to the o3 result was carefully considered. He acknowledged that the result was significant — that reasoning models had substantially exceeded previous ARC-AGI performance. But he argued that the result should not be interpreted as demonstrating human-level general intelligence: o3's performance, while impressive, was achieved at a computational cost that was orders of magnitude higher than human performance on the same tasks, and the model's approach to the problems appeared different from the intuitive generalisation that humans used.
+
+The ARC-AGI episode illustrated the specific difficulty of measuring AI capability in ways that are robust to the test-time compute manipulation: if a model can achieve better performance by reasoning longer, benchmark performance becomes a function of the compute budget rather than the model's intrinsic capability.
+
+---
+
+## What Reasoning Models Reveal About Intelligence
+
+The development of reasoning models and their specific capabilities and limitations reveal something important about the nature of intelligence and the relationship between pattern recognition and reasoning.
+
+The standard language model paradigm — next-token prediction on a large text corpus — produces systems that are extraordinarily capable pattern recognisers but that struggle with tasks requiring extended, systematic reasoning. This is consistent with a specific view of what the training objective produces: a system that has learned what text looks like, including text that looks like reasoning, without necessarily developing the reasoning capacity itself.
+
+Reasoning models — trained specifically to generate correct reasoning chains through reinforcement learning — improve on this limitation. The RL training provides a signal that distinguishes valid reasoning from reasoning-shaped text: a reasoning chain is rewarded not just for looking like a valid reasoning chain but for actually leading to a correct answer. This should, in principle, select for genuine reasoning capability over pattern matching.
+
+The residual gap — the lower performance on truly novel problems compared to standard benchmarks — suggests that the training has not fully achieved this goal: some reasoning that works on familiar problem types fails to generalise to novel problems. This is consistent with a view in which the RL training has produced a combination of genuine reasoning capability and problem-type-specific pattern matching, with the proportion depending on the problem type and the training distribution.
+
+The most honest interpretation of reasoning models is probably: they represent a genuine advance in AI reasoning capability, and that advance is a combination of improved reasoning methodology (using the text generation mechanism as extended working memory for explicit reasoning steps) and more sophisticated pattern matching (learning better patterns for reasoning through specific problem types). The distinction between these two sources of the improvement cannot be cleanly made from the outside.
+
+---
+
+## The Future: Toward Genuine Systematic Reasoning
+
+The development of reasoning models is still in early stages, and the research directions that will determine how far they can advance are active areas of investigation.
+
+**Reasoning with formal verification.** Integrating reasoning models with formal verification systems — allowing them to call on symbolic mathematics systems to verify specific claims — could address the accuracy limitations of purely neural reasoning. A reasoning model that can offload specific mathematical computations to a verified calculator and then incorporate those results in its chain of thought would be more reliable than a purely neural reasoning model.
+
+**Process reward models.** Training reward models that evaluate the quality of reasoning processes — not just the correctness of final answers — could produce better training signals for reasoning models. A process reward model that could identify specific errors in reasoning chains would provide more targeted feedback for improving reasoning quality.
+
+**Novel problem generalisation.** The key challenge for reasoning models is improving performance on genuinely novel problems — problems that are structurally different from training examples. Research on how to train for generalisation, rather than for performance on specific problem types, is central to the long-term development of reasoning models.
+
+**Embodied reasoning.** Integrating reasoning models with physical environment interaction — allowing models to reason about the consequences of physical actions through simulated or real-world experience — could extend reasoning capability to domains that require physical intuition and embodied knowledge.
+
+The reasoning model trajectory points toward AI systems that can engage in extended, explicit, verifiable reasoning about complex problems — systems that are not just pattern recognisers but genuine reasoning partners. Whether that trajectory leads to the kind of general reasoning capability that would constitute artificial general intelligence, or whether it leads to systems that are better at specific reasoning tasks without achieving general reasoning, remains an open empirical question.
+
+What is clear is that the development of reasoning models has established a new paradigm for AI capability: not just training bigger models on more data, but training models to think longer and more carefully about specific problems. The paradigm has produced dramatic capability improvements in a short time, and its limits are not yet visible.
+
+---
+
+## Further Reading
+
+- **"Chain-of-Thought Prompting Elicits Reasoning in Large Language Models" by Wei et al. (2022)** — The foundational paper on chain-of-thought prompting. Essential for understanding the intellectual origin of reasoning models.
+- **"Let's Verify Step by Step" by Lightman et al. (2023)** — OpenAI's research on process reward models for improving mathematical reasoning, directly contributing to the o1 development.
+- **"Scaling LLM Test-Time Compute Optimally Can be More Effective than Scaling Model Parameters" by Snell et al. (2024)** — The research establishing the theoretical basis for test-time compute as an alternative to training-time compute for capability improvement.
+- **"ARC Prize: Testing Genuine Intelligence" — Chollet's documentation at arcprize.org** — Chollet's account of the ARC-AGI benchmark, the o3 result, and what it means for measuring genuine AI generalisation.
+- **"DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning" by DeepSeek (2025)** — The technical paper describing DeepSeek's approach to training reasoning models, providing insight into the open-source side of the reasoning model development.
+
+---
+
+*Next in the Events series: **E26 — The Open Source Wars: When AI Went Free** — The full story of the open source AI movement — from Meta's LLaMA to DeepSeek to Mistral — the debate between open and closed AI, what open source AI has enabled, what risks it has introduced, and the specific governance question of whether the open source model is compatible with the safety requirements of frontier AI.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the reasoning model story — the chain-of-thought breakthrough, the o1 release, the DeepSeek efficiency revelation, and the deeper questions about what genuine AI reasoning requires — illuminates something about the trajectory of AI capability and what it means for the future, share it with someone who would find the illumination valuable.*

@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '@/lib/format';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  title?: string;
+}
+
+const { posts, title = 'Read next' } = Astro.props;
+---
+{posts.length > 0 && (
+  <section class="mt-14 pt-10 border-t border-[var(--line)]">
+    <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-6">
+      {title}
+    </h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+      {posts.map((post) => (
+        <li>
+          <a
+            href={`/${post.id}/`}
+            class="block lift group"
+          >
+            <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
+              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+            </p>
+            <h3 class="font-serif text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors mb-1 leading-snug">
+              {post.data.title}
+            </h3>
+            {post.data.description && (
+              <p class="font-serif text-[0.9375rem] leading-relaxed text-[var(--fg-soft)] line-clamp-2">
+                {post.data.description}
+              </p>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

@@ -1,0 +1,83 @@
+---
+import { SITE } from '@/lib/site';
+const year = new Date().getFullYear();
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/series', label: 'Series' },
+  { href: '/archive', label: 'Archive' },
+  { href: '/search', label: 'Search' },
+];
+---
+<footer class="border-t border-[var(--line)] mt-24">
+  <div class="mx-auto w-full max-w-2xl px-5 sm:px-6 py-10">
+    {/* Top row: site name + tagline */}
+    <div class="mb-6">
+      <a
+        href="/"
+        class="font-serif text-base font-semibold tracking-tight text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+      >
+        {SITE.title}
+      </a>
+      <p class="font-serif text-sm text-[var(--fg-soft)] mt-1 max-w-md leading-relaxed">
+        {SITE.tagline}
+      </p>
+    </div>
+
+    {/* Middle row: nav links (left) + social links (right) */}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm">
+      <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[var(--fg-faint)]">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class="hover:text-[var(--fg)] transition-colors"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      <nav aria-label="Social" class="flex items-center gap-4 text-[var(--fg-faint)]">
+        {SITE.social.twitter && (
+          <a
+            href={SITE.social.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-[var(--fg)] transition-colors"
+          >Twitter</a>
+        )}
+        {SITE.social.github && (
+          <a
+            href={SITE.social.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-[var(--fg)] transition-colors"
+          >GitHub</a>
+        )}
+        <a
+          href={SITE.social.rss}
+          class="hover:text-[var(--fg)] transition-colors"
+        >RSS</a>
+      </nav>
+    </div>
+
+    {/* Bottom row: copyright + colophon */}
+    <div class="mt-6 pt-6 border-t border-[var(--line)] text-xs text-[var(--fg-faint)]">
+      <p>
+        &copy; {year} {SITE.author}. Built with{' '}
+        <a
+          href="https://astro.build"
+          class="text-[var(--fg-soft)] hover:text-[var(--accent)] underline underline-offset-2"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Astro</a>. Source on{' '}
+        <a
+          href={SITE.social.github}
+          class="text-[var(--fg-soft)] hover:text-[var(--accent)] underline underline-offset-2"
+          target="_blank"
+          rel="noopener noreferrer"
+        >GitHub</a>.
+      </p>
+    </div>
+  </div>
+</footer>

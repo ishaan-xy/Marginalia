@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, readingTime } from '@/lib/format';
+import { SITE } from '@/lib/site';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  index?: number;
+}
+
+const { post, index = 0 } = Astro.props;
+const { title, description, pubDate, draft } = post.data;
+const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
+const href = `/${post.id}/`;
+---
+<article class:list={['fade-up', index > 0 && 'border-t border-[var(--line)] mt-10 pt-10']} style={`animation-delay: ${index * 60}ms`}>
+  <div class="flex items-center gap-3 text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-2">
+    <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+    <span aria-hidden="true">·</span>
+    <span>{minutes} min read</span>
+    {draft && (
+      <span class="text-[var(--accent)] font-medium">Draft</span>
+    )}
+  </div>
+
+  <h2 class="font-serif text-2xl sm:text-[1.75rem] leading-snug font-semibold tracking-tight mb-2">
+    <a
+      href={href}
+      class="text-[var(--fg)] hover:text-[var(--accent)] transition-colors no-underline"
+    >
+      {title}
+    </a>
+  </h2>
+
+  {description && (
+    <p class="font-serif text-[1.0625rem] leading-relaxed text-[var(--fg-soft)] mb-3">
+      {description}
+    </p>
+  )}
+
+  <a
+    href={href}
+    class="inline-block text-sm font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+  >
+    Continue reading &rarr;
+  </a>
+</article>

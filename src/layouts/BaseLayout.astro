@@ -1,0 +1,141 @@
+---
+import '@/styles/global.css';
+import { SITE } from '@/lib/site';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import ThemeScript from '@/components/ThemeScript.astro';
+import KeyboardShortcuts from '@/components/KeyboardShortcuts.astro';
+import CodeBlockEnhancer from '@/components/CodeBlockEnhancer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noIndex?: boolean;
+  /** Optional JSON-LD object(s) to embed as structured data */
+  jsonLd?: object | object[];
+  /** Article publish date for OG article tags */
+  publishedTime?: string;
+  /** Article author for OG article tags */
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  // SEO meta description. Defaults to the short tagline (under 155 chars)
+  // so search-result snippets stay clean. Pages with longer descriptions
+  // (like the homepage) can override this.
+  description = SITE.tagline,
+  ogImage,
+  noIndex = false,
+  jsonLd,
+  publishedTime,
+  type = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
+const socialImage = ogImage
+  ? new URL(ogImage, Astro.site ?? SITE.url).toString()
+  : undefined;
+
+// Always include WebSite schema; merge with any per-page schema
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.title,
+  description: SITE.description,
+  url: SITE.url,
+  author: {
+    '@type': 'Person',
+    name: SITE.author,
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE.url}/search?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title ?? SITE.title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.title} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title ?? SITE.title} />
+    <meta name="twitter:description" content={description} />
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+
+    <!-- RSS -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE.title}
+      href={new URL(SITE.social.rss, Astro.site ?? SITE.url)}
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Manifest for PWA-ish behavior -->
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fonts: Inter + Lora + JetBrains Mono, with subset preloads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Theme bootstrap (no FOUC) -->
+    <ThemeScript />
+
+    <!-- Structured data -->
+    {schemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-[var(--bg)] focus:px-3 focus:py-2 focus:shadow"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main" class="mx-auto w-full max-w-2xl px-5 sm:px-6 py-12 sm:py-16">
+      <slot />
+    </main>
+    <Footer />
+    <KeyboardShortcuts />
+    <CodeBlockEnhancer />
+  </body>
+</html>

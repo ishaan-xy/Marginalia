@@ -1,0 +1,26 @@
+---
+// Reading progress bar — fixed at top of viewport, fills as user scrolls article.
+---
+<div id="reading-progress" class="progress-bar" style="width:0%" aria-hidden="true"></div>
+
+<script>
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    let ticking = false;
+    function update() {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop;
+      const total = h.scrollHeight - h.clientHeight;
+      const pct = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0;
+      bar.style.width = `${pct}%`;
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
+  }
+</script>

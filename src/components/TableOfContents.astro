@@ -1,0 +1,63 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+{tocItems.length >= 3 && (
+  <nav class="toc hidden xl:block" aria-label="Table of contents">
+    <p class="toc-title">On this page</p>
+    <ul class="toc-list">
+      {tocItems.map((h) => (
+        <li>
+          <a
+            href={`#${h.slug}`}
+            data-toc-depth={h.depth}
+            class:list={[h.depth === 3 && 'toc-l3']}
+            data-toc-link
+          >
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  // Highlight the current section's link in the TOC as the user scrolls
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+  if (links.length > 0) {
+    const headings = Array.from(links)
+      .map((a) => {
+        const id = a.getAttribute('href')?.slice(1);
+        return id ? document.getElementById(id) : null;
+      })
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          const link = document.querySelector(`[data-toc-link][href="#${id}"]`);
+          if (!link) return;
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('active'));
+            link.classList.add('active');
+          }
+        });
+      },
+      { rootMargin: '0% 0% -75% 0%', threshold: 0 }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+  }
+</script>

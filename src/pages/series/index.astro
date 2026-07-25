@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getAllSeries } from '@/lib/post-cache';
+import { formatDate, slugifySeries } from '@/lib/format';
+
+const series = await getAllSeries();
+
+// Total stats
+const totalParts = series.reduce((sum, s) => sum + s.count, 0);
+const totalReadingTime = series.reduce((sum, s) => sum + s.totalReadingTime, 0);
+const totalHours = Math.round(totalReadingTime / 60);
+---
+<BaseLayout
+  title="Series"
+  description="Multi-part essay series — long-form narratives read in order."
+>
+  <section class="fade-up mb-12">
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+      Series
+    </h1>
+    <p class="font-serif text-lg text-[var(--fg-soft)] mb-2">
+      {series.length} series · {totalParts} parts · ~{totalHours} hours of reading.
+    </p>
+    <p class="font-serif text-[1.0625rem] text-[var(--fg-soft)] leading-relaxed max-w-prose">
+      Long-form narratives meant to be read in order. Each series works as a
+      single arc — start at part 1 and read through, or use the per-series
+      index to jump to a specific part.
+    </p>
+  </section>
+
+  <ul class="space-y-8">
+    {series.map((s) => {
+      const slug = slugifySeries(s.name);
+      const hours = Math.round(s.totalReadingTime / 60);
+      return (
+        <li class="border-t border-[var(--line)] pt-8 first:border-t-0 first:pt-0">
+          <a href={`/series/${slug}/`} class="block group">
+            <div class="flex items-baseline justify-between gap-4 mb-2">
+              <h2 class="font-serif text-2xl sm:text-[1.75rem] leading-tight font-semibold tracking-tight text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors">
+                {s.name}
+              </h2>
+              <span class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] shrink-0">
+                {s.count} parts
+              </span>
+            </div>
+            {s.description && (
+              <p class="font-serif text-[1.0625rem] leading-relaxed text-[var(--fg-soft)] mb-3 max-w-prose">
+                {s.description}
+              </p>
+            )}
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-sans text-[var(--fg-faint)]">
+              {s.lastUpdated && (
+                <span>Updated {formatDate(s.lastUpdated)}</span>
+              )}
+              <span>·</span>
+              <span>~{hours} {hours === 1 ? 'hour' : 'hours'} of reading</span>
+              <span>·</span>
+              <span class="group-hover:text-[var(--accent)] transition-colors">
+                Browse all {s.count} parts →
+              </span>
+            </div>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+
+  {series.length === 0 && (
+    <p class="font-serif text-lg text-[var(--fg-soft)] py-8">
+      No series yet.
+    </p>
+  )}
+</BaseLayout>

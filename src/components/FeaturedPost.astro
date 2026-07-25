@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, readingTime } from '@/lib/format';
+import { SITE } from '@/lib/site';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
+---
+<a
+  href={`/${post.id}/`}
+  class="featured-hero lift block group mb-12 relative"
+>
+  <div class="relative z-10">
+    <div class="flex items-center gap-3 text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-4">
+      <span class="inline-flex items-center gap-1.5">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></span>
+        Featured
+      </span>
+      <span class="text-[var(--fg-faint)]">·</span>
+      <time datetime={pubDate.toISOString()} class="text-[var(--fg-faint)]">{formatDate(pubDate)}</time>
+      <span class="text-[var(--fg-faint)]">·</span>
+      <span class="text-[var(--fg-faint)]">{minutes} min read</span>
+    </div>
+
+    <h2 class="font-serif text-2xl sm:text-[1.75rem] leading-tight font-semibold tracking-tight text-[var(--fg)] mb-3 group-hover:text-[var(--accent)] transition-colors">
+      {title}
+    </h2>
+
+    {description && (
+      <p class="font-serif text-[1.0625rem] leading-relaxed text-[var(--fg-soft)] mb-4 max-w-prose">
+        {description}
+      </p>
+    )}
+
+    {tags.length > 0 && (
+      <ul class="flex flex-wrap gap-2">
+        {tags.slice(0, 4).map((tag) => (
+          <li>
+            <span class="tag-pill">#{tag}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <p class="mt-6 text-sm font-sans text-[var(--fg-faint)] group-hover:text-[var(--accent)] transition-colors">
+      Continue reading &rarr;
+    </p>
+  </div>
+</a>

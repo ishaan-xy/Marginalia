@@ -1,0 +1,288 @@
+---
+title: "Yann LeCun: The Rebel with a Vision"
+description: "He invented convolutional neural networks, built the first AI system to process real-world visual data at scale, and became the architect of Meta's AI empire. The most argumentative of the Godfathers of Deep Learning — and why his arguments, however combative the delivery, usually turn out to be right."
+pubDate: "2026-04-19"
+tags:
+  - "Key Figure"
+  - "Yann LeCun"
+  - "Convolutional Networks"
+  - "Deep Learning"
+  - "Meta AI"
+  - "AI Safety"
+series:
+  name: "Minds & Machines"
+  part: 35
+draft: false
+featured: false
+dropCap: true
+---
+
+*New York City. 2023. A Twitter thread is going viral, as Yann LeCun's Twitter threads often do — not because they are uncontroversial, but because they are provocative in exactly the right way to generate maximum engagement. LeCun, the Chief AI Scientist at Meta, is arguing with several prominent AI researchers about the nature of large language models.*
+
+*His position is characteristically blunt: large language models, however impressive, are not on the path to human-level intelligence. They are sophisticated text predictors, powerful in their domain, but fundamentally limited by their inability to model the physical world, to reason causally, to plan under uncertainty, to understand things in the way that animals and humans understand things through embodied experience.*
+
+*His interlocutors are pushing back, some politely, some not. LeCun is responding to each argument with a combination of technical precision and rhetorical force that his critics find either admirable or insufferable, depending on their relationship with him.*
+
+*This is LeCun in his element: arguing about AI. Not because he is contrarian for its own sake — though he is certainly willing to hold unpopular positions — but because he has spent forty years thinking more carefully than almost anyone else about what intelligence requires and how machines might achieve it, and he is not inclined to defer to consensus when he believes the consensus is wrong.*
+
+*He has been wrong before. He has also been right when the consensus was wrong, spectacularly and consequentially wrong, in ways that changed the world. The track record suggests his arguments deserve serious engagement, even when his style makes that engagement uncomfortable.*
+
+---
+
+## Soisy-sous-Montmorency to Paris: The Making of an Engineer
+
+Yann André LeCun was born on July 8, 1960, in Soisy-sous-Montmorency, a small town north of Paris in the Île-de-France region. He grew up in a household shaped by French intellectual culture — the culture that produced Descartes and Pascal, that took seriously the relationship between mathematical rigour and practical insight, that maintained a productive tension between theory and application.
+
+He was drawn to mathematics and science from an early age — the kind of student who found problems intrinsically interesting and who found the received ways of teaching those problems insufficiently deep. He was not a model student in the sense of being obedient to received methods. He was a model student in the sense of thinking hard about the problems themselves and developing his own ways of approaching them.
+
+He studied electrical engineering at the École Supérieure d'Ingénieurs en Électrotechnique et Électronique — ESIEE — a rigorous French engineering school that provided solid technical foundations. After ESIEE, he continued with a PhD at the Université Pierre et Marie Curie in Paris, where he worked on neural networks — already, in the early 1980s, pursuing the approach that the mainstream of AI research had declared unproductive.
+
+His doctoral research, completed in 1987, was directly in the tradition that Hinton and Rumelhart were developing — the connectionist approach to learning and representation. His thesis investigated learning algorithms for multi-layer networks, contributing to the theoretical understanding of backpropagation and its application to specific problem domains. When the 1986 Rumelhart-Hinton-Williams paper appeared, LeCun was already working in the same territory.
+
+The intellectual influence that most shaped LeCun's specific direction was not primarily within the AI research tradition — it was neuroscience. LeCun was deeply influenced by the work of David Marr on visual perception, and by Hubel and Wiesel's Nobel Prize-winning research on the visual cortex. Hubel and Wiesel had demonstrated that neurons in the primary visual cortex responded to oriented edges in specific locations of the visual field — that visual processing was organised hierarchically, with simple feature detectors at early stages and progressively more complex, invariant representations at later stages.
+
+This biological architecture — hierarchical, with local feature detection at early stages and progressively more global, invariant representations at later stages — became the template for the convolutional neural networks that LeCun would develop. The connection between the biology and the engineering was not arbitrary: LeCun believed that the visual cortex had solved the problem of visual recognition through evolutionary optimisation, and that understanding how it solved the problem was the key to building machines that could do the same.
+
+---
+
+## Bell Labs: The Place Where Ideas Became Products
+
+After completing his PhD, LeCun moved to the University of Toronto for a brief postdoctoral position, working with Hinton — the first direct collaboration between two of the future Godfathers. The Toronto period was intellectually productive but brief; in 1988, LeCun joined Bell Telephone Laboratories in Holmdel, New Jersey.
+
+Bell Labs was the legendary research institution that had produced the transistor, information theory, Unix, and dozens of other foundational technologies. Its culture — generous funding, intellectual freedom, the expectation that basic research would eventually produce practical results — was a perfect environment for LeCun's specific combination of theoretical ambition and engineering pragmatism.
+
+At Bell Labs, LeCun had access to something that most academic AI researchers did not have: a clear path from research to deployment. Bell Labs was part of AT&T, a company with enormous commercial interests in communications, information processing, and computing. Research at Bell Labs could, if it produced commercially valuable results, be deployed at scale — tested against real-world problems, refined in the light of real-world experience, and eventually incorporated into AT&T products and services.
+
+This deployment path shaped LeCun's research in specific and productive ways. He was not just trying to advance the theoretical understanding of neural networks. He was trying to build systems that worked in practice, on real data, at a scale that mattered commercially. The engineering constraints of deployment — the need for systems that were fast enough, accurate enough, robust enough to be practically useful — were, for LeCun, not obstacles to theoretical clarity but constraints that forced theoretical developments to connect to practical reality.
+
+The work he did at Bell Labs in the late 1980s and early 1990s produced the convolutional neural network architecture and demonstrated its application to optical character recognition — the automatic reading of handwritten digits and letters.
+
+---
+
+## The Convolutional Network: A Biological Insight Becomes Engineering
+
+The convolutional neural network — or ConvNet, as LeCun called it — was not an incremental improvement on previous neural network architectures. It was a specific insight about what made visual recognition hard and how to address the hardness by building the right inductive bias into the architecture.
+
+The fundamental challenge of visual recognition was translation invariance. A picture of the digit "5" is a picture of the digit "5" whether it appears in the upper left corner of the image or the lower right corner. A human visual system recognises it as a "5" regardless of its position. A fully connected neural network — a network in which every input unit was connected to every unit in the first hidden layer — had no built-in mechanism for translation invariance. It had to learn, from training examples, that the same pattern in different positions was the same pattern.
+
+This learning was possible in principle but expensive in practice. A large fully connected network trained on images would need to see the same pattern in many different positions to learn the equivalence. The number of parameters required — the number of connections — was proportional to the product of the image size and the hidden layer size, which became very large for realistic images. The training was slow, required enormous amounts of data, and produced networks that were prone to overfitting.
+
+LeCun's insight was that visual recognition did not need to learn translation invariance from data — it could be built in as an architectural constraint. A convolutional layer applied the same learned filter — the same set of weights — at every position in the image. The filter learned to detect a specific feature — an edge in a specific orientation, a corner, a specific texture — and the output of the convolutional layer was a map showing where that feature was detected in the image.
+
+Multiple filters, applied in parallel, produced multiple feature maps — one for each type of feature detected. Stacking multiple convolutional layers produced a hierarchy of features: simple edge detectors at the first layer, combinations of edges (corners, curves) at the second layer, combinations of curves (circles, arcs, letters) at the third layer, and so on. The hierarchy mirrored the hierarchical organisation of the visual cortex that Hubel and Wiesel had described.
+
+The practical advantages of the convolutional architecture over fully connected architectures were substantial. The number of parameters was dramatically reduced — instead of learning separate weights for every possible connection between input and hidden units, the convolutional network learned a small set of filter weights that were shared across all positions. The shared weights made training faster, required less data, and produced networks that generalised better to new examples.
+
+The pooling layers that LeCun incorporated between convolutional layers provided another form of translation invariance: by averaging or taking the maximum of the feature map responses over small regions, the pooling layers made the network's representation somewhat insensitive to small translations of the input. The combination of convolution and pooling produced a network that was invariant to small translations and that could recognise patterns regardless of where they appeared in the image.
+
+The architecture was elegant in the specific sense that the best engineering solutions are elegant: it addressed a hard problem — translation invariance in visual recognition — by building the solution into the structure rather than leaving it to be learned from data. It was, in Hinton's language, the right inductive bias for visual recognition.
+
+---
+
+## ZIP Codes and the First Real-World Deployment
+
+The first large-scale deployment of LeCun's convolutional networks — the application that demonstrated their practical value beyond laboratory demonstrations — was the recognition of handwritten ZIP codes for the US Postal Service.
+
+The Postal Service had a specific and commercially significant need: automatic reading of handwritten ZIP codes on envelopes and packages, to allow automated sorting without human reading of each address. The task was hard — handwriting varied enormously between individuals, and the images captured from envelopes were often noisy, poorly lit, and inconsistently aligned. Previous OCR systems had achieved limited accuracy and required extensive preprocessing and careful image capture conditions.
+
+LeCun's convolutional network trained on a dataset of handwritten digit images achieved substantially better accuracy than previous approaches, under realistic conditions. The network could handle the variability in handwriting, the noise in the captured images, and the inconsistency in alignment that made the problem difficult for rule-based approaches.
+
+The deployment was not just a laboratory demonstration. LeCun's system was actually deployed by the US Postal Service, handling millions of pieces of mail per day. For the first time, a convolutional neural network was performing a real-world task at scale, in a production environment, with real consequences for the efficiency of a major national service.
+
+The deployment provided feedback that shaped subsequent development. Real-world data was messier than laboratory data. Real-world requirements — speed, robustness, handling of unusual cases — imposed constraints that laboratory research had not fully addressed. The engineering discipline of making the system work in production, of handling the edge cases and failure modes that the laboratory had not revealed, was valuable in ways that went beyond the specific ZIP code recognition task.
+
+This discipline — the discipline of making AI systems work in practice, not just in demonstration — became a defining characteristic of LeCun's approach throughout his career. He was not interested in AI systems that worked on benchmark datasets and failed in deployment. He wanted AI systems that worked in the world, and he understood that making them work in the world required a specific kind of engineering effort that theoretical research alone could not provide.
+
+---
+
+## LeNet and the 1998 Paper: Setting the Standard
+
+LeCun's 1998 paper, "Gradient-Based Learning Applied to Document Recognition," published in the Proceedings of the IEEE, became one of the most influential papers in the history of computer vision AI. The paper described the LeNet-5 architecture — a refined version of his convolutional network design — and provided the most comprehensive demonstration yet of what the architecture could do.
+
+The paper demonstrated LeNet-5's performance on several document recognition tasks: handwritten digit recognition, handwritten character recognition, and the reading of bank checks. On handwritten digit recognition — the MNIST benchmark that would become the standard test for image classification systems for the next decade — LeNet-5 achieved performance that was far better than any previous system and that was competitive with human performance for the first time.
+
+The paper also introduced the broader framework of gradient-based learning for structured recognition tasks — the idea that any structured recognition problem could be approached by specifying an architecture that incorporated domain knowledge about the problem's structure, defining a loss function that measured performance, and training the system end-to-end using gradient descent. This framework was more general than the specific convolutional architecture and pointed toward the modular, differentiable approach to AI that would become the foundation of deep learning.
+
+LeNet-5 and the 1998 paper became the reference point for convolutional network research for the next decade. Researchers who wanted to apply convolutional networks to new problems started with LeNet-5. Researchers who wanted to develop new architectures compared against LeNet-5. The paper set the standard by which subsequent work would be evaluated.
+
+But the paper's influence was also limited by the technological environment. In 1998, the computing power available for training large networks was severely constrained. The datasets available for training were much smaller than what deep learning would eventually require. And the broader machine learning community was moving toward support vector machines and kernel methods, which had strong theoretical foundations and were producing good results on the benchmark problems of the time.
+
+LeNet-5 was ahead of its time. The architecture was right; the tools to make it work at the scale it required were not yet available.
+
+---
+
+## The Lean Years: AT&T, NEC, and the Second Winter
+
+After Bell Labs was reorganised following the breakup of AT&T, LeCun moved through a series of positions — AT&T Labs Research, NEC Research — that were productive but somewhat unstable. The commercial AI market was contracting through the second AI winter, and the neural network approach that he was pursuing was not the mainstream.
+
+During this period, LeCun continued to publish important research, but the broader trajectory of the field was not moving in his direction. Support vector machines were dominating pattern recognition benchmarks. The theoretical elegance of kernel methods — strong generalisation guarantees, convex optimisation, no local minima — made them attractive to the machine learning community that valued mathematical rigour. Neural networks were seen as complicated, hard to train, and theoretically less well-understood.
+
+LeCun argued, consistently and sometimes combatively, that the neural network approach was better — that the ability to learn hierarchical representations, to process structured inputs like images and sequences, to scale to complex real-world tasks, was more important than the theoretical elegance of kernel methods. He was right. The demonstration of his rightness would come, but it would take another decade.
+
+The lean years were intellectually productive in specific ways. Without the distraction of being the dominant mainstream approach, LeCun could focus on the foundational questions that interested him most: what made convolutional networks work, how they could be improved, what were their limitations, what alternative architectures might address those limitations.
+
+He worked on energy-based models — a general framework for understanding learning in neural networks that went beyond the specific supervised learning paradigm of backpropagation. He worked on the application of convolutional networks to video and to three-dimensional data. He worked on sparse coding and the connection between neural network learning and information-theoretic principles.
+
+This foundational work — conducted without the pressure of being the field's mainstream approach — built the theoretical understanding that would inform LeCun's contributions to the deep learning revolution when computing power and data finally made the approach work at scale.
+
+---
+
+## New York University: Building an Academic Home
+
+In 2003, LeCun joined the faculty of New York University's Courant Institute of Mathematical Sciences, where he founded the Computational and Biological Learning Lab — which eventually became NYU's Center for Data Science — and built an academic research environment that would become one of the leading centres for deep learning research in the world.
+
+NYU gave LeCun the academic freedom and the institutional support to pursue the research agenda he believed in, without the commercial constraints of an industrial research position. He attracted talented doctoral students and postdoctoral researchers, building a research group that was smaller but more focused than Hinton's Toronto group.
+
+The NYU period was the context in which LeCun developed the theoretical frameworks and the practical systems that would contribute most directly to the deep learning revolution. His work on convolutional networks for natural language processing — treating text as sequences to which convolutional filters could be applied — was an early demonstration that the convolutional approach was not limited to images. His work on energy-based learning provided a theoretical framework that unified several approaches to unsupervised learning. His work on structured prediction — using neural networks to make predictions over complex structured outputs — extended the application of neural networks to natural language processing tasks.
+
+At NYU, LeCun also developed his distinctive public voice — the willingness to argue publicly and sometimes combatively about AI, to challenge consensus views when he believed they were wrong, to engage with critics on social media and in public forums in a way that was unusual for an academic scientist of his standing.
+
+This public presence was not always appreciated by his peers. Some found his Twitter arguments more heat than light, more combative than illuminating. Others found his willingness to engage publicly with difficult questions valuable, a model of how technical experts could contribute to public understanding of AI without either dumbing down the content or hiding behind academic obscurity.
+
+The public voice was, in any case, genuine — an expression of LeCun's actual views, stated with the directness that characterised his scientific work. He was not performing controversy for attention. He was saying what he believed, in the most direct terms he could find.
+
+---
+
+## Facebook and Meta: Scale Changes Everything
+
+In 2013, as the deep learning revolution was transforming the AI landscape, LeCun received an offer from Mark Zuckerberg to join Facebook as its first Director of AI Research. He accepted, and in doing so he made a transition that fundamentally changed the scale at which he could pursue his research agenda.
+
+Facebook in 2013 was one of the largest computing companies in the world, operating a social network used by more than a billion people and generating data at a scale that was qualitatively different from anything available in academia. The company had strong incentives to invest in AI — for content recommendation, for advertising optimisation, for content moderation, for the many other tasks where automated intelligence could reduce costs or improve quality.
+
+The position LeCun took — Director of AI Research — was explicitly a research role rather than a product role. He would not be responsible for shipping products. He would be responsible for leading fundamental research that would eventually inform Facebook's products. This distinction was important for attracting LeCun, who was not interested in abandoning fundamental research for product development, and for Facebook, which needed fundamental AI research capability to sustain its competitive advantage.
+
+The transition from academia to industry was, for LeCun, primarily a change in resources rather than a change in direction. He continued to pursue the research agenda he had been developing for three decades: understanding how intelligent systems could learn useful representations from data, how convolutional and other structured architectures could be applied to a wide range of problems, how the gap between current AI capabilities and human intelligence could eventually be closed.
+
+The resources available to pursue this agenda at Facebook were incomparably greater than those available at NYU. Computing clusters that would have cost tens of millions of dollars in an academic setting were available as a matter of course. Datasets that would have been inaccessible to academic researchers — enormous collections of images, videos, and text from Facebook's platforms — were available for research purposes. The infrastructure for deploying trained models at scale — testing on hundreds of millions of users, iterating rapidly based on real-world feedback — was a research resource that no academic institution could provide.
+
+The scale changed LeCun's research in specific ways. It made possible experiments that would have been infeasible in academia. It provided empirical feedback that shaped theoretical development. And it created the obligation to address not just the theoretical questions that interested LeCun personally but the practical questions that Facebook's business required to be answered.
+
+This obligation was not always comfortable. LeCun's research agenda was not always aligned with what Facebook needed from AI. The foundational questions he found most interesting — what would it take to build systems with the kind of general intelligence that humans had, what architectural innovations would be required, what learning paradigms would need to be developed — were not the questions that Facebook's products most urgently needed to address.
+
+But the tension was, on balance, productive. The need to connect fundamental research to practical applications — to show that the questions being asked were not just intellectually interesting but commercially relevant — was a form of discipline that kept LeCun's work grounded in the kind of problems that mattered in practice.
+
+---
+
+## The Disagreement That Defined a Decade: LeCun vs. the Large Language Model Consensus
+
+As large language models emerged as the dominant paradigm in AI research through the 2020s, LeCun's public disagreement with the consensus about their significance became the most visible expression of his contrarian intellectual identity.
+
+His position was not that large language models were unimpressive. He acknowledged their capabilities enthusiastically — their ability to generate coherent text, to answer questions, to write code, to engage in sophisticated conversations. What he disputed was the claim that they represented the path to human-level intelligence, that scaling them would eventually produce general AI, that the architecture of text prediction was the right foundation for the kind of intelligence that humans and animals had.
+
+His argument was grounded in a specific theory of what was missing from large language models. The theory was complex and carefully developed, but its core was straightforward: large language models learned from text, but human and animal intelligence was grounded in embodied experience of the physical world. The understanding that humans had — of objects, of causality, of space and time, of the physical consequences of actions — was built from direct interaction with the world, not from reading descriptions of that interaction.
+
+Text, in LeCun's analysis, was a compressed representation of human experience — a description of what people had done, seen, felt, and thought, expressed in a medium that discarded most of the sensory richness and physical grounding of the original experience. A system trained only on text could learn the statistical patterns of language use without learning the underlying physical reality that language described. It could predict what words came next without understanding what the words referred to.
+
+This limitation — the lack of grounding in physical reality — was, for LeCun, a fundamental obstacle to the development of human-level intelligence through the large language model approach. He argued that the path to human-level machine intelligence required systems that could interact with and learn from the physical world — systems with sensory inputs, with the ability to take actions, with the experience of causality that came from being agents in a world that pushed back.
+
+The disagreement was about more than architecture. It was about the nature of intelligence — about what intelligence fundamentally was and what it required. LeCun's position — that intelligence was grounded in physical interaction with the world — was compatible with the embodied cognition tradition in cognitive science and with the research programme that he was pursuing at Meta. His critics' position — that intelligence was primarily about the right statistical regularities in high-dimensional data, and that text provided sufficient statistical structure to learn intelligent behaviour — was compatible with the large language model programme that had produced the most impressive AI results of the decade.
+
+Both positions had evidence for them. Large language models were genuinely impressive in the domains where they excelled. Embodied learning approaches were making genuine progress on physical tasks that large language models could not address. The disagreement was, at its core, about which approach would prove more productive in the long run — a question that the available evidence did not definitively answer.
+
+---
+
+## JEPA: The Alternative Architecture
+
+LeCun's alternative to large language models — the Joint Embedding Predictive Architecture, or JEPA — represented his positive proposal for the path to more general AI, not just his critique of the existing paradigm.
+
+JEPA was designed to address what LeCun saw as the fundamental limitation of autoregressive language models — their commitment to predicting every detail of their inputs, including the unpredictable details that were irrelevant to intelligent behaviour. A language model trained to predict the next token in a sequence had to represent and predict the statistical noise in the training data alongside the regularities. This was computationally expensive and produced representations that were dense with low-level detail rather than abstract with high-level understanding.
+
+JEPA proposed a different approach: instead of predicting the actual observed input, predict a learned representation of the input in an abstract space where the unpredictable details had been discarded. The system would learn jointly to produce representations that captured the relevant structure of the world and to predict those representations for future or different states, without needing to predict every irrelevant detail.
+
+This approach had several attractions. It could in principle be applied to any sensory modality — vision, audio, proprioception — not just text. It could learn from unlabelled data without requiring prediction of every detail of the observed signal. And the representations it learned would, in principle, be more abstract and more useful for downstream tasks than the detailed, low-level representations required for autoregressive prediction.
+
+Whether JEPA will prove to be the breakthrough that LeCun believes it can be remains to be seen. The architecture is still early in its development, and the empirical results, while encouraging, have not yet demonstrated the qualitative improvement over large language model approaches that LeCun has predicted.
+
+But the JEPA proposal illustrates something important about LeCun's intellectual style: he does not just criticise the existing paradigm, he proposes alternatives. The criticism and the alternative proposal are connected — the alternative is designed to address the limitations that the criticism identifies. This is the mark of a scientist rather than a critic: not just identifying what is wrong but proposing what might be better.
+
+---
+
+## The Turing Award and Its Significance
+
+In 2018, LeCun shared the Turing Award with Hinton and Bengio — the highest honour in computer science, recognising their contributions to the field that became known as deep learning.
+
+The award recognised a specific intellectual journey: three researchers who had maintained their commitment to a research approach through decades when the field had declared it unproductive, who had developed the theoretical foundations and the practical demonstrations that eventually made the approach dominant, and who had trained the students who carried those ideas into the transformation of the entire field.
+
+For LeCun, the award was recognition of the specific contribution he had made: the convolutional neural network, the application to visual recognition, the demonstration that the approach could work at scale in production environments. These contributions were the foundation of computer vision AI, and computer vision AI was the domain where deep learning's superiority to previous approaches had been most dramatically demonstrated.
+
+The award was also a recognition of the collaborative character of the contribution. Hinton, LeCun, and Bengio were not competitors — they were members of a community who had worked on related problems from different angles, whose ideas had informed and reinforced each other through decades of mutual engagement, and whose combined contribution was greater than what any of them could have achieved alone.
+
+LeCun's response to the award was characteristically LeCun: grateful, substantive, and oriented toward the future rather than the past. His Turing Award lecture focused not on what had been achieved but on what remained to be done — on the limitations of current deep learning approaches, on the research programme that he believed would be required to go further, on the specific challenges that he thought the field needed to address.
+
+This forward orientation — the refusal to rest on the achievement, the insistence on identifying what was still missing — was one of the most consistent features of LeCun's intellectual character throughout his career.
+
+---
+
+## The Disagreements with His Fellow Godfathers
+
+One of the more interesting aspects of the deep learning triumvirate — Hinton, LeCun, and Bengio — is the degree to which they disagree with each other about important questions, despite sharing the foundational commitment to neural network learning that made them colleagues and eventual co-Turing Award recipients.
+
+The most visible disagreement has been between LeCun and Bengio on the question of AI risk and AI safety. Bengio has become one of the most prominent voices for taking AI safety seriously — for the importance of ensuring that increasingly capable AI systems remain aligned with human values. He has signed open letters, participated in policy discussions, and adjusted his research agenda to address safety concerns.
+
+LeCun has been more sceptical of the specific AI safety concerns that Bengio and Hinton have expressed. His view, stated publicly and directly, is that the concerns about superintelligent AI pursuing goals misaligned with human values are speculative — based on assumptions about AI capabilities and AI behaviour that current evidence does not support. He believes the more pressing concerns are about the misuse of AI by humans — surveillance, manipulation, unfair discrimination — rather than about AI systems spontaneously developing goals of their own.
+
+This is a genuine intellectual disagreement, not merely a public relations difference. LeCun's technical view — that current AI systems, including large language models, are far from the kind of general intelligence that would be required for the most alarming AI safety scenarios — is a defensible position. His critics, including Bengio and Hinton, believe he is underestimating the speed at which AI capabilities are improving and the degree to which safety concerns are relevant to systems that are already deployed.
+
+The disagreement between LeCun and Hinton is less about safety and more about the nature of current AI capabilities. Hinton has expressed greater concern than LeCun about the implications of large language models — greater concern that they represent a genuine approach to general intelligence, greater concern about what their continued improvement might produce. LeCun remains committed to the view that large language models are impressive but limited — useful tools that fall short of the kind of intelligence that would require serious rethinking of our relationship with AI.
+
+These disagreements are genuine and important. They reflect real uncertainty about empirical questions — how capable are current AI systems? how quickly will capabilities continue to improve? what are the safety implications of increasingly capable systems? — that cannot be resolved from the current evidence. The disagreement between the Godfathers is not a failure of the deep learning community to think clearly. It is an expression of the genuine difficulty of the questions.
+
+---
+
+## LeCun's Vision: What He Believes Intelligence Requires
+
+Throughout his career, LeCun has been developing and articulating a specific theory of what intelligence requires and what would be needed to build machines that possessed it. This theory is more comprehensive than the specific architectures he has proposed and more fundamental than the specific disagreements about large language models.
+
+The theory is grounded in a specific view of how humans and animals develop intelligence. Intelligence, in LeCun's view, is not primarily a matter of learning statistical patterns from language. It is a matter of building internal models of the world — models that represent how the world works, that predict the consequences of actions, that allow planning under uncertainty, that support the kind of flexible, creative reasoning that humans and animals demonstrate.
+
+These world models are built through embodied interaction with the physical world. Infants do not learn about objects by reading descriptions of objects. They learn by manipulating objects — picking them up, dropping them, throwing them, watching what happens. The understanding of physical causality that emerges from this experience is richer and more reliable than anything that can be learned from text descriptions, because it is grounded in direct sensory and motor experience.
+
+Building machines with this kind of grounded world model is the research programme that LeCun believes is necessary for human-level AI. It requires systems with sensory inputs — vision, audio, touch — that can interact with the physical world and receive feedback from that interaction. It requires architectures that can build hierarchical representations of the world at multiple levels of abstraction. It requires learning paradigms that can work with the rich, continuous sensory data of physical experience rather than the discrete, symbolic tokens of language.
+
+This is a demanding and potentially transformative research programme. It is also one that is substantially different from the large language model paradigm that currently dominates AI research. Whether LeCun's vision will prove correct — whether the path to human-level machine intelligence runs through embodied learning and world models rather than through increasingly large and powerful language models — is the central empirical question that the next decade of AI research will begin to answer.
+
+---
+
+## The Combative Style: A Feature or a Bug?
+
+Any honest account of Yann LeCun must grapple with his style — the directness, the combativeness, the willingness to state strong opinions in contexts where most scientists would be more circumspect.
+
+The style has costs. It has created enemies in a field that, like most fields, values collegiality and is suspicious of people who seem to enjoy argument more than necessary. It has sometimes produced Twitter controversies that generated more heat than light. It has created the impression, in some quarters, that LeCun is more interested in being right than in being correct — more motivated by the satisfaction of prevailing in an argument than by the epistemic goal of understanding what is actually true.
+
+These criticisms have some merit. LeCun is clearly a person who enjoys intellectual combat, who is energised by disagreement, who thrives in the adversarial environment of Twitter debates in a way that is unusual for a senior academic scientist. This enjoyment of combat is not always an asset for the quality of the discourse — it can lead to statements that are rhetorically effective but epistemically overconfident, to positions held more firmly than the evidence warrants, to disagreements that become personal in ways that are not productive.
+
+But the style also has genuine advantages. In a field prone to consensus cascade — where everyone nods along with the dominant approach even when they have private doubts — someone willing to publicly challenge the consensus is valuable. The fact that LeCun is right about many things more often than the consensus makes his challenges more valuable rather than less. His willingness to engage publicly, to explain his technical views in terms that non-specialists can engage with, to argue rather than pronounce, makes him a more productive public intellectual than many of his peers who are more comfortable but less illuminating.
+
+The right assessment is probably: the style is a package deal. The combativeness that occasionally produces unnecessary controversy is inseparable from the intellectual courage that allows him to maintain correct views against wrong consensus. The willingness to argue is inseparable from the depth of engagement with the arguments that makes his positions more than opinion. The package has costs. It also has value that exceeds the costs.
+
+---
+
+## The Contribution That Changed the World
+
+At the end of a career that is still ongoing, Yann LeCun's most significant contribution is clear: the convolutional neural network and its demonstration as a practical tool for visual recognition.
+
+This contribution changed the world in ways that are now so embedded in daily life that they are invisible. Every photo you upload to a social network that is automatically tagged with the people in it. Every video you watch that is automatically subtitled. Every medical image that is automatically analysed for signs of disease. Every autonomous vehicle that navigates by understanding what its cameras see. Every security camera that tracks movement. Every smartphone camera that recognises faces for unlocking. Every Google Image Search. Every Instagram filter.
+
+All of these applications are implementations, in various forms, of the convolutional neural network architecture that LeCun developed, refined, and demonstrated over three decades of work. They were not inevitable — without LeCun's specific intellectual contribution, the field would have found other paths to computer vision AI, but those paths would have been slower and less direct.
+
+The contribution was not just the architecture. It was the demonstration, through the ZIP code recognition deployment, that the architecture worked in practice at scale. It was the 1998 paper that set the standard for the field. It was the training of the students and collaborators who carried the ideas forward. It was the sustained advocacy for the approach through years when the field was not receptive to it.
+
+The combination of intellectual insight, engineering pragmatism, and sustained commitment over decades — that combination produced the contribution that changed the world. It is one of the most important scientific contributions of the late twentieth century, and it belongs to Yann LeCun.
+
+---
+
+## Further Reading
+
+- **"Gradient-Based Learning Applied to Document Recognition" by LeCun et al. (1998)** — The definitive LeNet paper. Read it to understand both the architecture and the broader framework of gradient-based structured recognition.
+- **"A Tutorial on Energy-Based Learning" by LeCun, Chopra, Hadsell, Ranzato, and Huang (2006)** — LeCun's development of the energy-based framework for understanding learning in neural networks.
+- **"Deep Learning" by Goodfellow, Bengio, and Courville (2016)** — The authoritative textbook, with extensive material on convolutional networks and their mathematical foundations.
+- **Yann LeCun's web page at NYU** — Contains links to his major papers and to his public lectures, which are among the best available introductions to his specific vision of AI.
+- **"Designing AI: Interviews with Top Researchers" — LeCun interviews** — Multiple extended interviews with LeCun are available online, in which he explains his views at length and in depth.
+
+---
+
+*Next in the Profiles series: **P13 — Yoshua Bengio: The Conscience of AI** — The third Godfather — his foundational contributions to deep learning, his evolution from pure researcher to the field's most prominent voice for AI safety and ethics, and why the man who spent his career building increasingly powerful AI systems has become one of the most persuasive voices for slowing down.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If LeCun's story — the right idea held against the wrong consensus, the combative style, the vision that is still being tested — raises questions about how science advances through disagreement, share it with someone who would find the dynamic worth exploring.*

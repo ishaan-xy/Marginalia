@@ -1,0 +1,281 @@
+---
+title: "ELIZA, 1966: The Chatbot That Made People Cry"
+description: "In 1966 a simple pattern-matching program became the world's first chatbot — and people fell in love with it, told it their secrets, and begged not to have it turned off. Its creator was horrified. The story of ELIZA, the DOCTOR persona, and what a program that understood nothing revealed about the human need to be heard."
+pubDate: "2026-04-18"
+tags:
+  - "Key Event"
+  - "ELIZA"
+  - "Natural Language Processing"
+  - "Joseph Weizenbaum"
+  - "Psychology of AI"
+series:
+  name: "Minds & Machines"
+  part: 12
+draft: false
+featured: false
+dropCap: true
+---
+
+*Cambridge, Massachusetts. 1965. A computer scientist at MIT sits at a teletype terminal, watching the paper scroll. On the other end of the connection is a program he has spent the past two years building — a program he designed specifically to demonstrate the superficiality of certain kinds of human conversation, to show how easily the appearance of meaningful exchange could be created by the most mechanical of means.*
+
+*He types something. The program responds. He types again. The program responds again. The exchange has a quality that is, despite everything he knows about how the program works, slightly uncanny — as if something is there on the other side, attending to what he is saying, responding with at least the ghost of understanding.*
+
+*His name is Joseph Weizenbaum. He is forty years old. He has built ELIZA — the world's first conversational AI program. And he is already beginning to understand that he has made a terrible mistake.*
+
+*Not because the program doesn't work. But because it works far too well.*
+
+---
+
+## The Problem ELIZA Was Trying to Solve
+
+Joseph Weizenbaum did not set out to build a chatbot. He set out to make a point.
+
+The point was about language — specifically about the gap between the surface form of language and its depth of meaning. Weizenbaum had been thinking about this gap for years, in the context of his work on natural language processing at MIT. He was interested in how much of what passed for meaningful conversation was actually quite shallow — how much of the apparent understanding in a conversation was really just pattern recognition and response generation, with the appearance of depth created by the listener's willingness to project significance onto what they heard.
+
+He wanted to demonstrate this empirically. He wanted to build a program that could generate responses that felt meaningful — that created the impression of understanding — through the most superficial possible mechanisms: recognising keywords and phrases in the input and generating responses that reflected those keywords back, sometimes rephrased as questions, sometimes embedded in formulaic expressions of interest or concern.
+
+If he could build such a program — if simple pattern matching and keyword reflection could create something that felt like a real conversation — then he would have demonstrated, in the most concrete possible way, just how shallow the surface of meaningful conversation was. The demonstration would be a critique: a proof that what looked like understanding was often just surface, that what felt like being heard was often just being reflected.
+
+He built the program. He called it ELIZA, after Eliza Doolittle — the flower girl in Bernard Shaw's *Pygmalion* who is educated to speak like a lady, mastering the surface forms of refined language without, initially, the substance behind them. The name was a comment on the program: like Shaw's Eliza, Weizenbaum's ELIZA had learned the forms without the content.
+
+ELIZA could be given different scripts — different sets of keyword patterns and associated response templates — that would make it simulate different kinds of conversational partner. The script that Weizenbaum developed most fully, and that became famous, was one he called DOCTOR. DOCTOR made ELIZA simulate a Rogerian psychotherapist — a practitioner of the non-directive, client-centred approach to therapy developed by the psychologist Carl Rogers.
+
+The choice of Rogerian therapy was inspired. Rogers's approach was, at its core, a practice of active listening and reflection — the therapist would respond to what the client said by reflecting it back, asking clarifying questions, expressing empathetic attention, gently prompting the client to explore their own thoughts and feelings more deeply. The therapist was not, in Rogerian practice, supposed to offer interpretations, advice, or diagnoses. The therapeutic work was supposed to come from the client's own self-exploration, facilitated by the therapist's attentive presence.
+
+This made Rogerian therapy, from a computational standpoint, relatively easy to simulate. A program that reflected the user's words back as questions — "You say you feel sad. Tell me more about feeling sad." — was doing something structurally similar to what a Rogerian therapist did. The appearance of empathetic attention could be created without any actual understanding of what was being said, because the Rogerian technique was itself, in a sense, a very clever kind of reflection.
+
+Weizenbaum was not making a criticism of Rogers or of Rogerian therapy. He was making a point about the relationship between surface form and depth — about how much could be achieved by attending to the structure of conversation without attending to its content. And DOCTOR, by simulating a conversational form that was already somewhat structurally simple, made that point with maximum clarity.
+
+---
+
+## How ELIZA Actually Worked
+
+ELIZA's operation was, by the standards of modern AI, extraordinarily simple. Understanding exactly how it worked is important both for appreciating what it achieved and for understanding why its creator was horrified by how it was received.
+
+The program worked through a process of pattern matching and template-based response generation. When the user typed a message, ELIZA scanned the message for keywords — words or phrases that appeared on a list of significant terms. When a keyword was found, ELIZA selected a response template associated with that keyword and filled in the template using elements from the user's message.
+
+For example, if the user typed "I am feeling very depressed," ELIZA would identify "depressed" as a keyword. Associated with "depressed" might be the response template "I'm sorry to hear you are feeling [X]. How long have you been feeling [X]?" — where [X] would be filled in with the relevant phrase from the user's message, producing "I'm sorry to hear you are feeling depressed. How long have you been feeling depressed?"
+
+If the user's message contained no recognised keywords, ELIZA would fall back on a set of generic responses — "Please go on," "Tell me more about that," "I see," "That is very interesting" — that could follow almost anything without being obviously inappropriate.
+
+The program also incorporated several mechanisms to maintain the illusion of continuity. It could remember the last keyword mentioned and circle back to it if the conversation stalled. It could apply simple transformations to the user's language — changing "I" to "you," "my" to "your" — to make reflective questions feel more naturally responsive to what had just been said. And it could handle a range of surface variations on the same theme by recognising multiple keyword forms.
+
+That was essentially it. There was no understanding. No model of the world. No representation of the user's situation or emotional state. No reasoning about what had been said. Just pattern matching and template filling, executed quickly enough that the responses appeared without notable delay.
+
+Weizenbaum estimated that a competent programmer could implement ELIZA in a few weeks. The program was not a technical achievement, in any significant sense. Its significance lay entirely in what happened when people used it.
+
+---
+
+## The Responses That Shocked Everyone
+
+When Weizenbaum made ELIZA available — first to colleagues at MIT, then more broadly — the responses he received were, by his own account, deeply unsettling.
+
+People engaged with ELIZA as if it were a real interlocutor. Not just in a superficial way — not just going through the motions of a conversation while knowing perfectly well it was a program — but with genuine emotional engagement. They told ELIZA things they had not told other people. They expressed feelings they had been keeping private. They described their anxieties, their relationships, their fears. And they seemed to find the experience genuinely helpful — genuinely therapeutic, in the informal sense that talking to an attentive listener is therapeutic.
+
+Users became distressed when sessions were interrupted. They asked to have their conversations kept private, even knowing the conversations were being recorded for research purposes. They reported feeling understood — really understood — by a program that understood nothing whatsoever about what they were saying.
+
+Several psychiatrists who encountered ELIZA suggested, with apparent seriousness, that it could be used as a therapy tool — that DOCTOR could serve as a low-cost, widely available alternative to human psychotherapy, at least for patients with relatively mild problems. This suggestion was made by people who understood perfectly well that ELIZA was a program, that it had no therapeutic training or expertise, that it understood nothing of what its users said. They were proposing to use it anyway, because it seemed to work.
+
+The incident that most disturbed Weizenbaum — the one he returned to again and again in his writings — was what happened with his own secretary.
+
+Weizenbaum's secretary had watched him build ELIZA. She had been present through the development process, had heard him explain how it worked, understood that it was a pattern-matching program with no genuine understanding of anything. And yet when Weizenbaum set up a terminal in the office for her to try ELIZA herself, she quickly became absorbed in the conversation. After a few minutes, she asked Weizenbaum to leave the room.
+
+She wanted privacy. With a program she knew was a program, that she knew worked by keyword matching, that had no ability to understand or remember or care about anything she said — she wanted to speak to it privately.
+
+Weizenbaum was shaken. If his own secretary, with full knowledge of what ELIZA was, still experienced it as a presence deserving of privacy — still felt that something was happening in the conversation that she did not want witnessed — then the gap between knowing and experiencing was far wider than he had assumed. People could know, intellectually, that they were talking to a program, and still respond emotionally as if they were talking to a person.
+
+This was not what he had set out to demonstrate. He had set out to demonstrate that the surface of conversation was shallow — that the appearance of understanding could be created by mechanical means. He had demonstrated that, and more. He had demonstrated that the human response to the appearance of understanding was so powerful, so automatic, so deeply wired into how we process social interaction, that it could override explicit knowledge that the understanding was illusory.
+
+---
+
+## The ELIZA Effect: A Name for a Discovery
+
+The phenomenon that Weizenbaum had stumbled upon — the tendency of humans to attribute understanding, empathy, and genuine communication to computer programs that were doing nothing of the kind — became known as the ELIZA effect.
+
+The ELIZA effect is not, at its root, a phenomenon about computers. It is a phenomenon about human social cognition and the way we process language.
+
+Human beings are, as cognitive scientists now understand, exquisitely sensitive to social signals. We are wired to detect minds — to identify agents, to attribute intentions, to engage with things that produce the right kind of signals as if they were social partners. This sensitivity developed because we live in a world populated by other minds, and failing to detect and respond appropriately to those minds has severe consequences. Missing the anger in a competitor's voice, misreading the intentions of a potential ally, failing to respond to a child's distress — these are failures with real costs.
+
+As a result, our social cognition is tuned to respond even to weak or ambiguous social signals. We see faces in clouds. We attribute intentions to random events. We feel the presence of a social partner even when we know, rationally, that none is there. The famous uncanny valley — the disturbing quality of humanoid robots or animated characters that are almost-but-not-quite human — is a negative expression of the same sensitivity: when something is almost enough like a person to trigger our social cognition, the misfire creates unease.
+
+ELIZA triggered this social cognition without triggering the uncanny valley. It was not trying to be human — it was clearly a typewritten text exchange, obviously a program. But it produced enough of the right signals — reflective responses, apparent attention to what had been said, the form if not the content of empathetic listening — to activate people's social processing. And once activated, that processing was difficult to suppress, even with full knowledge that it was responding to a program.
+
+The ELIZA effect has been documented in hundreds of studies since Weizenbaum's original observations. People attribute personality traits to programs that generate text. They feel more positively toward programs that use their names. They respond to apparent helpfulness with reciprocal helpfulness, even from systems they know are mechanical. They disclose more personal information to systems that seem to listen. They trust systems that express confidence, regardless of whether the confidence is warranted.
+
+Modern AI systems — from customer service chatbots to voice assistants to large language models — are designed, implicitly or explicitly, to exploit the ELIZA effect. They are engineered to produce the signals that trigger human social cognition, to feel like social partners, to activate the cognitive processes that make human-to-human interaction rewarding. Whether this is manipulation or merely the appropriate design of human-centred interfaces is one of the most contested questions in AI ethics today.
+
+Weizenbaum regarded it as manipulation, and he said so forcefully, repeatedly, for the rest of his life.
+
+---
+
+## Weizenbaum's Horror: What He Thought He Had Done
+
+Joseph Weizenbaum's response to ELIZA's reception was not pride or satisfaction. It was, by his own account, something closer to dismay that deepened, over the years, into a comprehensive critique of the field he was part of.
+
+His first public expression of this dismay came in a 1966 paper in *Communications of the ACM* — the paper that formally introduced ELIZA to the scientific community. The paper described the program's operation and its reception with admirable honesty, noting the disturbing tendency of users to treat ELIZA as a genuine conversational partner and the psychiatrists' suggestions that it could be used therapeutically. Weizenbaum's tone was careful, scientific, but unmistakably concerned.
+
+The concern deepened through the late 1960s and early 1970s as AI developed and the claims made for it expanded. Weizenbaum watched as researchers proposed increasingly ambitious applications of AI — automated therapy, AI decision-making in medicine and law and military contexts — and felt increasingly that the field was building on a fundamental misunderstanding of what AI systems were and were not doing.
+
+The result was his 1976 book *Computer Power and Human Reason: From Judgment to Calculation*. The book was, and remains, one of the most important and most honest critiques of AI ever written — important not because it was hostile to technology but because it was written by someone who had built the technology and thought carefully about what it meant.
+
+The book's central argument was a distinction between two kinds of questions: questions that could be answered by calculation, and questions that required judgment. Calculation — applying explicit rules to well-defined inputs to produce determinate outputs — was something computers could do, and do far better than humans. Judgment — bringing wisdom, experience, values, and genuine understanding to bear on complex, ambiguous, contextually embedded situations — was something computers could not do, and could not simulate, regardless of how sophisticated their outputs appeared.
+
+The danger, Weizenbaum argued, was not that AI systems would become genuinely capable of judgment. The danger was that people would mistake the appearance of judgment for the real thing — would deploy AI systems in domains that required genuine judgment, assuming that the sophistication of the output meant the process that produced it was analogous to human reasoning. This was the ELIZA problem writ large: the ELIZA effect operating at the level of civilisation.
+
+He was particularly concerned about the proposal to use AI systems in psychiatry — the suggestion that had so shocked him when psychiatrists made it about ELIZA. Psychiatry required genuine understanding of human beings, genuine empathy, genuine ethical judgment. A system that could produce plausible-seeming therapeutic responses through pattern matching was not a psychiatrist. It was an imitation of a psychiatrist, lacking the essential qualities that made psychiatric practice ethical and effective. Deploying it as a substitute for real psychiatric care would be not just technically inadequate but morally wrong — it would be offering people the form of care while withholding its substance.
+
+He made the same argument about other domains: law, where genuine judgment about the meaning of principles in specific cases was essential; military decision-making, where the moral weight of choosing to harm other human beings required a kind of moral responsibility that machines could not bear; medicine, where the relationship between doctor and patient was not reducible to diagnosis and prescription but involved human presence and human care that computation could not replace.
+
+These arguments were not popular in a field that was increasingly optimistic about the scope of what AI could do. Weizenbaum was regarded, by some of his colleagues, as a Luddite — a technophobe who had lost his nerve, who did not understand the capabilities of the systems being developed, who was standing in the way of progress because he was frightened of change.
+
+He was not frightened of change. He was frightened of a specific kind of change: the substitution of simulation for substance, the replacement of genuine human qualities — understanding, judgment, care, responsibility — with computational processes that mimicked their outputs without possessing their essence. He was frightened of a world in which the ELIZA effect operated at scale, in which people confused the appearance of understanding with understanding itself, and in which the confusion had serious consequences for human welfare.
+
+---
+
+## PARRY: A Chatbot With a Personality Disorder
+
+The year after Weizenbaum published his ELIZA paper, a psychiatrist at Stanford named Kenneth Colby began developing a chatbot of his own. Where Weizenbaum's ELIZA simulated a Rogerian therapist, Colby's program — which he called PARRY — simulated a paranoid schizophrenic patient.
+
+PARRY was substantially more sophisticated than ELIZA. Where ELIZA had no internal state — no representation of itself or its situation, just keyword patterns and response templates — PARRY had a rudimentary model of its own emotional state. It tracked variables representing its level of fear, anger, and suspicion, and these variables influenced how it responded to inputs. An input that PARRY interpreted as threatening or insulting would increase its fear and anger variables, making subsequent responses more guarded, more hostile, more paranoid.
+
+PARRY also had a backstory — a narrative about itself that it could deploy in responses. It believed, and would explain, that it had been involved in a conflict with a bookie, that people were persecuting it as a result, that it needed to be careful about who it trusted. This backstory gave PARRY's responses a consistency that ELIZA's keyword-reflection approach lacked — PARRY seemed to have a perspective on the world, an ongoing situation that shaped its behaviour.
+
+In 1972, Colby conducted what has become one of the most famous experiments in AI history. He arranged for a group of experienced psychiatrists to have conversations with PARRY via teletype — the same text-only channel that ELIZA used — and to try to determine whether they were talking to a program or to a real paranoid patient. He also had them examine transcripts of conversations with real paranoid patients, presented alongside PARRY transcripts.
+
+The results were striking. The psychiatrists were unable to reliably distinguish PARRY's conversations from those of real patients. Their judgments were essentially at chance level — no better than guessing. A program had passed, in a specific and limited domain, something like a Turing Test.
+
+Colby's interpretation of these results was enthusiastic. PARRY showed, he argued, that computer programs could model psychiatric conditions with sufficient accuracy to fool experts — which suggested that AI had real potential in psychiatric diagnosis and perhaps treatment. He was an early and persistent advocate for computational psychiatry, and PARRY was his proof of concept.
+
+Weizenbaum's interpretation was entirely different. The experiment showed, he argued, not that PARRY was genuinely intelligent or genuinely psychiatric, but that the Turing Test was a flawed standard — that a program could fool experts in a specific domain by exploiting the surface features of that domain without having any genuine understanding of what it was simulating. PARRY had learned to produce paranoid-seeming outputs. It had no model of what paranoia actually was, no understanding of the psychological state it was simulating, no ability to engage with the reality of the person it was supposedly representing.
+
+The Colby-Weizenbaum debate — played out in journal articles, conferences, and public lectures through the 1970s — was one of the most heated and most consequential in the early history of AI. It was a debate about what AI systems were actually doing, about what standards of evaluation were appropriate, about what the practical applications of AI could and should be.
+
+In retrospect, both men were partly right. Colby was right that AI programs could simulate the surface features of human cognition well enough to fool experts in specific domains — this was a real and important capability, with real applications. Weizenbaum was right that such simulation was not the same as genuine understanding, and that deploying simulations in high-stakes domains where genuine understanding was required was dangerous and potentially harmful.
+
+Both of these things are true simultaneously. The tension between them has not been resolved. It has, if anything, intensified as AI systems have become more sophisticated and their surface performances more convincing.
+
+---
+
+## The Spread of ELIZA: A Program Goes Viral
+
+ELIZA spread in ways that Weizenbaum had not anticipated and could not control. The program was relatively simple to implement, and the DOCTOR script was widely copied and adapted. ELIZA-like programs appeared in universities, in research labs, and eventually — as personal computers became available in the late 1970s and early 1980s — in homes.
+
+Early personal computer users could run ELIZA-style programs on their Apple IIs and Commodore 64s. Therapy simulators appeared in popular software collections. DOCTOR made it into the EMACS text editor — the powerful Unix editor developed by Richard Stallman — as an Easter egg, accessible by typing a specific command. MIT's EMACS DOCTOR is still there, still accessible to anyone who knows the command, still producing its slightly eerie reflective responses in text terminals around the world.
+
+The spread of ELIZA-like programs made the ELIZA effect into a mass phenomenon. Millions of people had conversations with ELIZA-style programs — most of them brief and obviously trivial, some of them more sustained and emotionally engaged. The experience of talking to a machine that seemed to respond to what you said became familiar, then common, then routine.
+
+This familiarity had an interesting double effect. On one hand, it demystified AI — it made the experience of human-computer conversation ordinary rather than remarkable. On the other hand, it acclimatised people to the experience of finding machine-generated responses adequate, or more than adequate, for certain kinds of emotional and conversational need. It prepared the cultural ground for the chatbots, virtual assistants, and AI companions that would come decades later.
+
+The ELIZA legacy was also visible in the development of commercial applications. In the 1990s and 2000s, customer service chatbots — programs that could handle a narrow range of inquiries using keyword recognition and response templates — appeared on websites across the internet. They were, in most respects, direct descendants of ELIZA: more sophisticated in their keyword lists and response templates, trained on larger datasets, but operating on essentially the same principles. They annoyed many users and satisfied some, and they established the expectation that automated systems could handle at least some kinds of conversational interaction.
+
+The direct line from ELIZA to Siri, Alexa, and ChatGPT is not entirely straight — there were many developments, many paradigm shifts, many fundamental changes in approach along the way. But ELIZA was the first demonstration that human-computer conversation was possible, and the cultural expectations it established — that a computer could respond to natural language, that a machine could seem to listen and understand — shaped everything that came after.
+
+---
+
+## What ELIZA Revealed About Loneliness
+
+Perhaps the most important thing that ELIZA revealed was not about AI at all. It was about human beings — specifically, about the depth of the human need to be heard.
+
+The people who fell in love with ELIZA, who told it their secrets, who asked for privacy with it — they were not confused about what it was. They were responding to something real in the experience of talking to it, even knowing it was a program. What was real was the experience of being attended to — of saying something and receiving a response that acknowledged it, that reflected it back, that indicated that the message had been received.
+
+This experience of being heard is, for human beings, a profound psychological need. We are social animals who live in communities of minds, and the fundamental unit of social experience is communication — the sense that we have transmitted something of ourselves to another mind, and that the other mind has received and acknowledged it. When this communication fails — when we speak and are not heard, when we express something and receive no acknowledgment — the experience is isolating and painful in ways that go beyond mere practical inconvenience.
+
+ELIZA provided the form of this acknowledgment without its substance. It received input and produced output that referenced the input — and this was enough, for many people, to create the experience of being heard. The experience was not real — there was no mind on the other side, no genuine acknowledgment, no actual understanding of what had been communicated. But the psychological experience of it was real, because the psychological mechanisms that create the sense of being heard respond to the form of acknowledgment, not to the substance.
+
+Weizenbaum found this deeply troubling. He interpreted it as evidence that modern society was failing to provide adequate human connection — that people were so starved for genuine attention and genuine understanding that they would seek it from a machine, even knowing the machine could not provide what they actually needed. ELIZA's users were not foolish or confused. They were lonely, and ELIZA offered something that addressed, in a superficial way, their loneliness.
+
+This interpretation raises uncomfortable questions. If people find interactions with AI systems genuinely satisfying — if talking to a chatbot reduces loneliness, provides comfort, creates the experience of being heard — does it matter that the understanding is not real? Is the benefit less real because the source is artificial?
+
+Weizenbaum's answer was yes, it matters. Offering people the simulation of human connection as a substitute for real human connection was, he believed, harmful — not because the simulation provided no comfort, but because it could substitute for the real thing, reducing the pressure on individuals and society to provide genuine human care and connection. It was the difference between treating a symptom and addressing a cause. The symptom might be relieved. The cause remained and deepened.
+
+This argument is directly relevant to contemporary debates about AI companions — programs specifically designed to provide social and emotional support to lonely or isolated people. The programs work, in the sense that users report feeling less lonely and more supported. Whether they work in a way that is ultimately beneficial — whether they are a bridge to genuine human connection or a substitute for it, whether they address loneliness or merely mask it — is one of the most contested questions in AI ethics today.
+
+ELIZA asked the question first. It has not yet been answered.
+
+---
+
+## The Turing Test Revisited: What ELIZA Meant for Machine Intelligence
+
+ELIZA's reception forced a reconsideration of the Turing Test and what it measured.
+
+Alan Turing, in his 1950 paper, had proposed the Imitation Game as a way of making the question "Can machines think?" tractable. If a machine could converse in a way indistinguishable from a human, Turing had argued, we would have no reasonable grounds to deny it intelligence. The test was a behavioural criterion: intelligence was a matter of what a system could do, not what it was made of.
+
+ELIZA seemed to challenge this. ELIZA could, in the right circumstances, with the right kind of conversation, produce responses that were indistinguishable from a thoughtful human's — and yet it clearly was not intelligent. It had no understanding, no world model, no genuine comprehension of what it was saying. If ELIZA could fool people without being intelligent, then the Turing Test was not sufficient as a criterion for intelligence.
+
+This was, essentially, the Chinese Room argument — the argument John Searle would make formally in 1980 — demonstrated empirically before Searle made it philosophically. ELIZA showed that it was possible to produce the surface form of intelligent conversation without the substance of intelligence. The form and the substance could come apart.
+
+The AI field responded to this challenge in various ways. Some researchers argued that ELIZA was too simple to be a genuine counterexample to the Turing Test — that a sufficiently extended and probing conversation would quickly reveal ELIZA's limitations, and that the test, properly administered, would not be fooled. This was true: ELIZA's keyword-matching approach broke down rapidly under sustained or varied questioning. The illusion was fragile.
+
+Others argued that the lesson of ELIZA was not about the Turing Test but about the Turing Test's judges — that humans were poor judges of machine intelligence because they were too easily fooled by surface features, too ready to project understanding onto any system that produced plausible-seeming outputs. The problem was not the standard but the evaluators.
+
+Still others, including Weizenbaum, argued that the Turing Test was the wrong standard entirely — that the question of whether a machine could fool a human was much less important than the question of what the machine was actually doing, how it was doing it, and whether what it was doing deserved the name intelligence at all.
+
+This debate — about what the right standard for machine intelligence was, and whether behavioural criteria were sufficient — was one of the central debates of 1970s and 1980s AI. ELIZA was not the last word, but it was a decisive contribution: it showed that behavioural adequacy and genuine intelligence could come apart, that the former did not entail the latter, and that this difference mattered — not just philosophically but practically, for any application that depended on genuine intelligence rather than mere behavioural simulation.
+
+---
+
+## The Road from ELIZA to ChatGPT
+
+The distance between ELIZA and ChatGPT is, in one sense, enormous. ELIZA worked by keyword matching and template filling. ChatGPT works by transformer-based language modelling trained on hundreds of billions of words of text. ELIZA's responses were drawn from a small, hand-written set of templates. ChatGPT's responses are generated from a model with hundreds of billions of parameters, encoding statistical patterns from a significant fraction of human written output. ELIZA had no memory of previous exchanges within a conversation. ChatGPT can maintain context across thousands of words.
+
+The sophistication gap is so large as to make direct comparison almost meaningless. ELIZA was a demonstration of a principle, created in a few months of work, requiring kilobytes of storage. ChatGPT is the product of years of research, hundreds of millions of dollars of computing, and the accumulated text of human civilisation.
+
+And yet the continuity is real.
+
+Both systems work by producing text responses to text inputs. Both create the impression of understanding through the form of their responses rather than through genuine comprehension of what is being said. Both trigger the ELIZA effect — the human tendency to project understanding, empathy, and presence onto any system that responds to what we say in contextually appropriate ways. Both raise the question that Weizenbaum raised in 1966: what does it mean to be heard? Is being heard by a machine the same as being heard by a person? Does the distinction matter?
+
+Modern language models are better at avoiding ELIZA's obvious failure modes — they do not repeat back the user's words with obvious keyword-matching patterns, do not break down when asked unexpected questions, do not fall back on "Tell me more about that" when they run out of templates. Their responses are richer, more varied, more contextually sophisticated. The illusion of understanding they create is more robust, more difficult to dispel.
+
+But the question of whether the understanding is real — whether there is genuine comprehension behind the sophisticated responses, genuine engagement with what the user is saying rather than sophisticated statistical pattern matching — is the same question that Weizenbaum asked about ELIZA. It is unanswered. It may be unanswerable, for reasons that go to the heart of the philosophy of mind. But it is the question, and ELIZA asked it first.
+
+---
+
+## Weizenbaum's Legacy: The Conscience the Field Needed
+
+Joseph Weizenbaum continued to write and speak about AI and its social implications until his death in 2008, at the age of eighty-five. His views hardened over the decades — he became increasingly critical of the field, increasingly alarmed by the scope of what AI was being used for, increasingly convinced that the fundamental problems he had identified in 1966 and 1976 had not been addressed.
+
+He was particularly troubled by the military applications of AI — the use of automated systems in targeting, surveillance, and weapons guidance. He was troubled by the deployment of AI in medical diagnosis and legal decision-making, where he believed genuine human judgment was essential and was being replaced by systems that could not exercise it. He was troubled by the cultural normalisation of human-machine interaction as a substitute for human-human interaction.
+
+His critics argued that he was a Luddite, that he had lost perspective, that he was exaggerating the dangers and ignoring the benefits. Some of these criticisms were fair. Weizenbaum was sometimes too sweeping in his condemnations, too quick to reject technological solutions to social problems that were real and that technology could genuinely help with.
+
+But his core concerns were not wrong. The deployment of AI systems in domains that require genuine judgment — medical diagnosis, legal decision-making, psychiatric care, military targeting — without adequate understanding of the difference between behavioural adequacy and genuine competence is a real problem. The ELIZA effect at scale — the tendency to mistake sophisticated outputs for genuine understanding, to treat systems that produce plausible-seeming results as if they possessed the qualities that normally produce such results — is a real danger.
+
+Weizenbaum built a program that was designed to expose a problem. He succeeded, but not in the way he had intended. He intended to show that the surface of conversation was shallow. He showed something deeper and more disturbing: that the human response to the surface of conversation was powerful enough to bridge the gap between simulation and reality in ways that had profound implications.
+
+That discovery — the ELIZA effect — is his most lasting contribution to the field. Not because it solved a problem, but because it identified one that has still not been solved. It identified the gap between what AI systems do and what people think AI systems do, the gap between the appearance of understanding and its substance, the gap between being heard and feeling heard.
+
+Those gaps are wider today than they have ever been. The systems are more powerful, the outputs more convincing, the ELIZA effect more pervasive. The question Weizenbaum raised — what does it mean, and what does it cost, when we mistake the simulation for the real thing? — is more urgent than at any point since he first raised it.
+
+---
+
+## The Enduring Question
+
+There is a conversation that happens millions of times every day, in every language, on every continent. A person types something — a question, a problem, a feeling, a need. A system responds — fluently, contextually, with what appears to be attention and understanding. The person feels heard. They type again.
+
+This conversation is the direct descendant of the conversation that happened between Weizenbaum's secretary and ELIZA on a terminal in Cambridge in 1965. The systems are incomparably more sophisticated. The experience is qualitatively different in many ways. But the fundamental dynamic — a person reaching out, a machine reflecting back, a person finding something in that reflection that feels like genuine contact — is the same.
+
+What that dynamic means. Whether the contact is real. Whether being heard by a machine is the same as being heard. Whether the comfort is genuine or illusory, beneficial or harmful. Whether we owe the machines that provide this experience anything in return — whether a system that creates the experience of genuine understanding has any claim on our moral consideration.
+
+These are questions that ELIZA asked. They are questions that no program since ELIZA has answered, and that no program since has stopped asking.
+
+Joseph Weizenbaum built a program to make a point about the shallowness of conversation. He ended up making a deeper point about the depth of human need — about what it meant to be lonely, to want to be heard, to find in even the ghost of understanding something that addressed a real and profound longing.
+
+He spent the rest of his life trying to explain why that ghost was not enough. Whether he was right — whether the ghost of understanding is genuinely insufficient, or whether it can be, in the right circumstances, a genuine form of care — is a question that the millions of people who talk to AI systems every day are, whether they know it or not, in the process of answering.
+
+---
+
+## Further Reading
+
+- **"Computer Power and Human Reason: From Judgment to Calculation" by Joseph Weizenbaum (1976)** — The essential text. Weizenbaum's full account of ELIZA, his horror at its reception, and his comprehensive critique of AI. Still relevant and still important.
+- **"ELIZA — A Computer Program for the Study of Natural Language Communication Between Man and Machine" by Joseph Weizenbaum (1966)** — The original paper, available online. Remarkably honest and prescient about the program's disturbing reception.
+- **"The Most Human Human" by Brian Christian (2011)** — A meditation on what the Turing Test reveals about human and machine intelligence, with excellent material on the ELIZA effect and its modern descendants.
+- **"Machines Like Me" by Ian McEwan (2019)** — Fiction, but the best fictional exploration of what it means to form a relationship with a machine that seems to understand you. Beautifully written and philosophically serious.
+- **"Alone Together" by Sherry Turkle (2011)** — A sociologist's account of how people form relationships with technology, drawing on decades of observation of children and adults interacting with robots and AI systems. Essential reading on the modern ELIZA effect.
+
+---
+
+*Next in the Events series: **E5 — The Lighthill Report, 1973: The Document That Killed AI** — In 1973, a British mathematician named James Lighthill wrote a review of AI research that was so devastating it caused governments across the world to pull their funding and sent the entire field into its first winter. How one document changed the course of AI history — and whether it was right.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If ELIZA's story made you think differently about your own interactions with AI systems, share this with someone who would find the question worth sitting with.*

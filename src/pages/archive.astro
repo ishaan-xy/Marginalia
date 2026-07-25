@@ -1,0 +1,141 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import TopicCloud from '@/components/TopicCloud.astro';
+import { getPublishedPosts, getAllSeries } from '@/lib/post-cache';
+import { formatDate, slugifySeries } from '@/lib/format';
+
+const POSTS_PER_PAGE = 50;
+
+const posts = (await getPublishedPosts()).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const totalPosts = posts.length;
+const totalPages = Math.max(1, Math.ceil(totalPosts / POSTS_PER_PAGE));
+const visiblePosts = posts.slice(0, POSTS_PER_PAGE);
+
+// Group visible posts by year
+const byYear = new Map<string, typeof visiblePosts>();
+for (const post of visiblePosts) {
+  const year = String(post.data.pubDate.getUTCFullYear());
+  if (!byYear.has(year)) byYear.set(year, []);
+  byYear.get(year)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
+
+// Build tag cloud from ALL posts (not just visible)
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+// Only show tags with 2+ posts in the cloud — single-post tags are noise
+const tags = [...tagCounts.entries()]
+  .filter(([, count]) => count >= 2)
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
+// Series summary
+const series = await getAllSeries();
+---
+<BaseLayout
+  title="Archive"
+  description="Every post, in chronological order — plus series, tags, and topic cloud."
+>
+  <section class="fade-up mb-12">
+    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+      Archive
+    </h1>
+    <p class="font-serif text-lg text-[var(--fg-soft)] mb-8">
+      {totalPosts} {totalPosts === 1 ? 'post' : 'posts'}
+      {totalPages > 1 && ` · showing the latest ${visiblePosts.length}`}
+    </p>
+
+    {series.length > 0 && (
+      <div class="pt-6 border-t border-[var(--line)] mb-8">
+        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">
+          Series
+        </h2>
+        <ul class="space-y-3">
+          {series.map((s) => (
+            <li>
+              <a
+                href={`/series/${slugifySeries(s.name)}/`}
+                class="flex items-baseline justify-between gap-4 group"
+              >
+                <span class="font-serif text-[1.0625rem] text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors">
+                  {s.name}
+                </span>
+                <span class="text-xs font-sans text-[var(--fg-faint)] shrink-0">
+                  {s.count} parts
+                  {s.lastUpdated && ` · ${formatDate(s.lastUpdated)}`}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {tags.length > 0 && (
+      <div class="pt-6 border-t border-[var(--line)]">
+        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">
+          Browse by topic
+        </h2>
+        <TopicCloud tags={tags} />
+      </div>
+    )}
+  </section>
+
+  {years.map((year) => (
+    <section class="mb-12">
+      <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-5 pb-2 border-b border-[var(--line)]">
+        {year}
+      </h2>
+      <ul class="space-y-4">
+        {byYear.get(year)!.map((post) => (
+          <li class="flex flex-col sm:flex-row sm:items-baseline sm:gap-4">
+            <time
+              datetime={post.data.pubDate.toISOString()}
+              class="text-xs font-sans text-[var(--fg-faint)] tabular-nums shrink-0 sm:w-24"
+            >
+              {new Intl.DateTimeFormat('en-US', {
+                month: 'short',
+                day: 'numeric',
+                timeZone: 'UTC',
+              }).format(post.data.pubDate)}
+            </time>
+            <div class="flex-1">
+              <a
+                href={`/${post.id}/`}
+                class="font-serif text-lg text-[var(--fg)] hover:text-[var(--accent)] transition-colors"
+              >
+                {post.data.title}
+              </a>
+              {post.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mt-1">
+                  {post.data.tags.slice(0, 5).map((tag) => (
+                    <span class="text-xs text-[var(--fg-faint)]">#{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  {/* Pagination */}
+  {totalPages > 1 && (
+    <nav class="mt-12 pt-8 border-t border-[var(--line)] flex items-center justify-between" aria-label="Pagination">
+      <span class="text-sm font-sans text-[var(--fg-faint)]">
+        Page 1 of {totalPages}
+      </span>
+      <a
+        href="/archive/2/"
+        class="text-sm font-sans text-[var(--fg-soft)] hover:text-[var(--accent)] transition-colors"
+      >
+        Older posts →
+      </a>
+    </nav>
+  )}
+</BaseLayout>

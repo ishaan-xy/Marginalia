@@ -1,0 +1,270 @@
+---
+title: "Jürgen Schmidhuber: The Angry Genius"
+description: "He invented LSTM — the architecture that enabled speech recognition, machine translation, and early language models. He has been arguing, loudly and persistently, that he deserves far more credit for modern AI than he receives. The case for why he might be right — and the complicated personality that has made it harder to make that case effectively."
+pubDate: "2026-04-19"
+tags:
+  - "Key Figure"
+  - "Jürgen Schmidhuber"
+  - "LSTM"
+  - "Recurrent Neural Networks"
+  - "Deep Learning History"
+  - "AI Priority"
+series:
+  name: "Minds & Machines"
+  part: 41
+draft: false
+featured: false
+dropCap: true
+---
+
+*Lugano, Switzerland. 2015. Jürgen Schmidhuber is at a conference, sitting at a table in a hotel bar, and he is not happy. The deep learning revolution is in full swing. The papers are being published at a rate that nobody can keep up with. AlexNet has transformed computer vision. LSTM — the architecture that he helped develop with his student Sepp Hochreiter in 1997 — is now the dominant approach to sequence modelling in natural language processing and speech recognition. The people being celebrated as the inventors of deep learning are Geoffrey Hinton, Yann LeCun, and Yoshua Bengio.*
+
+*Schmidhuber is not one of them.*
+
+*He is at the bar, explaining, to whoever will listen, that the history of deep learning as it is being told is wrong. That his contributions — LSTM, but also the highway networks that preceded ResNets, the attention mechanisms that preceded the ones Bengio's group published, the training techniques for deep networks that others later rediscovered — are being systematically omitted from the narrative. That the Godfathers are being given credit for things that Schmidhuber and his colleagues did first.*
+
+*Some of what he is saying is correct. Some of it is overstated. Much of it is expressed in a manner that makes it harder, not easier, to evaluate dispassionately. He is simultaneously making a legitimate case and damaging that case by the way he is making it.*
+
+*This is the Schmidhuber problem. A genuine genius. A legitimate grievance. A style that undermines his own cause. And underneath it all, one of the most important contributions to modern AI that has not received the recognition it deserves.*
+
+---
+
+## Munich to Switzerland: The Formation of an Outsider
+
+Jürgen Schmidhuber was born on January 17, 1963, in Munich, Germany. He studied mathematics and computer science at the Technical University of Munich, completing his diploma in 1987 and his PhD in 1991 under the supervision of Klaus Schulten, a computational neuroscientist who worked on the connections between neural computation and biological systems.
+
+His doctoral work was on the application of reinforcement learning and unsupervised learning to neural networks — on how networks could learn to predict and represent sequences in ways that went beyond the supervised learning framework that had dominated neural network research. The doctoral years established the research direction that would define his career: the theory and practice of learning in recurrent networks, the handling of sequential data, and the fundamental questions about what kinds of sequences could be learned and what limitations constrained the learning.
+
+After completing his PhD, Schmidhuber took a position at IDSIA — the Dalle Molle Institute for Artificial Intelligence Research — in Lugano, Switzerland. He has remained at IDSIA for most of his career, becoming its co-director and building it into a small but surprisingly influential research organisation.
+
+The choice of Switzerland and IDSIA over a more prestigious university or industrial research position reflects something about Schmidhuber's relationship with his field. He was not primarily interested in institutional prestige or in the social dynamics of the major research centres. He was interested in the specific research problems that interested him, and he was willing to pursue them from a relatively obscure institutional base if that gave him the freedom to pursue them in the way he thought was right.
+
+This independence was both a strength and a weakness. It gave him freedom from the social pressures that shaped research at more prestigious institutions. It also meant that his contributions were less visible, less frequently cited, and less embedded in the networks of collaboration and mutual recognition that determine how credit is distributed in science.
+
+---
+
+## The Problem Schmidhuber Was Solving: Long-Term Dependencies
+
+The specific problem that Schmidhuber and his student Sepp Hochreiter attacked in the mid-1990s was the vanishing gradient problem in recurrent neural networks — the same problem that Yoshua Bengio had analysed theoretically in his 1994 paper.
+
+The problem was fundamental and had been recognised for years. Standard recurrent neural networks, trained with backpropagation through time, could not learn long-term dependencies — patterns in sequences that involved relationships between elements separated by many time steps. The mathematical analysis was clear: the gradient signals that backpropagation propagated backward through time either grew exponentially (causing numerical instability) or shrank exponentially (preventing learning of long-range dependencies).
+
+Hochreiter's diploma thesis, supervised by Schmidhuber in 1991, provided the first rigorous mathematical analysis of the problem — an analysis that preceded Bengio's 1994 paper and that Schmidhuber has argued established priority for identifying and characterising the vanishing gradient problem. The thesis was written in German and was not widely read outside Germany, which contributed to Bengio's 1994 paper receiving credit as the primary analysis of the problem.
+
+The solution that Hochreiter and Schmidhuber developed — Long Short-Term Memory, published in their landmark 1997 paper in Neural Computation — addressed the vanishing gradient problem through a specific architectural innovation: gating mechanisms that controlled the flow of information through the network's hidden state.
+
+The core idea of LSTM was the constant error carousel — a way of maintaining information indefinitely in the network's memory cells by creating a path through which gradient signals could flow without being multiplied by weights that would cause them to vanish. The input gate controlled when new information entered the memory. The forget gate controlled when old information was discarded. The output gate controlled when stored information influenced the network's output.
+
+The gating mechanisms allowed the network to learn, through gradient descent, when to store information, when to discard it, and when to use it — allowing it to maintain relevant information over sequences of arbitrary length, solving the problem that had made standard recurrent networks useless for long-range dependencies.
+
+---
+
+## LSTM: The Architecture That Changed Everything
+
+The 1997 LSTM paper was, by any objective measure, one of the most important papers in the history of neural network research. Its impact on subsequent AI development has been enormous.
+
+Direct impact is visible in applications that would not have been possible without LSTM. The speech recognition systems that Google deployed in 2012 and 2013 — dramatically outperforming previous approaches — used LSTM as their core acoustic modelling architecture. The neural machine translation systems that transformed translation quality from 2014 onward used LSTM-based encoder-decoder architectures. The question answering systems, text generation systems, and language models that emerged through the 2010s used LSTM as their primary sequence modelling component.
+
+Indirect impact is visible in the Transformer architecture that superseded LSTM. The self-attention mechanism that Vaswani and colleagues developed for the Transformer was partly motivated by specific limitations of LSTM — the sequential processing that made LSTM slow to train on long sequences, and the fixed-size hidden state that limited the information it could carry. The Transformer addressed these limitations, but the framing of the problem — how to model long-range dependencies in sequences — was established by the LSTM work.
+
+Without LSTM, the development of capable sequence models would have been set back by years or decades. The specific path from recurrent networks to Transformers to large language models runs through LSTM as an essential waypoint.
+
+The reception of the LSTM paper was initially modest. Like many foundational papers, it was published in a venue that was not the highest-profile in the field, and it took several years to accumulate the citations and influence that reflected its importance. The specific results in the original paper — demonstrations on artificial sequence prediction tasks and early experiments with phoneme recognition — were impressive but not the kind of dramatic, immediately applicable results that generated instant enthusiasm.
+
+The paper's influence built slowly through the late 1990s and 2000s, as researchers applied LSTM to increasingly complex sequence modelling tasks and consistently found that it outperformed standard recurrent networks. By the mid-2010s, when LSTM was being used in state-of-the-art systems for speech recognition and machine translation, its foundational importance was clear.
+
+---
+
+## The Priority Disputes: What Schmidhuber Argues and Why
+
+Schmidhuber's specific claims about priority — his argument that he deserves more credit for modern AI than he has received — are numerous, specific, and partially correct. Understanding them requires engaging with them seriously rather than dismissing them as sour grapes.
+
+**The vanishing gradient analysis.** Schmidhuber argues that Hochreiter's 1991 diploma thesis provided the first rigorous analysis of the vanishing gradient problem, predating Bengio's 1994 paper. This is correct. The diploma thesis did analyse the problem, did identify the specific mathematical mechanism by which gradients vanished or exploded, and did so before the more widely read Bengio paper. The fact that the thesis was written in German and received limited distribution is not a scientific argument that Bengio's paper should receive priority credit.
+
+**The attention mechanism.** Schmidhuber argues that his group developed attention mechanisms before Bahdanau, Cho, and Bengio's 2014 paper that is typically credited with introducing attention to neural machine translation. The specific form of attention that Schmidhuber's group developed — in the context of what they called "fast weights" and in their neural turing machine work — was different from the Bahdanau attention mechanism, but there are genuine conceptual connections. Whether these connections constitute priority credit is debatable.
+
+**Highway networks and ResNets.** Schmidhuber argues that his group's highway network architecture — which used gating mechanisms to allow gradients to flow through deep networks — preceded and inspired the residual networks that became the dominant deep learning architecture for image recognition. The highway network paper was published a few months before the ResNet paper, and there are conceptual connections. Whether ResNet's specific contribution was genuinely independent or was influenced by highway networks is not entirely clear.
+
+**Self-supervised learning and transformer-like architectures.** Schmidhuber makes broader claims about priority for various ideas that are now central to modern AI — self-supervised learning, certain aspects of the Transformer architecture, meta-learning. These claims are less specific and more contentious than his LSTM-related claims.
+
+The pattern in Schmidhuber's priority claims is: some claims are well-founded and deserve more recognition than they typically receive; some claims are overstated or based on conceptual connections that are weaker than claimed; and the way Schmidhuber presents these claims — comprehensively, assertively, and with a combativeness that implies bad faith on the part of those who do not credit him — makes it difficult to engage with the legitimate claims on their merits.
+
+---
+
+## The Communication Problem: Why the Style Matters
+
+The scientific community's reception of Schmidhuber's priority claims has been shaped as much by how he makes those claims as by the substance of the claims themselves. And this is, genuinely, a problem — both for him personally and for the historical accuracy of the field's self-understanding.
+
+Science has specific norms around priority and credit. Priority claims are made in publications, established through citation practices, and settled through the collective judgment of the research community. The norms favour published results with clear dates over unpublished or inaccessible results. They favour ideas that directly influenced subsequent work over ideas that were developed independently and simultaneously. And they favour claims made with appropriate qualification and humility over claims made with assertiveness and implication of bad faith.
+
+Schmidhuber's communication style violates these norms in specific ways. He makes priority claims broadly and comprehensively — not just "our LSTM paper deserves more credit" but "essentially everything in modern AI was anticipated by work in my group." He implies, sometimes explicitly, that the Godfathers (Hinton, LeCun, Bengio) and the researchers they trained have been dishonest in failing to credit his work. He maintains a website that comprehensively documents his priority claims in a manner that the scientific community tends to read as obsessive rather than as legitimate scholarship.
+
+The communication style has specific consequences. It makes it harder for other researchers to evaluate the legitimate claims on their merits, because the legitimate claims are mixed with overstatements and implications of bad faith that activate defensive responses. It damages the credibility of the legitimate claims by association with the overstatements. And it creates a reputation for Schmidhuber that, while deserved for his technical contributions, is mixed with a reputation for combativeness that makes objective evaluation of his work more difficult.
+
+This is a real tragedy, in the proper sense of the word: a situation in which someone's genuine strengths are compromised by genuine weaknesses in ways that produce worse outcomes than either the strengths or the weaknesses alone would produce. Schmidhuber has genuine priority for important contributions. His communication style makes it harder to recognise those contributions.
+
+---
+
+## Sepp Hochreiter: The Student Who Deserves Recognition
+
+Any account of LSTM must acknowledge Sepp Hochreiter's specific and crucial contribution. Hochreiter did the core mathematical analysis of the vanishing gradient problem in his diploma thesis and made the primary intellectual contribution to the LSTM architecture itself.
+
+Hochreiter was Schmidhuber's student when he did the diploma thesis work in 1991 and continued to work with Schmidhuber through the development of the full LSTM paper in 1997. He is a co-author on the 1997 paper and is credited as such. But the pattern of credit in the field — where "LSTM" tends to be associated with Schmidhuber rather than with both Schmidhuber and Hochreiter — undervalues Hochreiter's specific contribution.
+
+Hochreiter went on to have an important independent career. He became a professor at the Johannes Kepler University Linz in Austria, where he has continued to work on deep learning and its applications to bioinformatics and drug discovery. His contributions to the field have been consistent and important, though less publicly visible than those of the Godfathers.
+
+The Hochreiter story is relevant to the Schmidhuber story because it illustrates the general problem of credit distribution in collaborative scientific work. When contributions are made by a supervisor and a student, credit often flows disproportionately to the supervisor — both because the supervisor's name is more established and because the supervisor is more likely to be in a position to make public claims about the contribution's importance. Hochreiter's relative invisibility in the public narrative about LSTM, compared to Schmidhuber, is partly a consequence of this asymmetry.
+
+---
+
+## The Technical Breadth: Beyond LSTM
+
+LSTM is Schmidhuber's most important contribution, but it would be a mistake to reduce his career to a single paper. His research programme has been broader, more ambitious, and more technically original than the LSTM-centred narrative suggests.
+
+**Curiosity-driven AI.** One of Schmidhuber's most creative and most distinctive contributions is the theory of curiosity-driven learning — the idea that an agent can be motivated to explore its environment by an intrinsic reward based on its own learning progress. An agent that generates intrinsic reward proportional to how much it learns from each experience will naturally explore the parts of its environment that are most informative — neither too predictable (offering nothing to learn) nor too unpredictable (too difficult to learn from). This theory of curiosity as intrinsic motivation has been influential in reinforcement learning research and connects to broader questions about how agents with general intelligence might be designed to acquire knowledge about their environments.
+
+**Self-referential learning.** Schmidhuber has worked on the problem of learning algorithms that can improve themselves — systems that can learn not just about the world but about how to learn about the world. This is the problem of meta-learning, which became an active research area in the 2010s and 2020s. Schmidhuber's work on this problem in the 1980s and 1990s anticipated the meta-learning research programme by decades.
+
+**Compression and intelligence.** Schmidhuber has developed a theoretical framework connecting intelligence to compression — the idea that an intelligent agent can be understood as a system that discovers regularities in its experience and compresses those regularities into compact representations. This framework has connections to algorithmic information theory and to Kolmogorov complexity, and provides a theoretical foundation for understanding what learning is, what representations are, and why compression is related to intelligence.
+
+**Neural turing machines and differentiable programming.** Schmidhuber's group did early work on neural network architectures with external memory and attention-like mechanisms — architectures that would later be developed into neural turing machines and differentiable neural computers by DeepMind. The connections between Schmidhuber's early work and these later developments are genuine, though the direct influence is debated.
+
+The breadth of this work reflects a specific ambition: Schmidhuber is not trying to optimise neural network performance on specific benchmarks. He is trying to understand what intelligence is, what algorithms could produce it, and how a complete theory of learning, planning, and intelligence might be constructed. This ambition — for a complete theory rather than for incremental improvements — has produced both genuine insights and occasional overreaching.
+
+---
+
+## The Turing Award and Its Absence
+
+In 2018, the Turing Award was given to Hinton, LeCun, and Bengio. Schmidhuber was not among the recipients.
+
+His reaction to the absence was not quiet. He was public about his view that the award had been improperly given — that his contributions, and Hochreiter's contributions, had been excluded from recognition they deserved. He gave interviews, wrote blog posts, and made the case that the historical narrative underlying the Turing Award was inaccurate.
+
+Some of the specific technical arguments he made were correct. LSTM was foundational to the developments the Turing Award recognised. The vanishing gradient analysis that preceded Bengio's cited paper was not acknowledged. These were genuine omissions.
+
+But the manner in which he made these arguments — the combativeness, the comprehensive scope of the claims, the implication that the award recipients had been dishonest — made it harder for the scientific community to engage with the legitimate points. The reaction was largely defensive: researchers who felt that their own contributions or their colleagues' contributions were being unfairly characterised responded defensively, and the opportunity for honest historical reckoning was lost in the controversy over tone.
+
+The absence from the Turing Award was a genuine injustice, in the specific sense that the technical contributions deserved recognition and did not receive it. But scientific prizes are imperfect instruments for recognising contributions, and the history of AI has many examples of important contributors not receiving the recognition they deserved — Frank Rosenblatt is the most poignant example in this series. Schmidhuber's case is real and legitimate, but it is not unique.
+
+---
+
+## The Right and Wrong Ways to Fight for Credit
+
+Scientific priority disputes are not rare, and the history of science provides many examples of people who were right about being inadequately credited and many examples of how such disputes can be handled well or poorly.
+
+Handled well: the argument is specific, the claims are carefully qualified, the evidence is documentary, and the tone is analytical rather than accusatory. The goal is to correct the historical record, not to damage the reputations of others.
+
+Handled poorly: the claims are broad and comprehensive, the tone implies bad faith on the part of those who did not credit the work, and the manner of making the claims creates defensive responses that make honest evaluation harder.
+
+Schmidhuber's approach has elements of both. His specific technical arguments — about LSTM, about the vanishing gradient analysis, about highway networks — are often careful and documentable. His broader claims — about the comprehensive scope of his group's anticipations of modern AI — are less carefully qualified and more prone to overstatement. And his tone, across many interviews, blog posts, and conference conversations, has been closer to the poor end of the spectrum than the good end.
+
+The tragedy is that a better communication approach would have been more effective. The legitimate claims deserve and could attract serious engagement. The overstated claims and the combative tone have made serious engagement harder, not easier. Schmidhuber would have advanced his cause more effectively by making a smaller, better-documented, more carefully qualified case than by making the comprehensive, assertive case he has made.
+
+Whether he is capable of this different approach — whether the communication style is a deliberate choice that he could change or a deeper feature of his personality — is something that only he knows.
+
+---
+
+## The Institutional Context: IDSIA as a Research Environment
+
+Understanding Schmidhuber's career requires understanding the institutional context in which he has worked — IDSIA, the Dalle Molle Institute for Artificial Intelligence Research in Lugano, Switzerland.
+
+IDSIA is not a household name in AI research. It does not have the brand recognition of MIT, Stanford, or Carnegie Mellon. It is not located in a major research hub — Lugano is a beautiful city, but it is not a centre of the global AI research community. The researchers who come to IDSIA for doctoral study or postdoctoral work are often choosing it specifically to work with Schmidhuber, not because IDSIA is a natural destination on the academic job market.
+
+This institutional context has shaped Schmidhuber's career in specific ways. It has given him unusual freedom — he is the dominant figure at IDSIA, without the institutional politics and competing research agendas that characterise larger academic departments. He has been able to pursue a long-term, ambitious research programme without the pressure to produce near-term results that characterises many academic positions.
+
+But the institutional context has also contributed to the visibility problem. Research produced at IDSIA does not benefit from the prestige halo of major universities. Collaborations are harder to form and maintain from a relatively isolated institution. Students who train at IDSIA and go on to prominent careers often end up at major technology companies or universities where the connection to IDSIA is less visible than the connection to their new institutions.
+
+The IDSIA context is relevant to the priority dispute in a specific way: some of the work that Schmidhuber claims was inadequately recognised was done at an institution that was not well-connected to the networks through which credit flows in science. The papers were published, but in venues that the field's mainstream was not reading as closely as the venues associated with major universities. The ideas were developed, but they were developed at an institution that was not on the list of places where the most competitive AI researchers were working.
+
+This is not a unique situation. The history of science includes many examples of important work done at peripheral institutions that did not receive the credit it deserved because the credit-distribution mechanisms of science are not perfectly calibrated to the geographic and institutional periphery. It is a genuine problem, and Schmidhuber's career is a genuine example of it.
+
+---
+
+## The Students Who Carried the Work Forward
+
+One of the measures of a researcher's contribution is the students they train and the work those students go on to do. By this measure, Schmidhuber's contribution is more substantial than his institutional position would suggest.
+
+Sepp Hochreiter, his most famous student, went on to an important independent career and is one of the most respected researchers in deep learning in Europe. Klaus Greff, Rupesh Srivastava, Jan Koutník, and others who trained in Schmidhuber's group have contributed to subsequent deep learning research in visible ways. The IDSIA group's contributions to reinforcement learning — through students who developed agents that achieved superhuman performance on specific games — produced results that attracted significant attention in the reinforcement learning community.
+
+The students' work demonstrates that the research environment Schmidhuber created — however problematic in some respects — was genuinely productive. The training he provided, the problems he posed, and the intellectual culture of ambitious, theoretically grounded research that he cultivated produced researchers who contributed significantly to the field.
+
+This is worth noting because the narrative of Schmidhuber as primarily a person aggrieved about credit can obscure the fact that he was also, genuinely, a productive researcher and a productive mentor whose group contributed important ideas and important people to the field.
+
+---
+
+## What Schmidhuber Got Right
+
+Setting aside the priority disputes, it is worth asking what Schmidhuber got right — what ideas he developed that turned out to be correct and important.
+
+**LSTM was the right architecture.** The gating mechanism that maintains memory over long sequences was the right solution to the vanishing gradient problem for recurrent networks. LSTM dominated sequence modelling for two decades and was the enabling technology for speech recognition and machine translation as they developed through the 2010s.
+
+**The vanishing gradient analysis was right.** The specific mathematical mechanism by which gradient signals vanish in deep networks — the multiplication of many small numbers that causes exponential decay — was correctly identified by Hochreiter's analysis. Understanding this mechanism was necessary for developing solutions to it, and the analysis preceded the solution.
+
+**Curiosity-driven learning is a productive research direction.** The theory of intrinsic motivation based on compression progress — exploring environments that offer maximal learning — has proved productive in reinforcement learning and connects to important questions about how general-purpose learning agents should be designed. Research on curiosity and intrinsic motivation in RL has been an active and productive area, and Schmidhuber's early work on the topic deserves credit as a precursor.
+
+**Intelligence as compression is a useful theoretical framework.** The connection between intelligent behaviour and compression — the idea that a system that compresses its experience efficiently has, in some sense, understood it — is a productive theoretical lens that connects AI to information theory and provides a rigorous framework for thinking about what learning and intelligence are.
+
+**Self-referential learning is important.** The idea that learning algorithms should be able to improve themselves — meta-learning — has proved enormously productive in the 2010s and 2020s. Schmidhuber worked on this problem decades before it became mainstream.
+
+These are genuine contributions. They deserve recognition — not at the expense of recognising Hinton, LeCun, and Bengio's contributions, which are also genuine, but alongside them.
+
+---
+
+## What Schmidhuber Got Wrong
+
+The honest account must also acknowledge what Schmidhuber got wrong, or at least overstated.
+
+**The scope of the priority claims.** Not everything important in modern AI was anticipated by Schmidhuber's group. The specific credit claims for LSTM and the vanishing gradient analysis are well-founded. The broader claims — that the Transformer architecture was anticipated, that the specific attention mechanism that became dominant was derived from his group's work, that meta-learning as currently practiced descends primarily from his research — are less well-founded and sometimes clearly wrong.
+
+**The communication approach.** The strategy of making comprehensive, assertive priority claims with implications of bad faith on the part of others has not worked. The legitimate claims have not received more recognition as a result; if anything, they have received less, because the legitimate claims are associated in many researchers' minds with the overstatements and the combativeness.
+
+**The institutional politics.** Some of Schmidhuber's conflicts with the research community have had an unproductive, personalised quality that has damaged professional relationships without advancing scientific understanding. The combativeness that characterises his public presence has made it harder to engage with his technical work on its merits.
+
+These errors are regrettable precisely because they have reduced the recognition of genuine contributions. The tragedy is not that Schmidhuber has been treated unjustly — though in specific ways he has. It is that his own choices have made the injustice more difficult to correct.
+
+---
+
+## The Honest Assessment: A Major Figure Whose Story Is Incomplete
+
+What is the right way to understand Jürgen Schmidhuber's place in the history of AI?
+
+He is not one of the Godfathers — his contributions are real and important but did not have the same breadth of influence or the same transformative effect on the field as those of Hinton, LeCun, and Bengio. He did not build the institutions, train the students, or develop the comprehensive theoretical and empirical programme that the Godfathers built.
+
+He is also not a footnote. LSTM is foundational to modern AI in ways that deserve recognition. The vanishing gradient analysis preceded and informed important subsequent work. The theoretical frameworks he developed for curiosity, compression, and meta-learning have proved productive. These are genuine contributions that the official narrative of deep learning has not fully acknowledged.
+
+He is, in the most honest assessment, a major figure whose story has been incompletely told — both by the field's mainstream, which has under-credited his contributions, and by himself, whose communication style has made honest assessment harder.
+
+The story of Jürgen Schmidhuber is also, in a broader sense, a story about how scientific credit is distributed — about the mechanisms by which the field decides who gets credit for what, and about the ways those mechanisms are imperfect. Priority in science is not a simple matter of who published first; it is also about who published in the right places, who trained the students who went on to do influential work, who had the institutional connections that allowed ideas to spread, and who had the communication skills to make the case for their contributions effectively.
+
+Schmidhuber had the ideas. He published them. He did not have the institutional connections, and he does not have the communication skills. The result is a case study in the imperfection of science's credit-distribution mechanisms.
+
+---
+
+## The Unfinished Argument
+
+The priority dispute that Schmidhuber has been engaged in for years is, in an important sense, unfinished. The historical record has not been corrected to his satisfaction — and probably never will be, given the way that scientific credit, once allocated, is difficult to reallocate.
+
+But the argument is worth having, because the historical record matters for more than personal recognition. It matters for understanding how AI developed — for understanding which ideas proved important and why, which research traditions contributed to the breakthrough, and what kinds of contributions were and were not recognised by the field's credit mechanisms.
+
+A more complete historical account of deep learning would give Schmidhuber and Hochreiter appropriate credit for LSTM — for the gating mechanism that solved the vanishing gradient problem in recurrent networks and enabled two decades of sequence modelling advances. It would acknowledge Hochreiter's 1991 analysis as the first rigorous treatment of the vanishing gradient problem. It would recognise the genuine connections between Schmidhuber's early work on attention-like mechanisms and the subsequent development of the attention mechanism that underpins the Transformer. And it would note the priority of Schmidhuber's meta-learning work relative to the meta-learning research programme that became mainstream in the 2010s.
+
+These acknowledgments would not diminish the Godfathers' contributions. They would simply give a more accurate picture of how deep learning developed — as the product of a broader community than the three-Godfather narrative suggests, with significant contributions from researchers whose institutional positions and communication styles were less visible to the field's credit-distribution mechanisms.
+
+The angry genius was right about more than he was given credit for. The anger was understandable. It was also counterproductive. Both of these things are true.
+
+---
+
+## Further Reading
+
+- **"Long Short-Term Memory" by Hochreiter and Schmidhuber (1997)** — The original LSTM paper. Read it to understand both the specific solution and the depth of the problem it was solving.
+- **"Learning to Forget: Continual Prediction with LSTM" by Gers, Schmidhuber, and Cummins (2000)** — The extension of LSTM that introduced the forget gate, the mechanism that became most standard in subsequent LSTM implementations.
+- **"Schmidhuber's Research Page"** — Available at schmidhuber.org. Schmidhuber maintains a comprehensive account of his group's contributions, including the priority timeline he argues for. Read it with appropriate scepticism but also with genuine attention to the specific documented contributions.
+- **"Highway Networks" by Srivastava, Greff, and Schmidhuber (2015)** — The highway network paper, published months before ResNet. The connections and differences between highway networks and residual networks are relevant to evaluating Schmidhuber's priority claims for this specific contribution.
+- **"A Review of Deep Learning" by LeCun, Bengio, and Hinton (2015)** — The Nature paper in which the Godfathers describe the deep learning research programme. Compare its account of LSTM and recurrent networks to Schmidhuber's account to understand the specific credit dispute.
+
+---
+
+*Next in the Profiles series: **P15 — Fei-Fei Li: The Woman Who Taught Machines to See** — The full story of the Stanford professor who assembled fourteen million labelled images when everyone told her the project was impossible, built the benchmark that made the deep learning revolution possible, and became one of the most important voices for responsible AI development. The complete portrait of the creator of ImageNet.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If Schmidhuber's story — the genuine contribution, the legitimate grievance, the style that undermines the cause — raises questions about how science distributes credit and what individuals can do when the distribution is unfair, share it with someone who would find the question worth sitting with.*

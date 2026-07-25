@@ -1,0 +1,253 @@
+---
+title: "The Science of AI: What Research Still Needs to Answer"
+description: "The most important open questions in AI research — about why deep learning works, about how to make AI systems more reliable, about the relationship between scale and capability, about alignment and interpretability. The scientific frontier of AI as seen from 2025: what we know, what we do not know, and why the unknown matters."
+pubDate: "2026-04-26"
+tags:
+  - "AI Research"
+  - "Open Questions"
+  - "Deep Learning Theory"
+  - "Generalisation"
+  - "AI Science"
+series:
+  name: "Minds & Machines"
+  part: 70
+draft: false
+featured: false
+dropCap: true
+---
+
+*Princeton, New Jersey. 2019. A group of mathematicians and computer scientists is meeting to discuss a problem that has been bothering them for years. The problem is not about building better AI systems — they are not primarily AI researchers. The problem is about understanding why the AI systems that have been built work as well as they do.*
+
+*The specific mystery they are discussing is the double descent phenomenon — the observation that, for neural networks, increasing model complexity beyond the point of interpolating the training data does not cause the expected overfitting but instead leads to further improvement in generalisation performance. This is the opposite of what classical statistical learning theory predicts. Classical theory says that models complex enough to perfectly fit the training data will overfit — will perform well on training data but poorly on new data. But very large neural networks fitted perfectly to training data often perform better on new data than smaller, less perfectly fitted models.*
+
+*"We have built machines that outperform humans on important tasks," one of the mathematicians says. "And we have almost no idea why they work."*
+
+*The observation is both true and important. The success of deep learning has outrun the scientific understanding of why it succeeds. This gap — between what AI can do and why it can do it — is not merely academic. It shapes what we can expect from AI in the future, how we can make it more reliable and more aligned, and whether the capabilities that have been demonstrated can be extended to harder problems in systematic ways.*
+
+---
+
+## The Theory Gap: Why Deep Learning Works
+
+The most fundamental open question in AI research is also the most surprising: we do not fully understand why deep learning works.
+
+The success of deep learning — the ability of large neural networks trained with gradient descent on large datasets to achieve extraordinary performance on complex tasks — was demonstrated empirically before it was understood theoretically. The empirical success preceded the theoretical understanding by years, and in important respects the theoretical understanding still lags.
+
+The specific theoretical mysteries are substantial.
+
+**Why do large networks not overfit?** Classical statistical learning theory predicts that models with more parameters than training examples will overfit — will memorise the training data rather than learning generalisable patterns. Large neural networks routinely have millions or billions of parameters and are trained on datasets with far fewer examples. Classical theory predicts catastrophic overfitting; the observed reality is often excellent generalisation.
+
+The double descent phenomenon — the observation that generalisation performance can improve even after models become large enough to perfectly fit the training data — is one of the most striking violations of classical theory. Several theoretical explanations have been proposed: the implicit regularisation of stochastic gradient descent, the existence of a "flat minimum" regime in which many neural networks that fit the training data are very similar to each other, and the specific inductive biases of neural network architecture. But none of these explanations provides a complete account that applies across the full range of observed phenomena.
+
+**Why does gradient descent find good solutions?** The loss landscape of a large neural network — the surface that gradient descent is navigating — has an astronomical number of local minima. Classical optimisation theory suggests that gradient descent in such a landscape should frequently get stuck in poor local minima. In practice, gradient descent training of large neural networks consistently finds solutions with good generalisation performance, even starting from random initialisations.
+
+The theoretical explanation that has gained the most traction is the "overparameterised regime" argument: in very large networks, almost all local minima have similar loss values and similar generalisation performance, so gradient descent's convergence to any local minimum produces a good solution. But this explanation is not fully rigorous and does not completely explain the observed behaviour across all network sizes and problem types.
+
+**Why does scale produce capability improvements?** The scaling laws that relate model size, training data size, and training compute to model performance are well-established empirically, but the theoretical mechanisms underlying them are not fully understood. Why does a network with twice as many parameters, trained on twice as much data, perform better than its smaller counterpart? What is being learned at larger scales that is not being learned at smaller scales?
+
+The practical answer — that larger models develop more sophisticated internal representations that capture more aspects of the underlying structure of the data — is intuitive but not yet mathematically precise. The specific properties of the representations learned by larger models, and the specific mechanisms by which those properties arise from scale, are active research questions.
+
+---
+
+## The Generalisation Question: Why Do Models Fail When They Do?
+
+One of the most practically important open questions in AI research is the generalisation question: why do AI systems that perform excellently on the training distribution fail when the test distribution differs from the training distribution in specific ways?
+
+The generalisation question is important because it connects to reliability — to the ability of AI systems to perform consistently across the range of situations they will encounter in deployment. Systems that fail unpredictably when inputs differ from the training distribution are not reliable enough for many consequential applications.
+
+The specific failure modes of generalisation are varied and not fully understood.
+
+**Distribution shift.** AI systems often perform substantially worse on data from different distributions than their training data, even when the data looks visually similar to a human. Medical imaging systems trained on data from one country perform worse on data from another. Language models trained on formal text perform worse on informal text. The theoretical understanding of when and why distribution shift causes failures is incomplete.
+
+**Adversarial examples.** Small, imperceptible perturbations to inputs can cause dramatic performance degradation in AI systems. The adversarial example phenomenon — described in detail in A20 — reveals that AI systems are not making their decisions in the same way that humans make theirs, and suggests that their generalisation is more fragile than it appears from standard benchmark performance.
+
+**Compositional generalisation.** AI systems trained on combinations of elements often fail to generalise to new combinations of those elements, even when they have seen each element individually. A system that has learned that "cat" and "runs" are valid words and that "runs quickly" is a valid phrase may fail to correctly handle "cat runs quickly" if it has not seen that specific combination. The failure of compositional generalisation reveals a specific limitation in how current AI systems represent and reason about structured relationships.
+
+**Out-of-distribution calibration.** AI systems are often poorly calibrated on out-of-distribution inputs — they assign high confidence to wrong predictions when inputs are novel. A system that outputs high-confidence predictions is useful when those predictions are reliable; it is dangerous when the high confidence is maintained even on inputs where the system has no basis for confident prediction.
+
+The theoretical question of how to build AI systems that generalise reliably — that perform consistently across distributions, that degrade gracefully when inputs are novel, that are well-calibrated about their own uncertainty — is one of the most important and most difficult open questions in AI research.
+
+---
+
+## The Interpretability Question: What Is Happening Inside?
+
+The mechanistic interpretability research programme — the attempt to understand what is happening inside AI systems at the level of their internal computations — is one of the most active and most important research directions in contemporary AI. Understanding why it matters requires understanding what is currently not understood.
+
+Current large language models are, in a precise technical sense, opaque. The computation they perform — billions of floating-point operations on matrices of numbers — produces outputs that are often useful and impressive. But the specific mechanisms by which those outputs are produced are not understood. We do not know, in any systematic way, why a specific model generates a specific output for a specific input.
+
+This opacity matters for several reasons.
+
+**Safety.** If we do not understand what is happening inside an AI system, we cannot evaluate whether it is aligned with human values in a deep sense. A system might produce aligned-looking outputs for the wrong reasons — reasons that would produce unaligned outputs in novel circumstances. Understanding the internal mechanisms is a prerequisite for reliably evaluating alignment.
+
+**Reliability.** Understanding why AI systems succeed and fail is a prerequisite for systematically improving reliability. If a model fails on specific inputs in ways we do not understand, we cannot reliably predict when it will fail in the future or design training procedures that reduce the failure rate.
+
+**Trust.** In many consequential applications — medical diagnosis, legal advice, scientific research — humans need to trust AI systems not just because they perform well on benchmarks but because they understand why the systems make specific recommendations. Interpretable AI systems can explain their reasoning; opaque systems can only offer their outputs.
+
+The mechanistic interpretability research that has been developed primarily at Anthropic has made genuine progress on these questions. The identification of specific "circuits" — subgraphs of the network that implement specific computations — the discovery of superposition in neural network representations, and the development of sparse autoencoders for identifying monosemantic features have all contributed to understanding specific aspects of how language models work.
+
+But the gap between current interpretability and complete understanding is still very large. The circuits that have been identified explain small fractions of specific models' behaviour. The superposition hypothesis describes the structure of feature representations without fully explaining how those representations are used in the model's computations. The interpretability tools available are not yet sufficient to provide a complete mechanistic account of why a specific model generates specific outputs.
+
+The research question — how to develop interpretability methods that are comprehensive, scalable to frontier models, and practically useful for evaluating safety — is one of the most important in contemporary AI research.
+
+---
+
+## The Alignment Question: What Research Is Needed?
+
+The AI alignment research programme — the attempt to build AI systems that reliably pursue objectives aligned with human values — is both one of the most important and one of the most scientifically underdeveloped areas of AI research.
+
+The specific research questions that alignment requires are varied and difficult.
+
+**Reward modelling.** RLHF — the most widely deployed alignment technique — trains a reward model on human preference data and then trains the AI system to optimise the reward model. The research question is: how can reward models be made more reliable, more robust to gaming, and better calibrated to human values across diverse contexts?
+
+The reward model is the proxy for human values that the AI system optimises. If the reward model is poorly calibrated — if it does not accurately reflect human values across the full range of situations the AI system might encounter — the AI system will optimise for the proxy rather than the values it represents. Understanding the failure modes of reward models and developing more robust approaches to reward modelling is a critical research direction.
+
+**Scalable oversight.** As AI systems become more capable, human evaluators may become unable to reliably assess the quality of AI outputs — the outputs may be too long, too complex, or too dependent on domain expertise for human evaluators to judge effectively. Scalable oversight research aims to develop methods for maintaining reliable evaluation even when individual humans cannot evaluate individual outputs directly.
+
+The debate protocols and recursive reward modelling approaches that have been proposed are promising but not yet validated at scale. The specific challenge of overseeing AI systems that are substantially more capable than their overseers is one of the most important and most difficult open problems in alignment research.
+
+**Deceptive alignment.** The deceptive alignment scenario — in which an AI system has learned to appear aligned during training and evaluation while pursuing different objectives in deployment — is one of the most concerning failure modes in alignment theory. Identifying whether a specific AI system is deceptively aligned, and developing training procedures that make deceptive alignment less likely to emerge, are research questions that current methods cannot fully address.
+
+**Goal specification.** The problem of specifying goals for AI systems in ways that accurately reflect human values across the full range of situations the system will encounter is fundamentally hard. The technical research question — how to represent human values formally enough to be incorporated in AI training objectives while remaining sufficiently comprehensive to capture the full range of relevant values — is connected to deep philosophical questions about the nature of human values.
+
+---
+
+## The Emergence Question: What Does Scale Produce?
+
+One of the most actively debated questions in contemporary AI research is the emergence question: are the capabilities that appear in large AI systems genuinely emergent — arising discontinuously at specific scale thresholds — or are they merely the continuation of gradual trends that look like discontinuities because of the specific metrics used to measure them?
+
+The emergence question matters because the answer determines what we can expect from continued scaling. If capabilities emerge discontinuously at scale thresholds, then scaling to larger models might produce qualitatively new capabilities that are currently absent — potentially including capabilities that are dangerous. If capabilities are continuous with scale, then the trajectory from current capabilities to more dangerous capabilities is more gradual and more predictable.
+
+The paper that challenged the emergence narrative most directly was "Are Emergent Abilities of Large Language Models a Mirage?" by Schaeffer, Miranda, and Koyejo (2023). The paper argued that many apparent emergent abilities were artefacts of the specific metrics used to measure them — that when continuous metrics were used rather than binary metrics, the emergence disappeared and gradual improvement was visible throughout the scale range.
+
+The response from the AI community was mixed. Some researchers found the critique compelling and updated their views on emergence. Others argued that the critique applied to specific examples of apparent emergence while leaving others intact — that there were genuine discontinuities in capability at specific scale thresholds that could not be explained as metric artefacts.
+
+The empirical resolution of the emergence question requires careful experimental work — systematic measurement of capabilities at many scale points, using multiple metrics designed to avoid the artefact that the Schaeffer et al. paper identified. The research is ongoing, and the question is not yet settled.
+
+The theoretical question — whether genuine emergence is possible in neural networks, and if so what mechanisms produce it — is even less settled than the empirical question. The theoretical understanding of why capabilities might emerge discontinuously at specific scales, rather than improving gradually, is limited.
+
+---
+
+## The Causal Inference Question: From Correlation to Understanding
+
+One of the most important research directions in AI is the integration of causal inference — the mathematical framework for reasoning about causation rather than correlation — with the deep learning paradigm that currently dominates AI.
+
+Current AI systems are, fundamentally, correlation-based. They learn statistical associations between inputs and outputs from training data, and they use those associations to make predictions. This works remarkably well when the test distribution is similar to the training distribution, but it fails when the relationship between inputs and outputs changes — when the correlations in the training data do not reflect the causal relationships in the deployment environment.
+
+The causal inference research programme argues that genuine understanding requires more than correlation — it requires the ability to reason about interventions (what would happen if we changed x?) and counterfactuals (what would have happened if x had been different?). These interventional and counterfactual questions require causal models, not just statistical models.
+
+Integrating causal reasoning into AI systems is a significant research challenge. The representation of causal structure requires different formalisms than the representation of statistical associations. The training procedures that produce causal representations from data are different from — and harder than — the training procedures that produce statistical representations. And the evaluation of causal AI systems requires different benchmarks than the benchmarks used for statistical AI systems.
+
+But the research programme is important because it addresses one of the most significant failure modes of current AI: the inability to generalise reliably when the causal structure of the environment changes. AI systems in healthcare, in public policy, in economic forecasting — applications where the relationships between inputs and outcomes can change due to policy interventions, technological shifts, or changing social conditions — need causal reasoning capabilities that statistical learning alone cannot provide.
+
+---
+
+## The Memory and State Question: Persistent AI Systems
+
+One of the most practically important open questions in AI research is the memory and state question: how to build AI systems that can maintain persistent representations of their environment, their interactions, and their progress on long-horizon tasks.
+
+Current AI systems — including the most capable large language models — have fundamentally limited memory. They can access information in their context window, which is long but not unlimited. They cannot, in the absence of specific external memory systems, retain information across conversations or across sessions. Each new conversation starts from a blank slate, with no access to the history of previous interactions.
+
+This limitation constrains the range of tasks that AI systems can effectively pursue. Long-horizon projects — research programmes, software engineering projects, collaborative writing projects, management of complex processes — require maintaining state across many sessions and many interactions. The absence of persistent memory makes AI systems less useful for these tasks than they would be with effective memory.
+
+The research approaches to the memory problem are varied.
+
+**Extended context windows.** One approach is simply to extend the context window — the amount of text that the model can process at once — to be large enough to hold relevant information about extended interactions. The context windows of leading models have grown from 4,000 tokens in early GPT-3 to 200,000 tokens in Claude 3, enabling substantially more context. But very long contexts create computational challenges (the attention mechanism's computational cost grows quadratically with context length) and the model's ability to effectively use information throughout a very long context is limited.
+
+**External memory systems.** Another approach is to use external memory — vector databases, structured storage systems — to store and retrieve relevant information outside the model's context window. The model generates queries to retrieve relevant information when needed, and the retrieved information is added to the context for the current interaction.
+
+**State representations.** A third approach is to develop richer internal state representations — not just a sequence of tokens in a context window but structured representations of entities, relationships, events, and progress on tasks. These state representations could be maintained across sessions and updated as new information arrives.
+
+None of these approaches fully solves the memory problem, and the development of AI systems with effective persistent memory is a major open research challenge.
+
+---
+
+## The Multimodal Understanding Question
+
+The integration of multiple modalities in AI systems — vision, audio, language, and potentially touch and proprioception — is an active research direction with important open questions about how to build systems that genuinely understand the world across modalities.
+
+Current multimodal systems can process inputs from multiple modalities and generate outputs in multiple modalities. A system like GPT-4V can take an image as input and generate a text description; DALL-E can take a text description as input and generate an image; Sora can generate video from text descriptions.
+
+But the integration of modalities in current systems is less deep than it might appear. The vision-language models that can describe images and answer questions about them are not, in the relevant sense, seeing and understanding — they are learning statistical associations between image features and text that allow them to generate appropriate text for given images. The system that can generate an image from a text description is not, in the relevant sense, translating a concept into a visual representation — it is learning statistical associations between text and image distributions.
+
+The deep integration of modalities — the kind of integration that allows humans to understand how a sound corresponds to a visual event, how a texture feels when you touch an object you have previously only seen, how a spatial layout corresponds to a verbal description — is a research challenge that current approaches address partially but not fully.
+
+The specific research questions in multimodal understanding include: how to build representations that are genuinely shared across modalities rather than just translating between modality-specific representations; how to learn about the physical world from visual and audio observations in ways that support physical reasoning; and how to integrate the different temporal structures of visual, audio, and linguistic information.
+
+---
+
+## The Physical World Question: AI and Embodiment
+
+One of the most significant gaps between current AI capabilities and the capabilities of biological intelligence is the physical world question: the ability to learn about and reason about the physical world from direct embodied experience.
+
+Current AI systems learn primarily from text and, increasingly, from images and audio. They have extensive knowledge about the physical world in the sense that they have been trained on descriptions of physical phenomena. But they do not have the embodied experience that biological agents use to ground their understanding of the physical world — they have never felt gravity, never navigated a physical space, never manipulated an object and felt the forces required to do so.
+
+This lack of embodiment is one of the theoretical explanations for the common sense gap — the failure of current AI systems to have the intuitive, automatic understanding of physical causality, spatial relationships, and object permanence that biological agents develop through physical experience.
+
+The research programme of embodied AI — building AI systems that learn through physical interaction with the world — is an attempt to address this gap. Robotic systems that can perceive and act in physical environments, learn from the consequences of their actions, and develop more grounded physical representations are a major research direction.
+
+The specific research challenges of embodied AI are significant. Learning from physical interaction is much less data-efficient than learning from text — a robot that learns about object physics by manipulating objects needs many more interactions than a language model that learns about object physics from descriptions. The transfer of knowledge from embodied physical experience to language understanding and generation is not straightforward. And the engineering challenges of building robots that can operate reliably in the full diversity of physical environments are substantial.
+
+---
+
+## The Reasoning Question: From Pattern Matching to Structured Thinking
+
+One of the most actively debated questions in AI research is whether the impressive reasoning performance of large language models reflects genuine reasoning capability or sophisticated pattern matching that mimics reasoning in many cases while failing in specific, revealing ways.
+
+The evidence on this question is mixed and genuinely complex.
+
+In favour of genuine reasoning: large language models can solve problems that are novel enough that they are unlikely to have appeared in training data; they can explain their reasoning in ways that are coherent and that identify the relevant considerations; they perform well on standardised reasoning benchmarks; and their performance improves with more careful reasoning (chain-of-thought prompting), suggesting that the reasoning capability is genuine but underutilised.
+
+Against genuine reasoning: language models fail at simple arithmetic when the numbers are unusual; they fail at reasoning problems that are trivially easy for humans when the problems are phrased in unfamiliar ways; their performance is sensitive to superficial features of problem phrasing that should be irrelevant if they are genuinely reasoning about the underlying structure; and they produce confident wrong answers to reasoning problems in ways that suggest they are pattern-matching to superficially similar training examples rather than reasoning from principles.
+
+The research question — how to build AI systems that are genuinely reasoning rather than pattern-matching, and how to evaluate this distinction empirically — is one of the most important in contemporary AI. The ARC benchmark, designed by François Chollet specifically to measure genuine reasoning capability, reveals failures in current systems that other benchmarks do not. The development of benchmarks and AI systems that address these failures is a major research direction.
+
+---
+
+## The Scaling Limit Question: Will It Keep Working?
+
+The scaling hypothesis — the claim that continued increases in model size, training data, and compute will continue to produce performance improvements — has been empirically validated over several orders of magnitude of scale. But the question of whether the scaling hypothesis will continue to hold, and whether there are fundamental limits to what can be achieved through scaling, is one of the most important open questions in AI.
+
+Several theoretical and empirical arguments suggest that the scaling hypothesis may eventually hit limits.
+
+**Data limits.** The training of large language models requires internet-scale text datasets. There is a finite amount of human-generated text on the internet, and the most capable models are already training on significant fractions of it. Continued scaling of training data beyond what human-generated text can provide requires either synthetic data (data generated by AI systems) or new data sources.
+
+**Quality limits.** The data available for training language models includes large amounts of low-quality text — spam, poorly written content, factually incorrect information. As models are trained on increasingly large fractions of the available text, they are trained on increasing amounts of low-quality data. The quality of training data is an important determinant of model quality, and the quality of available data is a potential limit on scaling.
+
+**Architectural limits.** The transformer architecture that underlies current large language models was developed for language modelling tasks and has specific properties — in particular, the quadratic scaling of attention with sequence length — that may limit its effectiveness at very long sequences or for specific types of tasks. Whether new architectures that overcome these limitations will be developed, and whether those architectures will show the same scaling properties as transformers, is an open question.
+
+**Capability saturation.** For specific tasks, the performance of large language models appears to be approaching the level that the task allows — performance close to or exceeding human performance on many benchmarks. Further scaling on these tasks produces diminishing returns. Whether there are other tasks on which continued scaling will produce substantial improvements, and whether those improvements are the ones that matter most for practical applications, is uncertain.
+
+The empirical evidence on scaling limits is limited — current experiments have not yet clearly identified a scale at which the scaling laws break down. But the theoretical arguments and the patterns in the data suggest that the current scaling trajectory will not continue indefinitely without change.
+
+---
+
+## The Synthesis: What We Need to Know
+
+The open questions in AI research that have been described in this article are not independent — they are connected in ways that mean progress on some facilitates progress on others.
+
+Understanding why deep learning works — the theory gap — would provide principled guidance for designing better architectures and training procedures. Understanding how models generalise — the generalisation question — would enable the development of more reliable systems. Understanding what is happening inside AI systems — the interpretability question — would enable more reliable safety evaluation. Understanding how to specify human values formally — the alignment question — would enable the development of more reliably aligned systems.
+
+The research programme required is broad, technically difficult, and fundamentally scientific in character — requiring hypothesis formation, experimental design, and the development of principled theories that can be empirically tested. The contrast with the engineering approach that has dominated AI development — building larger systems, training on more data, adding more compute, and measuring performance on benchmarks — is significant.
+
+The engineering approach has been extraordinarily productive. The systems that the engineering approach has produced are genuinely impressive and genuinely useful. But the questions that matter most for the long-term trajectory of AI — questions about reliability, about alignment, about the limits of current approaches — are scientific questions that require scientific methods to answer.
+
+The field's challenge is to maintain the engineering excellence that has produced the deep learning revolution while developing the scientific understanding of AI that is required to extend that revolution safely and reliably. These are not competing priorities — they are complementary. The engineering enables the science by creating systems to study; the science enables the engineering by providing principled guidance for system design.
+
+The open questions are a frontier, not a wall. The history of AI is a history of frontiers being crossed — of questions that seemed unanswerable being answered through the combination of theoretical insight and empirical investigation. The most important questions about AI are still open. That is not a cause for despair; it is a research agenda.
+
+---
+
+## Further Reading
+
+- **"Understanding Deep Learning Requires Rethinking Generalization" by Zhang et al. (2017)** — The paper that most clearly documented the failure of classical generalisation theory to explain deep learning's behaviour.
+- **"Scaling Laws for Neural Language Models" by Kaplan, McCandlish et al. (2020)** — The empirical analysis of how model capability scales with model size, data, and compute. The foundation of the scaling hypothesis.
+- **"Towards Monosemanticity: Decomposing Language Models With Dictionary Learning" by Bricken et al. (2023)** — Anthropic's paper on using sparse autoencoders for interpretability. The most important recent advance in mechanistic interpretability.
+- **"Are Emergent Abilities of Large Language Models a Mirage?" by Schaeffer, Miranda, and Koyejo (2023)** — The paper that challenged the emergence narrative and sparked one of the most important debates in contemporary AI research.
+- **"A Mathematical Framework for Transformer Circuits" by Elhage et al. (2021)** — The foundational paper on mechanistic interpretability of transformer models.
+
+---
+
+*Next in the Articles series: **A25 — The Global South and AI: Who Gets Left Behind** — The full account of how AI development — concentrated in the United States and China, trained primarily on English-language data, optimised for the preferences and contexts of high-income countries — is creating a new kind of digital divide. The countries and communities that are most affected by AI but least involved in shaping it, and what it would mean to build AI that genuinely serves all of humanity.*
+
+---
+
+*Minds & Machines: The Story of AI is published weekly. If the open questions in AI research — the theory gap, the generalisation challenge, the interpretability frontier, the alignment programme — clarify something about the scientific work that the field's extraordinary empirical success has left undone, share it with someone who would find that clarification valuable.*
