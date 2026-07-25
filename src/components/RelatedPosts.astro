@@ -19,7 +19,7 @@ const { posts, title = 'Read next' } = Astro.props;
         <li>
           <a
             href={`/${post.id}/`}
-            class="block p-4 sm:p-5 border border-[var(--line)] rounded-lg lift hover:border-[var(--accent)] hover:bg-[color-mix(in_srgb,var(--accent)_3%,transparent)] transition-all group"
+            class="card lift group"
           >
             <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
               <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>

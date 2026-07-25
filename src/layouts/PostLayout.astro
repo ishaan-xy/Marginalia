@@ -107,7 +107,7 @@ const articleSchema = {
       <div class="-mx-5 sm:-mx-6 mb-8 overflow-hidden">
         <img
           src={heroImage}
-          alt=""
+          alt={title}
           class="w-full h-[200px] sm:h-[280px] md:h-[340px] object-cover"
           loading="eager"
         />
@@ -248,7 +248,7 @@ const articleSchema = {
     {/* ─────────────────────────────────────────────
         13. Subscribe CTA — last thing in the article
         ───────────────────────────────────────────── */}
-    <section id="subscribe" class="mt-12 p-6 rounded-lg border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_4%,var(--bg))]">
+    <section id="subscribe" class="mt-12 card-accent" style="border-color: var(--line); background: color-mix(in srgb, var(--accent) 4%, var(--bg));">
       <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
         Subscribe
       </p>

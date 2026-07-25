@@ -36,6 +36,10 @@
   --accent: var(--color-accent);
   --accent-soft: var(--color-accent-soft);
   --accent-pale: var(--color-accent-pale);
+  /* Transition tokens — standardize durations across the site */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
   color-scheme: light;
 }
 
@@ -65,7 +69,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg);
   color: var(--fg);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color var(--transition-base), color var(--transition-base);
   /* Prevent horizontal scroll on mobile. Various elements (negative margins
      on icon buttons, the highlight-share popup, the drop-cap float,
      sub-pixel rounding from backdrop-blur) can push content a few pixels
@@ -116,7 +120,7 @@ body {
 .prose h1 { font-size: 2.25rem; }
 .prose h2 { font-size: 1.75rem; }
 .prose h3 { font-size: 1.375rem; }
-.prose h4 { font-size: 1.125rem; }
+.prose h4 { font-size: 1.25rem; }
 
 /* Heading permalink anchors — # appears on hover, links to the heading's ID */
 .prose h2 a.header-anchor,
@@ -131,7 +135,7 @@ body {
   margin-left: -1.2em;
   color: var(--accent);
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--transition-fast);
 }
 .prose h2:hover a.header-anchor::before,
 .prose h3:hover a.header-anchor::before {
@@ -143,7 +147,7 @@ body {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: color 0.15s ease;
+  transition: color var(--transition-fast);
 }
 .prose a:hover { color: var(--accent-soft); }
 
@@ -344,7 +348,7 @@ figure.code-block > figcaption {
   border-radius: 4px;
   display: flex;
   align-items: center;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: color var(--transition-fast), background var(--transition-fast);
 }
 .code-block-copy:hover {
   color: var(--accent);
@@ -519,7 +523,7 @@ figure.image-block figcaption {
   border: 1px solid var(--line);
   background: var(--bg);
   color: var(--fg-faint);
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   cursor: pointer;
 }
 .share-rail-button:hover {
@@ -563,7 +567,7 @@ figure.image-block figcaption {
   border-radius: 4px;
   display: flex;
   align-items: center;
-  transition: background 0.15s ease;
+  transition: background var(--transition-fast);
 }
 .highlight-share button:hover,
 .highlight-share a:hover { background: rgba(255, 255, 255, 0.15); }
@@ -586,7 +590,7 @@ figure.image-block figcaption {
   font-size: 0.875rem;
   color: var(--fg-soft);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   user-select: none;
 }
 .clap-button:hover {
@@ -663,7 +667,7 @@ figure.image-block figcaption {
   display: block;
   color: var(--fg-faint);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color var(--transition-fast);
   line-height: 1.4;
 }
 .toc-list a:hover { color: var(--fg); }
@@ -678,10 +682,38 @@ figure.image-block figcaption {
 
 /* Card hover lift */
 .lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }
 .lift:hover {
   transform: translateY(-3px);
+}
+
+/* ────────────────────────────────────────────────────────
+   Card utilities — shared visual treatment for boxed content
+   Two variants: .card (neutral) and .card-accent (emphasized)
+   ──────────────────────────────────────────────────────── */
+.card {
+  display: block;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: transparent;
+  transition: all var(--transition-base, 0.2s ease);
+}
+.card:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 3%, transparent);
+}
+.card-accent {
+  display: block;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  transition: all var(--transition-base, 0.2s ease);
+}
+.card-accent:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 /* Featured post hero */
@@ -766,7 +798,7 @@ figure.image-block figcaption {
   font-size: 0.75rem;
   text-transform: lowercase;
   color: var(--fg-soft);
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
 }
 .tag-pill:hover {
   border-color: var(--accent);

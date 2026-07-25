@@ -35,7 +35,7 @@ const links = [
       rel={link.copy ? undefined : 'noopener noreferrer'}
       data-copy={link.copy ? 'true' : undefined}
       data-url={link.copy ? url : undefined}
-      class="text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors flex items-center gap-1.5"
+      class="text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-[color-mix(in_srgb,var(--fg)_5%,transparent)]"
       aria-label={`Share to ${link.label}`}
     >
       <svg
