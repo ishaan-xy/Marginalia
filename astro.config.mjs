@@ -13,7 +13,7 @@ import { remarkCallouts } from './src/lib/remark-callouts.ts';
 // deprecated options because the alternative — `processor: unified({...})`
 // from `@astrojs/markdown-remark` — only applies to .mdx files, not .md.
 export default defineConfig({
-  site: 'https://your-blog.example.com',
+  site: 'https://marginalia-dav.pages.dev',
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
