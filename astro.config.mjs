@@ -13,10 +13,24 @@ import { remarkCallouts } from './src/lib/remark-callouts.ts';
 // deprecated options because the alternative — `processor: unified({...})`
 // from `@astrojs/markdown-remark` — only applies to .mdx files, not .md.
 export default defineConfig({
-  site: 'https://your-blog.example.com',
+  site: 'https://marginalia-dav.pages.dev',
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    // canvaskit-wasm is a build-time-only dependency for OG image generation.
+    // It uses WASM + native bindings that Vite/Rolldown can't bundle —
+    // externalize it so the build doesn't try to resolve it at bundle time.
+    build: {
+      rollupOptions: {
+        external: ['canvaskit-wasm', 'canvaskit-wasm/full'],
+      },
+    },
+    ssr: {
+      external: ['canvaskit-wasm', 'canvaskit-wasm/full'],
+    },
+    optimizeDeps: {
+      exclude: ['canvaskit-wasm'],
+    },
   },
   markdown: {
     syntaxHighlight: 'shiki',
