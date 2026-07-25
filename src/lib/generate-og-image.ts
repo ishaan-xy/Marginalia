@@ -12,7 +12,7 @@
  * No runtime dependency on canvaskit-wasm — it's build-time only.
  * The WASM binary doesn't ship to the browser; only the generated PNGs do.
  */
-import { CanvasKit, FontMgr } from 'canvaskit-wasm/full';
+import CanvasKitInit from 'canvaskit-wasm/full';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -35,17 +35,22 @@ export interface OGImageOptions {
   series?: { name: string; part: number; total: number };
 }
 
-let _canvasKit: CanvasKit | null = null;
-let _fontMgr: FontMgr | null = null;
+// Use `any` types because canvaskit-wasm's CJS export doesn't provide
+// named TypeScript types that work with Vite's module resolution.
+// The runtime API is stable and well-documented.
+let _canvasKit: any = null;
+let _fontMgr: any = null;
 
-async function getCanvasKit(): Promise<CanvasKit> {
+async function getCanvasKit(): Promise<any> {
   if (_canvasKit) return _canvasKit;
-  const ck = await import('canvaskit-wasm/full');
-  _canvasKit = await ck.default();
+  // canvaskit-wasm/full exports a default init function that returns
+  // the CanvasKit instance once the WASM binary is loaded.
+  const init = (CanvasKitInit as any).default ?? CanvasKitInit;
+  _canvasKit = await init();
   return _canvasKit;
 }
 
-async function getFontMgr(ck: CanvasKit): Promise<FontMgr> {
+async function getFontMgr(ck: any): Promise<any> {
   if (_fontMgr) return _fontMgr;
   const fontDir = path.join(process.cwd(), 'src', 'fonts');
   const fontFiles = [
@@ -61,12 +66,14 @@ async function getFontMgr(ck: CanvasKit): Promise<FontMgr> {
     buffers.push(new Uint8Array(data));
   }
   _fontMgr = ck.FontMgr.FromData(...buffers);
-  if (!_fontMgr) throw new Error('Failed to load fonts');
+  if (!_fontMgr) throw new Error('Failed to load fonts for OG image generation');
   return _fontMgr;
 }
 
-function rgb(ck: CanvasKit, [r, g, b]: [number, number, number]) {
-  return ck.Color(r / 255, g / 255, b / 255, 1);
+// CanvasKit's Color() takes RGB values in 0-255 range (NOT 0-1).
+// The alpha is a float 0-1.
+function rgb(ck: any, [r, g, b]: [number, number, number]) {
+  return ck.Color(r, g, b, 1);
 }
 
 export async function generateOGImage(opts: OGImageOptions): Promise<Buffer> {
@@ -118,7 +125,6 @@ export async function generateOGImage(opts: OGImageOptions): Promise<Buffer> {
     canvas.drawParagraph(seriesPara, padding, padding);
 
     // Top-right: "Part X of Y" (faint gray, Inter Medium, 22px)
-    // Use a right-aligned paragraph to position it in the top-right corner
     const partLabel = `Part ${opts.series.part} of ${opts.series.total}`;
     const partPara = buildRightAlignedParagraph(ck, fontMgr, {
       text: partLabel,
@@ -129,7 +135,6 @@ export async function generateOGImage(opts: OGImageOptions): Promise<Buffer> {
       maxWidth: WIDTH / 2,
       lineHeight: 1,
     });
-    // Position at right half of the image
     canvas.drawParagraph(partPara, WIDTH / 2, padding + 2);
   }
 
@@ -209,7 +214,7 @@ interface ParaOpts {
   lineHeight: number;
 }
 
-function buildParagraph(ck: CanvasKit, fontMgr: FontMgr, opts: ParaOpts) {
+function buildParagraph(ck: any, fontMgr: any, opts: ParaOpts) {
   const paraStyle = new ck.ParagraphStyle({
     textAlign: ck.TextAlign.Left,
     textStyle: {
@@ -228,7 +233,7 @@ function buildParagraph(ck: CanvasKit, fontMgr: FontMgr, opts: ParaOpts) {
   return para;
 }
 
-function buildRightAlignedParagraph(ck: CanvasKit, fontMgr: FontMgr, opts: ParaOpts) {
+function buildRightAlignedParagraph(ck: any, fontMgr: any, opts: ParaOpts) {
   const paraStyle = new ck.ParagraphStyle({
     textAlign: ck.TextAlign.Right,
     textStyle: {
@@ -243,6 +248,6 @@ function buildRightAlignedParagraph(ck: CanvasKit, fontMgr: FontMgr, opts: ParaO
   const builder = ck.ParagraphBuilder.Make(paraStyle, fontMgr);
   builder.addText(opts.text);
   const para = builder.build();
-  para.layout(opts.maxWidth - 60); // subtract right padding
+  para.layout(opts.maxWidth - 60);
   return para;
 }
