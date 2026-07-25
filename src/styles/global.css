@@ -141,7 +141,28 @@ body {
   padding-left: 1.5em;
 }
 .prose li { margin: 0.4em 0; }
+
+/* List markers — accent-colored for both bullets and numbers.
+   Ordered lists use tabular numerals so multi-digit numbers align. */
 .prose ul li::marker { color: var(--accent); }
+.prose ol li::marker {
+  color: var(--accent);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Nested lists — tighter indentation + marker variety.
+   ul: disc → circle → square (decreasing visual weight per level).
+   ol: decimal → lower-alpha → lower-roman (standard editorial hierarchy). */
+.prose ul ul, .prose ol ol, .prose ul ol, .prose ol ul {
+  margin: 0.75em 0;
+  padding-left: 1.25em;
+}
+.prose li li { margin: 0.3em 0; }
+.prose ul ul li::marker { list-style-type: circle; color: var(--accent-soft); }
+.prose ul ul ul li::marker { list-style-type: square; color: var(--accent-soft); }
+.prose ol ol li::marker { list-style-type: lower-alpha; }
+.prose ol ol ol li::marker { list-style-type: lower-roman; }
 
 .prose code {
   font-family: var(--font-mono);
@@ -475,6 +496,15 @@ figure.image-block figcaption {
   background: var(--accent-pale);
   border-color: var(--accent);
   color: var(--accent);
+}
+/* Disabled state — JS disables after 50 claps. Suppress hover affordance. */
+.clap-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.clap-button:disabled:hover {
+  border-color: var(--line);
+  color: var(--fg-soft);
 }
 .clap-icon {
   width: 18px;

@@ -27,23 +27,16 @@ const { title, description, pubDate, updatedDate, draft, tags, series, dropCap }
 const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
 const url = new URL(`/${post.id}/`, Astro.site ?? SITE.url).toString();
 
-// Hero image: use coverImage if it exists, otherwise the generated OG PNG
-const heroImage = post.data.coverImage
-  ? post.data.coverImage
-  : `/og/${post.id}.png`;
-
-// The OG image URL (for social sharing meta tags)
-const ogImageUrl = post.data.coverImage
-  ? post.data.coverImage
-  : `/og/${post.id}.png`;
-
 // Related posts: shared tags + same-series boost.
+// Memoized via post-cache; ignores overly-generic tags (appearing on >5 posts).
 const relatedPosts = await getRelatedPosts(post);
 
 // Series posts — memoized per series name
 const seriesPosts = series ? await getSeriesPosts(series.name) : [];
 
-// Compute tag frequencies for conditional tag links
+// Compute tag frequencies ONCE so the byline can render tags as links
+// when they have 2+ posts (and thus a generated /tags/<tag>/ page) or
+// as plain text when they're single-post (no dedicated page exists).
 const allPublishedForTags = await getPublishedPosts();
 const tagFreq = new Map<string, number>();
 for (const p of allPublishedForTags) {
@@ -54,9 +47,6 @@ for (const p of allPublishedForTags) {
 function tagHasPage(tag: string): boolean {
   return (tagFreq.get(tag) ?? 0) >= 2;
 }
-
-// Date to display: updatedDate if it exists, otherwise pubDate
-const displayDate = updatedDate ?? pubDate;
 
 // JSON-LD Article schema
 const articleSchema = {
@@ -80,7 +70,7 @@ const articleSchema = {
     '@type': 'WebPage',
     '@id': url,
   },
-  image: new URL(ogImageUrl, SITE.url).toString(),
+  ...(post.data.coverImage ? { image: post.data.coverImage } : {}),
   keywords: tags.join(', '),
   ...(series ? { isPartOf: { '@type': 'BlogSeries', name: series.name, position: series.part } } : {}),
 };
@@ -88,7 +78,7 @@ const articleSchema = {
 <BaseLayout
   title={title}
   description={description}
-  ogImage={ogImageUrl}
+  ogImage={post.data.coverImage}
   type="article"
   publishedTime={pubDate.toISOString()}
   jsonLd={articleSchema}
@@ -101,23 +91,25 @@ const articleSchema = {
 
   <article class="fade-up">
     {/* ─────────────────────────────────────────────
-        1. Hero image — coverImage if exists, else generated OG PNG
+        1. Article header
+        Kicker → H1 → subtitle → series banner → byline
         ───────────────────────────────────────────── */}
-    {heroImage && (
-      <div class="-mx-5 sm:-mx-6 mb-8 overflow-hidden">
-        <img
-          src={heroImage}
-          alt=""
-          class="w-full h-[200px] sm:h-[280px] md:h-[340px] object-cover"
-          loading="eager"
-        />
+    <header class="mb-10">
+      <div class="flex items-center gap-3 text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">
+        <time datetime={pubDate.toISOString()}>{formatDateLong(pubDate)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{minutes} min read</span>
+        {draft && (
+          <span class="text-[var(--accent)] font-medium">Draft</span>
+        )}
+        {updatedDate && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span class="italic normal-case tracking-normal">Updated {formatDateLong(updatedDate)}</span>
+          </>
+        )}
       </div>
-    )}
 
-    {/* ─────────────────────────────────────────────
-        2. Title + subtitle
-        ───────────────────────────────────────────── */}
-    <header class="mb-8">
       <h1 class="font-serif text-3xl sm:text-[2.5rem] leading-[1.15] font-semibold tracking-tight text-[var(--fg)] mb-4">
         {title}
       </h1>
@@ -127,57 +119,56 @@ const articleSchema = {
           {description}
         </p>
       )}
+
+      {/* Series banner — sits above the byline so readers know
+          they're in a multi-part series before they start reading. */}
+      {series && seriesPosts.length > 0 && (
+        <SeriesNav
+          variant="banner"
+          seriesName={series.name}
+          currentPart={series.part}
+          posts={seriesPosts}
+        />
+      )}
+
+      {/* Byline: author + tags on one row.
+          Tags with 2+ posts link to /tags/<tag>/; single-post tags
+          render as plain text (no dedicated page exists for them). */}
+      <div class="mt-5 flex items-center gap-3 flex-wrap">
+        <AuthorBio variant="inline" />
+        {tags.length > 0 && (
+          <>
+            <span class="text-[var(--fg-faint)]" aria-hidden="true">·</span>
+            <ul class="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <li>
+                  {tagHasPage(tag) ? (
+                    <a
+                      href={`/tags/${tag}/`}
+                      class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
+                    >
+                      #{tag}
+                    </a>
+                  ) : (
+                    <span class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)]">
+                      #{tag}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
     </header>
 
     {/* ─────────────────────────────────────────────
-        3. Series banner (between subtitle and writer section)
-        ───────────────────────────────────────────── */}
-    {series && seriesPosts.length > 0 && (
-      <SeriesNav
-        variant="banner"
-        seriesName={series.name}
-        currentPart={series.part}
-        posts={seriesPosts}
-      />
-    )}
-
-    {/* ─────────────────────────────────────────────
-        4. Writer section (author byline only — no tags)
-        ───────────────────────────────────────────── */}
-    <div class="mb-4">
-      <AuthorBio variant="inline" />
-    </div>
-
-    {/* ─────────────────────────────────────────────
-        5. Metadata row: date (left) · reading time (right)
-        ───────────────────────────────────────────── */}
-    <div class="flex items-center justify-between text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-6 pb-6 border-b border-[var(--line)]">
-      <div class="flex items-center gap-3">
-        <time datetime={displayDate.toISOString()}>
-          {updatedDate && 'Updated '}
-          {formatDateLong(displayDate)}
-        </time>
-        {draft && (
-          <span class="text-[var(--accent)] font-medium">Draft</span>
-        )}
-      </div>
-      <span>{minutes} min read</span>
-    </div>
-
-    {/* ─────────────────────────────────────────────
-        6. Share buttons (top — for "share before reading")
-        ───────────────────────────────────────────── */}
-    <div class="mb-8">
-      <ShareButtons url={url} title={title} />
-    </div>
-
-    {/* ─────────────────────────────────────────────
-        7. Mobile TOC (collapsible, above the body on small screens)
+        2. Mobile TOC (collapsible, above the body on small screens)
         ───────────────────────────────────────────── */}
     <MobileTOC headings={headings} />
 
     {/* ─────────────────────────────────────────────
-        8. Article body + sticky TOC sidebar (desktop xl+)
+        3. Article body + sticky TOC sidebar (desktop xl+)
         ───────────────────────────────────────────── */}
     <div class:list={['grid grid-cols-1 xl:grid-cols-[1fr_180px] gap-8 xl:gap-12']}>
       <div class:list={['prose min-w-0', dropCap && 'drop-cap']}>
@@ -189,37 +180,11 @@ const articleSchema = {
     </div>
 
     {/* ─────────────────────────────────────────────
-        9. Tags (moved to end — before engagement bar)
-        ───────────────────────────────────────────── */}
-    {tags.length > 0 && (
-      <div class="mt-12 pt-6 border-t border-[var(--line)]">
-        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">Tags</h2>
-        <ul class="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <li>
-              {tagHasPage(tag) ? (
-                <a
-                  href={`/tags/${tag}/`}
-                  class="tag-pill"
-                >
-                  #{tag}
-                </a>
-              ) : (
-                <span class="tag-pill">
-                  #{tag}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
-
-    {/* ─────────────────────────────────────────────
-        10. Engagement bar — clap + share (end of article)
+        4. Engagement bar — clap + share grouped together
+        Sits right after the article body, before the bio.
         ───────────────────────────────────────────── */}
     <section
-      class="mt-8 pt-6 border-t border-[var(--line)] flex flex-wrap items-center justify-between gap-4"
+      class="mt-12 pt-8 border-t border-[var(--line)] flex flex-wrap items-center justify-between gap-4"
       aria-label="Engagement"
     >
       <ClapButton slug={post.id} />
@@ -227,12 +192,14 @@ const articleSchema = {
     </section>
 
     {/* ─────────────────────────────────────────────
-        11. Author bio card
+        5. Author bio card
         ───────────────────────────────────────────── */}
     <AuthorBio variant="card" />
 
     {/* ─────────────────────────────────────────────
-        12. Discovery — series nav + related posts
+        6. Discovery — "what to read next"
+        Series nav (if part of a series) comes first as the primary
+        continuation, then related posts as secondary suggestions.
         ───────────────────────────────────────────── */}
     {series && seriesPosts.length > 0 && (
       <SeriesNav
@@ -246,7 +213,7 @@ const articleSchema = {
     <RelatedPosts posts={relatedPosts} title="Read next" />
 
     {/* ─────────────────────────────────────────────
-        13. Subscribe CTA — last thing in the article
+        7. Subscribe CTA — last thing in the article
         ───────────────────────────────────────────── */}
     <section id="subscribe" class="mt-12 p-6 rounded-lg border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_4%,var(--bg))]">
       <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">

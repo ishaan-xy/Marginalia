@@ -10,7 +10,7 @@ interface Props {
 const { posts, title = 'Read next' } = Astro.props;
 ---
 {posts.length > 0 && (
-  <section class="mt-14 pt-10 border-t border-[var(--line)]">
+  <section class="mt-12 pt-8 border-t border-[var(--line)]">
     <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-6">
       {title}
     </h2>
