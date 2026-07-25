@@ -1,9 +1,8 @@
 /**
- * Rehype plugin that enhances <pre><code> blocks:
- *  - Wraps in a <figure class="code-block"> with a header showing language + copy button
- *  - The copy button is wired up client-side by a global script (CodeBlockEnhancer.astro)
- *
- * Also enhances <img> by wrapping in <figure><figcaption> when alt text is present.
+ * Rehype plugin that enhances:
+ *  - <pre><code> blocks: wraps in <figure class="code-block"> with header (lang + copy button)
+ *  - <img>: wraps in <figure><figcaption> when alt text is present
+ *  - <h2>/<h3>: wraps heading text in an <a href="#id"> for permalink anchors
  */
 import { visit } from 'unist-util-visit';
 
@@ -109,5 +108,55 @@ export function rehypeEnhanceBlocks() {
         parent.children[index] = figure;
       }
     });
+
+    // Heading permalink anchors — wrap heading text in <a href="#id">
+    // The # glyph appears on hover via CSS (::before on the <a>).
+    // Note: Astro's built-in rehype-slug runs AFTER user plugins, so heading
+    // IDs may not be set yet. We generate a slug from the heading text if the
+    // ID is missing. When rehype-slug runs later, it will find the ID already
+    // set and skip (no overwrite).
+    visit(tree, 'element', (node) => {
+      if (node.tagName !== 'h2' && node.tagName !== 'h3') return;
+
+      // Get or generate the heading ID
+      let id = node.properties?.id;
+      if (!id) {
+        // Extract text content from heading children
+        const text = (node.children ?? [])
+          .map((c: any) => {
+            if (c.type === 'text') return c.value;
+            if (c.type === 'element') return ''; // ignore nested elements
+            return '';
+          })
+          .join('');
+        // Generate slug matching rehype-slug's algorithm
+        id = text
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+        node.properties = node.properties || {};
+        node.properties.id = id;
+      }
+
+      // Don't double-wrap if heading children already contain an <a>
+      const hasLink = (node.children ?? []).some(
+        (c: any) => c.type === 'element' && c.tagName === 'a'
+      );
+      if (hasLink) return;
+
+      // Wrap existing children in an <a> tag
+      node.children = [{
+        type: 'element',
+        tagName: 'a',
+        properties: {
+          href: `#${id}`,
+          className: ['header-anchor'],
+          'aria-label': 'Link to this section',
+        },
+        children: node.children,
+      }];
+    });
   };
 }
+
