@@ -192,7 +192,7 @@ const articleSchema = {
         9. Tags (moved to end — before engagement bar)
         ───────────────────────────────────────────── */}
     {tags.length > 0 && (
-      <div class="mt-12 pt-6 border-t border-[var(--line)]">
+      <div class="mt-12 pt-8 border-t border-[var(--line)]">
         <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">Tags</h2>
         <ul class="flex flex-wrap gap-2">
           {tags.map((tag) => (
@@ -219,7 +219,7 @@ const articleSchema = {
         10. Engagement bar — clap + share (end of article)
         ───────────────────────────────────────────── */}
     <section
-      class="mt-8 pt-6 border-t border-[var(--line)] flex flex-wrap items-center justify-between gap-4"
+      class="mt-12 pt-8 border-t border-[var(--line)] flex flex-wrap items-center justify-between gap-4"
       aria-label="Engagement"
     >
       <ClapButton slug={post.id} />
