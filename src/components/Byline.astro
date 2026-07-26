@@ -1,0 +1,103 @@
+---
+// Byline row — Medium/Substack pattern.
+// Single row: avatar · author · date · read time · Subscribe button.
+// Replaces the previous two-block arrangement (writer section + metadata row).
+import { SITE } from '@/lib/site';
+import { formatDateLong } from '@/lib/format';
+
+interface Props {
+  pubDate: Date;
+  updatedDate?: Date | null;
+  minutes: number;
+  draft?: boolean;
+}
+
+const { pubDate, updatedDate, minutes, draft = false } = Astro.props;
+
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((s) => s[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
+const displayDate = updatedDate ?? pubDate;
+const init = initials(SITE.author);
+---
+
+<div class="byline-row">
+  <span class="avatar avatar-sm" aria-hidden="true">{init}</span>
+  <div class="byline-meta">
+    <span class="byline-author">{SITE.author}</span>
+    <span class="byline-sep" aria-hidden="true">·</span>
+    <time datetime={displayDate.toISOString()}>
+      {updatedDate && 'Updated '}
+      {formatDateLong(displayDate)}
+    </time>
+    <span class="byline-sep" aria-hidden="true">·</span>
+    <span>{minutes} min read</span>
+    {draft && (
+      <>
+        <span class="byline-sep" aria-hidden="true">·</span>
+        <span class="text-[var(--accent)] font-medium">Draft</span>
+      </>
+    )}
+  </div>
+  <a href="/about#subscribe" class="byline-subscribe">Subscribe</a>
+</div>
+
+<style>
+  /* Single-row byline — Medium pattern.
+     Avatar + name + meta + Subscribe on the right (desktop).
+     Stacks gracefully on mobile. */
+  .byline-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--fg-faint);
+  }
+  .byline-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
+  }
+  .byline-author {
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .byline-sep {
+    color: var(--fg-faint);
+    opacity: 0.6;
+    user-select: none;
+  }
+  .byline-subscribe {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    transition: color var(--transition-fast);
+    white-space: nowrap;
+  }
+  .byline-subscribe:hover {
+    color: var(--accent-soft);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  /* Avatar — slightly smaller in byline context */
+  .byline-row .avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+</style>

@@ -39,10 +39,10 @@ const { tag, count, posts } = Astro.props;
     <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-2">
       Tagged
     </p>
-    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight">
+    <h1 class="font-serif text-3xl sm:text-[2.5rem] leading-[1.15] font-semibold tracking-tight">
       #{tag}
     </h1>
-    <p class="font-serif text-[var(--fg-soft)] mt-2">
+    <p class="font-serif text-lg text-[var(--fg-soft)] mt-2">
       {count} {count === 1 ? 'post' : 'posts'}.
     </p>
   </section>

@@ -27,6 +27,12 @@ const TYPE_MAP: Record<string, string> = {
   caution: 'warning',
   danger: 'danger',
   success: 'success',
+  // Pull quote — magazine-style emphasized quote, visually distinct from
+  // a regular blockquote (larger serif, accent border, no italic body).
+  // Used 1-3 times per long post to break visual monotony and create
+  // social-share moments. Renders as <blockquote class="pullquote">.
+  pullquote: 'pullquote',
+  quote: 'pullquote',
 };
 
 const DEFAULT_TITLES: Record<string, string> = {
@@ -36,6 +42,8 @@ const DEFAULT_TITLES: Record<string, string> = {
   warning: 'Warning',
   danger: 'Important',
   success: 'Success',
+  // Pull quotes have no title — the quote is the whole content.
+  pullquote: '',
 };
 
 function extractCallout(node: any): { type: string; title?: string; rest: any[] } | null {
@@ -87,6 +95,20 @@ export function remarkCallouts() {
     visit(tree, 'blockquote', (node) => {
       const callout = extractCallout(node);
       if (!callout) return;
+
+      // Pull quotes get a different rendering: <blockquote class="pullquote">
+      // instead of <div class="callout">, and no title/icon header.
+      if (callout.type === 'pullquote') {
+        node.data = node.data || {};
+        node.data.hName = 'blockquote';
+        node.data.hProperties = {
+          className: ['pullquote'],
+        };
+        // Pull quote children stay as the original blockquote content
+        // (the rest after stripping the [!pullquote] marker).
+        node.children = callout.rest;
+        return;
+      }
 
       // Use the official remark-rehype convention: set data.hName and
       // data.hProperties on the blockquote so it renders as a <div> with

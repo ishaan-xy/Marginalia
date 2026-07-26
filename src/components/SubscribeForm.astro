@@ -46,7 +46,10 @@ const url = SITE.newsletter.embedUrl;
     margin: 0 auto;
     border: 1px solid var(--line);
     border-radius: 8px;
-    background: #fff;
+    /* Paragraph's iframe is rendered with its own light theme; in dark mode we
+       keep the page background behind it so the iframe doesn't look like a
+       white island. Use a neutral backdrop that matches the page. */
+    background: var(--bg);
     color-scheme: light;
   }
   /* On very small screens, allow the iframe to shrink but keep aspect ratio */

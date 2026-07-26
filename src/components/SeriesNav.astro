@@ -75,7 +75,7 @@ const progressPct = total > 1 ? (currentPart / total) * 100 : 100;
             class="card lift group"
           >
             <p class="text-xs uppercase tracking-wider text-[var(--fg-faint)] mb-2 flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
               Previous · Part {prev.data.series?.part}
             </p>
             <p class="font-serif text-[1rem] text-[var(--fg)] leading-snug group-hover:text-[var(--accent)] transition-colors">{prev.data.title}</p>
@@ -88,7 +88,7 @@ const progressPct = total > 1 ? (currentPart / total) * 100 : 100;
           >
             <p class="text-xs uppercase tracking-wider text-[var(--accent)] mb-2 flex items-center gap-1 sm:justify-end">
               Next · Part {next.data.series?.part}
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </p>
             <p class="font-serif text-[1rem] text-[var(--fg)] leading-snug group-hover:text-[var(--accent)] transition-colors">{next.data.title}</p>
           </a>
@@ -121,6 +121,9 @@ const progressPct = total > 1 ? (currentPart / total) * 100 : 100;
     height: 100%;
     background: var(--accent);
     border-radius: 2px;
-    transition: width 0.3s ease;
+    /* Width is set inline at render; this transition only fires if the
+       element is dynamically updated. Using the --transition-slow token
+       instead of a literal 0.3s ease. */
+    transition: width var(--transition-slow);
   }
 </style>

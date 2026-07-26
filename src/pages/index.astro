@@ -168,9 +168,11 @@ const series = await getAllSeries();
   </div>
 
   {/* ─────────────────────────────────────────────
-      7. Subscribe band — last thing on the page
+      7. Subscribe band — last thing on the page.
+      Uses .subscribe-cta class for consistency with the post-page subscribe
+      block (same border treatment, same radius, same accent stripe).
       ───────────────────────────────────────────── */}
-  <section class="mt-16 p-6 sm:p-8 rounded-xl border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_4%,var(--bg))] fade-up">
+  <section class="subscribe-cta fade-up">
     <div class="text-center">
       <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
         Newsletter

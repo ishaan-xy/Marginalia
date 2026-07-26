@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SITE } from '@/lib/site';
-import { formatDateLong, readingTime } from '@/lib/format';
+import { formatDateLong, readingTime, wordCount } from '@/lib/format';
 import ReadingProgress from '@/components/ReadingProgress.astro';
 import FloatingShare from '@/components/FloatingShare.astro';
 import HighlightShare from '@/components/HighlightShare.astro';
@@ -15,6 +15,7 @@ import SeriesNav from '@/components/SeriesNav.astro';
 import SubscribeForm from '@/components/SubscribeForm.astro';
 import BackToTop from '@/components/BackToTop.astro';
 import MobileTOC from '@/components/MobileTOC.astro';
+import Byline from '@/components/Byline.astro';
 import { getPublishedPosts, getSeriesPosts, getRelatedPosts } from '@/lib/post-cache';
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
 const { post, headings = [] } = Astro.props;
 const { title, description, pubDate, updatedDate, draft, tags, series, dropCap } = post.data;
 const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
+const words = wordCount(post.body ?? '');
 const url = new URL(`/${post.id}/`, Astro.site ?? SITE.url).toString();
 
 // Hero image: use coverImage if it exists, otherwise the generated OG PNG
@@ -55,8 +57,18 @@ function tagHasPage(tag: string): boolean {
   return (tagFreq.get(tag) ?? 0) >= 2;
 }
 
-// Date to display: updatedDate if it exists, otherwise pubDate
-const displayDate = updatedDate ?? pubDate;
+// Drop cap automatically applies to long essays (1500+ words) unless
+// explicitly disabled in frontmatter with `dropCap: false`.
+// Short posts (<1500 words) don't get a drop cap even if frontmatter
+// says true — it feels pretentious on shorter pieces.
+const LONG_FORM_THRESHOLD = 1500;
+const showDropCap = dropCap && words >= LONG_FORM_THRESHOLD;
+
+// "In this essay" TOC block — shows top 5 H2 sections above the body.
+// Only rendered when there are 5+ H2 sections (typical for 3000+ word posts).
+// Helps readers orient themselves before diving in.
+const h2Headings = headings.filter((h) => h.depth === 2);
+const showInThisEssay = h2Headings.length >= 5;
 
 // JSON-LD Article schema
 const articleSchema = {
@@ -101,25 +113,12 @@ const articleSchema = {
 
   <article class="fade-up">
     {/* ─────────────────────────────────────────────
-        1. Hero image — coverImage if exists, else generated OG PNG
+        1. Title + subtitle — ABOVE hero (Medium/Substack/Paragraph pattern).
+        Previously hero was a cropped banner above the title, pushing the
+        title down and cropping ~50% of the OG image. Now title leads,
+        hero becomes a cover image below the byline.
         ───────────────────────────────────────────── */}
-    {heroImage && (
-      <div class="-mx-5 sm:-mx-6 mb-8 overflow-hidden">
-        <img
-          src={heroImage}
-          alt={title}
-          width={1200}
-          height={630}
-          class="w-full h-[200px] sm:h-[280px] md:h-[340px] object-cover"
-          loading="eager"
-        />
-      </div>
-    )}
-
-    {/* ─────────────────────────────────────────────
-        2. Title + subtitle
-        ───────────────────────────────────────────── */}
-    <header class="mb-8">
+    <header class="mb-6">
       <h1 class="font-serif text-3xl sm:text-[2.5rem] leading-[1.15] font-semibold tracking-tight text-[var(--fg)] mb-4">
         {title}
       </h1>
@@ -132,46 +131,90 @@ const articleSchema = {
     </header>
 
     {/* ─────────────────────────────────────────────
-        3. Series banner (between subtitle and writer section)
+        2. Byline row — avatar + author + date · read time · Subscribe.
+        Consolidates the previous "writer section" + "metadata row" into
+        a single Medium-style row.
+        ───────────────────────────────────────────── */}
+    <Byline
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      minutes={minutes}
+      draft={draft}
+    />
+
+    {/* ─────────────────────────────────────────────
+        3. Series banner (between byline and tags)
         ───────────────────────────────────────────── */}
     {series && seriesPosts.length > 0 && (
-      <SeriesNav
-        variant="banner"
-        seriesName={series.name}
-        currentPart={series.part}
-        posts={seriesPosts}
-      />
+      <div class="mb-6">
+        <SeriesNav
+          variant="banner"
+          seriesName={series.name}
+          currentPart={series.part}
+          posts={seriesPosts}
+        />
+      </div>
     )}
 
     {/* ─────────────────────────────────────────────
-        4. Writer section (author byline only — no tags)
+        4. Tags (at top — orienting, not just discovery).
+        Tags above the body let readers decide whether to commit.
         ───────────────────────────────────────────── */}
-    <div class="mb-4">
-      <AuthorBio variant="inline" />
-    </div>
-
-    {/* ─────────────────────────────────────────────
-        5. Metadata row: date (left) · reading time (right)
-        ───────────────────────────────────────────── */}
-    <div class="flex items-center justify-between text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-6 pb-6 border-b border-[var(--line)]">
-      <div class="flex items-center gap-3">
-        <time datetime={displayDate.toISOString()}>
-          {updatedDate && 'Updated '}
-          {formatDateLong(displayDate)}
-        </time>
-        {draft && (
-          <span class="text-[var(--accent)] font-medium">Draft</span>
-        )}
+    {tags.length > 0 && (
+      <div class="mb-6">
+        <ul class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <li>
+              {tagHasPage(tag) ? (
+                <a href={`/tags/${tag}/`} class="tag-pill">#{tag}</a>
+              ) : (
+                <span class="tag-pill">#{tag}</span>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
-      <span>{minutes} min read</span>
-    </div>
+    )}
 
     {/* ─────────────────────────────────────────────
-        6. Share buttons (top — for "share before reading")
+        5. Hero image (coverImage if exists, else generated OG PNG).
+        Now positioned AFTER title + byline — serves as a cover image
+        rather than a header banner. Full-width within the article column.
         ───────────────────────────────────────────── */}
-    <div class="mb-8">
-      <ShareButtons url={url} title={title} />
-    </div>
+    {heroImage && (
+      <figure class="-mx-5 sm:-mx-6 mb-8 overflow-hidden">
+        <img
+          src={heroImage}
+          alt={title}
+          width={1200}
+          height={630}
+          class="w-full h-[200px] sm:h-[280px] md:h-[340px] object-cover"
+          loading="eager"
+        />
+      </figure>
+    )}
+
+    {/* ─────────────────────────────────────────────
+        6. "In this essay" — top 5 H2 sections, visible on all screen sizes.
+        Helps long-form readers orient before diving in.
+        Below the xl breakpoint the sticky sidebar TOC disappears, so this
+        inline block is the only orientation aid tablet users get.
+        ───────────────────────────────────────────── */}
+    {showInThisEssay && (
+      <nav class="in-this-essay mb-8" aria-label="In this essay">
+        <p class="in-this-essay-title">In this essay</p>
+        <ol class="in-this-essay-list">
+          {h2Headings.slice(0, 5).map((h, i) => (
+            <li>
+              <a href={`#${h.slug}`}>
+                <span class="in-this-essay-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span>{h.text}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
 
     {/* ─────────────────────────────────────────────
         7. Mobile TOC (collapsible, above the body on small screens)
@@ -182,7 +225,7 @@ const articleSchema = {
         8. Article body + sticky TOC sidebar (desktop xl+)
         ───────────────────────────────────────────── */}
     <div class:list={['grid grid-cols-1 xl:grid-cols-[1fr_180px] gap-8 xl:gap-12']}>
-      <div class:list={['prose min-w-0', dropCap && 'drop-cap']}>
+      <div class:list={['prose min-w-0', showDropCap && 'drop-cap']}>
         <slot />
       </div>
       <div class="order-first xl:order-last">
@@ -191,25 +234,19 @@ const articleSchema = {
     </div>
 
     {/* ─────────────────────────────────────────────
-        9. Tags (moved to end — before engagement bar)
+        9. Tags (also at end — labeled "Related topics" to differentiate
+        from the top tags which are orienting; these invite exploration).
         ───────────────────────────────────────────── */}
     {tags.length > 0 && (
       <div class="mt-12 pt-8 border-t border-[var(--line)]">
-        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">Tags</h2>
+        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">Related topics</h2>
         <ul class="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <li>
               {tagHasPage(tag) ? (
-                <a
-                  href={`/tags/${tag}/`}
-                  class="tag-pill"
-                >
-                  #{tag}
-                </a>
+                <a href={`/tags/${tag}/`} class="tag-pill">#{tag}</a>
               ) : (
-                <span class="tag-pill">
-                  #{tag}
-                </span>
+                <span class="tag-pill">#{tag}</span>
               )}
             </li>
           ))}
@@ -229,12 +266,12 @@ const articleSchema = {
     </section>
 
     {/* ─────────────────────────────────────────────
-        11. Author bio card
+        11. Author bio card (with Subscribe button)
         ───────────────────────────────────────────── */}
     <AuthorBio variant="card" />
 
     {/* ─────────────────────────────────────────────
-        12. Discovery — series nav + related posts
+        12. Discovery — series nav + related posts (with cover thumbnails)
         ───────────────────────────────────────────── */}
     {series && seriesPosts.length > 0 && (
       <SeriesNav
@@ -248,9 +285,9 @@ const articleSchema = {
     <RelatedPosts posts={relatedPosts} title="Read next" />
 
     {/* ─────────────────────────────────────────────
-        13. Subscribe CTA — last thing in the article
+        13. Subscribe CTA — last thing in the article.
         ───────────────────────────────────────────── */}
-    <section id="subscribe" class="mt-12 card-accent" style="border-color: var(--line); background: color-mix(in srgb, var(--accent) 4%, var(--bg));">
+    <section id="subscribe" class="subscribe-cta">
       <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
         Subscribe
       </p>
@@ -264,3 +301,51 @@ const articleSchema = {
     </section>
   </article>
 </BaseLayout>
+
+<style is:global>
+  /* "In this essay" — orientation block shown above the body for long posts.
+     Inline numbers + heading text in a clean two-column list. */
+  .in-this-essay {
+    padding: 1rem 1.25rem;
+    border-left: 2px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
+    border-radius: 0 6px 6px 0;
+  }
+  .in-this-essay-title {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+    margin: 0 0 0.5rem;
+  }
+  .in-this-essay-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .in-this-essay-list a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    color: var(--fg-soft);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    transition: color var(--transition-fast);
+  }
+  .in-this-essay-list a:hover {
+    color: var(--accent);
+  }
+  .in-this-essay-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+</style>
+

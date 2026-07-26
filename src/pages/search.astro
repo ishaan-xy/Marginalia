@@ -19,10 +19,10 @@ const allPosts = (await getPublishedPosts()).sort(byDateDesc);
 ---
 <BaseLayout title="Search" description="Search every post on the site." noIndex>
   <section class="fade-up mb-8">
-    <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
+    <h1 class="font-serif text-3xl sm:text-[2.5rem] leading-[1.15] font-semibold tracking-tight mb-3">
       Search
     </h1>
-    <p class="font-serif text-[var(--fg-soft)] mb-6">
+    <p class="font-serif text-lg text-[var(--fg-soft)] mb-6">
       Search across {allPosts.length} posts by title, tag, or content.
     </p>
 
@@ -35,10 +35,10 @@ const allPosts = (await getPublishedPosts()).sort(byDateDesc);
         autocapitalize="off"
         autocorrect="off"
         spellcheck="false"
-        class="w-full px-4 py-3 pr-10 border border-[var(--line)] rounded-lg bg-[var(--bg)] text-[var(--fg)] font-sans text-base focus:outline-none focus:border-[var(--accent)] transition-colors"
+        class="w-full px-4 py-3 pr-12 border border-[var(--line)] rounded-lg bg-[var(--bg)] text-[var(--fg)] font-sans text-base transition-colors focus:outline-none focus:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2"
         aria-label="Search posts"
       />
-      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-[var(--fg-faint)] border border-[var(--line)] rounded px-1.5 py-0.5 pointer-events-none" aria-hidden="true">
+      <span class="kbd absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true">
         /
       </span>
     </div>

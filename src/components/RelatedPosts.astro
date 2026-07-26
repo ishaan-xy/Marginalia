@@ -8,6 +8,13 @@ interface Props {
 }
 
 const { posts, title = 'Read next' } = Astro.props;
+
+// Cover image for each post — uses the OG image we already generate at
+// build time (no new asset creation required). Falls back to coverImage
+// frontmatter if a post specifies one.
+function coverImage(post: CollectionEntry<'blog'>): string {
+  return post.data.coverImage ?? `/og/${post.id}.png`;
+}
 ---
 {posts.length > 0 && (
   <section class="mt-12 pt-8 border-t border-[var(--line)]">
@@ -19,22 +26,83 @@ const { posts, title = 'Read next' } = Astro.props;
         <li>
           <a
             href={`/${post.id}/`}
-            class="card lift group"
+            class="related-card lift group"
           >
-            <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
-              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-            </p>
-            <h3 class="font-serif text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors mb-1 leading-snug">
-              {post.data.title}
-            </h3>
-            {post.data.description && (
-              <p class="font-serif text-[0.9375rem] leading-relaxed text-[var(--fg-soft)] line-clamp-2">
-                {post.data.description}
+            <div class="related-thumb-wrap">
+              <img
+                src={coverImage(post)}
+                alt=""
+                width={120}
+                height={120}
+                loading="lazy"
+                class="related-thumb"
+              />
+            </div>
+            <div class="related-body">
+              <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-1">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
               </p>
-            )}
+              <h3 class="font-serif text-lg font-semibold text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors mb-1 leading-snug">
+                {post.data.title}
+              </h3>
+              {post.data.description && (
+                <p class="font-serif text-[0.9375rem] leading-relaxed text-[var(--fg-soft)] line-clamp-2">
+                  {post.data.description}
+                </p>
+              )}
+            </div>
           </a>
         </li>
       ))}
     </ul>
   </section>
 )}
+
+<style>
+  /* Related-post card with cover thumbnail (Medium-style).
+     Horizontal layout: 120×80 thumbnail on the left, text on the right.
+     Mobile collapses to stacked layout (thumbnail top, text below). */
+  .related-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: all var(--transition-base);
+  }
+  .related-card:hover,
+  .related-card:focus-within {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
+  }
+  .related-thumb-wrap {
+    flex-shrink: 0;
+    width: 96px;
+    height: 64px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--fg) 5%, transparent);
+  }
+  .related-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+  .related-card:hover .related-thumb,
+  .related-card:focus-within .related-thumb {
+    transform: scale(1.05);
+  }
+  .related-body {
+    flex: 1;
+    min-width: 0;
+  }
+  @media (max-width: 639px) {
+    /* Mobile: smaller thumbnail to keep cards compact */
+    .related-thumb-wrap {
+      width: 72px;
+      height: 72px;
+    }
+  }
+</style>

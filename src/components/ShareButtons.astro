@@ -48,6 +48,7 @@ const links = [
         stroke-width="1.75"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-hidden="true"
       >
         {link.icon.split('M').map((seg, i) => i === 0 ? null : <path d={`M${seg}`} />)}
       </svg>

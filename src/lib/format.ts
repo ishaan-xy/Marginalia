@@ -30,9 +30,18 @@ export function formatDateLong(date: Date): string {
  * Default average adult reading speed ~ 220-260 wpm; we use 240.
  */
 export function readingTime(text: string, wordsPerMinute = 240): number {
-  const cleaned = stripMarkdown(text);
-  const words = cleaned.trim().split(/\s+/).filter(Boolean).length;
+  const words = wordCount(text);
   return Math.max(1, Math.ceil(words / wordsPerMinute));
+}
+
+/**
+ * Count words in raw markdown body text.
+ * Strips markdown syntax (frontmatter, code, links, etc.) before counting
+ * so the result reflects actual prose, not markdown noise.
+ */
+export function wordCount(text: string): number {
+  const cleaned = stripMarkdown(text);
+  return cleaned.trim().split(/\s+/).filter(Boolean).length;
 }
 
 /**

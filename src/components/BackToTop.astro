@@ -8,7 +8,7 @@
   aria-label="Back to top"
   class="back-to-top"
 >
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M12 19V5M5 12l7-7 7 7"/>
   </svg>
 </button>
@@ -18,11 +18,16 @@
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
-    width: 40px;
-    height: 40px;
+    /* 44×44 minimum touch target per WCAG 2.5.5 */
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: 1px solid var(--line);
-    background: var(--bg);
+    /* Backdrop blur so the button reads against any background — previously
+       a solid bg made it disappear against the dark-mode page. */
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: var(--fg-faint);
     cursor: pointer;
     display: flex;
@@ -31,9 +36,10 @@
     opacity: 0;
     transform: translateY(8px);
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: opacity var(--transition-base), transform var(--transition-base), color var(--transition-base), border-color var(--transition-base);
     z-index: 50;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* color-mix shadow reads in both light and dark mode (rgba(0,0,0,…) was invisible on dark). */
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--fg) 12%, transparent);
   }
   .back-to-top.visible {
     opacity: 1;
@@ -45,7 +51,7 @@
     border-color: var(--accent);
   }
   @media (prefers-reduced-motion: reduce) {
-    .back-to-top { transition: opacity 0.2s ease; transform: none; }
+    .back-to-top { transition: opacity var(--transition-base); transform: none; }
     .back-to-top.visible { transform: none; }
   }
 </style>

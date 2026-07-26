@@ -35,7 +35,7 @@ const tags = [...tagCounts.entries()]
     <div class="flex items-center justify-center gap-4">
       <a
         href="/"
-        class="font-sans text-sm px-4 py-2 rounded-md bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 transition-opacity"
+        class="font-sans text-sm px-5 py-2.5 rounded-full bg-[var(--fg)] text-[var(--bg)] hover:opacity-90 transition-opacity"
       >
         Back home
       </a>
@@ -57,7 +57,7 @@ const tags = [...tagCounts.entries()]
             <li>
               <a
                 href={`/tags/${tag}/`}
-                class="text-sm font-sans px-3 py-1 rounded-full border border-[var(--line)] text-[var(--fg-soft)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+                class="tag-pill"
               >
                 #{tag} <span class="text-[var(--fg-faint)]">{count}</span>
               </a>
