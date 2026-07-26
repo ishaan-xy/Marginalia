@@ -452,6 +452,29 @@ body {
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  /* Right-edge gradient indicates content overflows horizontally.
+     Background uses var(--bg) so it works in both light and dark modes.
+     Mask fades the last 40px of the right edge — visible only when the
+     table is wider than its container. */
+  position: relative;
+}
+/* Pseudo-element overlay on the right edge — fades from transparent to bg */
+.prose table::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 32px;
+  background: linear-gradient(to right, transparent, var(--bg));
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--transition-base);
+}
+/* When the table is at-end (scrolled fully right OR doesn't overflow),
+   hide the gradient — no more content to scroll to. Toggled by TableEnhancer.astro */
+.prose table.at-end::after {
+  opacity: 0;
 }
 .prose thead {
   background: color-mix(in srgb, var(--fg) 4%, transparent);
@@ -1057,6 +1080,24 @@ figure.image-block figcaption {
   border-left: 3px solid var(--accent);
   border-radius: 8px;
   background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+}
+
+/* Hero image — subtle Medium-style zoom on hover.
+   The image is wrapped in figure.hero-figure with overflow-hidden, so the
+   zoom stays clipped. scale(1.02) is barely perceptible — it just signals
+   "this is interactive content" without being flashy. */
+.hero-img {
+  transition: transform var(--transition-slow);
+  will-change: transform;
+}
+.hero-figure:hover .hero-img,
+.hero-figure:focus-within .hero-img {
+  transform: scale(1.02);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-img { transition: none; }
+  .hero-figure:hover .hero-img,
+  .hero-figure:focus-within .hero-img { transform: none; }
 }
 
 /* Tag pill */

@@ -181,15 +181,18 @@ const articleSchema = {
         5. Hero image (coverImage if exists, else generated OG PNG).
         Now positioned AFTER title + byline — serves as a cover image
         rather than a header banner. Full-width within the article column.
+        Uses aspect-ratio (2/1) instead of fixed pixel heights so the image
+        keeps its natural composition at every viewport width — was previously
+        cropped to 200-340px tall, hiding ~50% of the OG image content.
         ───────────────────────────────────────────── */}
     {heroImage && (
-      <figure class="-mx-5 sm:-mx-6 mb-8 overflow-hidden">
+      <figure class="hero-figure -mx-5 sm:-mx-6 mb-8 overflow-hidden">
         <img
           src={heroImage}
           alt={title}
           width={1200}
           height={630}
-          class="w-full h-[200px] sm:h-[280px] md:h-[340px] object-cover"
+          class="hero-img w-full aspect-[2/1] object-cover"
           loading="eager"
         />
       </figure>

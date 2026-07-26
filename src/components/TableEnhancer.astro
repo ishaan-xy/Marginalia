@@ -1,0 +1,41 @@
+---
+// Enhances prose tables:
+//   - Hides the right-edge "more content" gradient when the table is
+//     scrolled all the way to the end (or doesn't overflow at all).
+//   - Adds a 'scrollable' class so authors can target only overflowing
+//     tables if they want different styling.
+//
+// Pure vanilla JS — no client framework needed.
+---
+<script>
+  function enhanceTable(table: HTMLTableElement) {
+    // Skip if already enhanced
+    if (table.dataset.enhanced) return;
+    table.dataset.enhanced = 'true';
+
+    function update() {
+      const isOverflowing = table.scrollWidth > table.clientWidth + 2;
+      const atEnd = table.scrollLeft + table.clientWidth >= table.scrollWidth - 2;
+      table.classList.toggle('scrollable', isOverflowing);
+      table.classList.toggle('at-end', !isOverflowing || atEnd);
+    }
+
+    update();
+    table.addEventListener('scroll', update, { passive: true });
+    // Re-check on resize (window, container, font load)
+    window.addEventListener('resize', update, { passive: true });
+  }
+
+  function init() {
+    document.querySelectorAll('table').forEach((el) => {
+      if (el instanceof HTMLTableElement) enhanceTable(el);
+    });
+  }
+
+  // Run on initial load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

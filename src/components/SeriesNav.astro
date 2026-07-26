@@ -121,9 +121,8 @@ const progressPct = total > 1 ? (currentPart / total) * 100 : 100;
     height: 100%;
     background: var(--accent);
     border-radius: 2px;
-    /* Width is set inline at render; this transition only fires if the
-       element is dynamically updated. Using the --transition-slow token
-       instead of a literal 0.3s ease. */
-    transition: width var(--transition-slow);
+    /* Width is set inline at render time and never changes — no transition
+       needed (was previously declared as 'transition: width var(--transition-slow)'
+       but the element never animates, so it was dead code). */
   }
 </style>

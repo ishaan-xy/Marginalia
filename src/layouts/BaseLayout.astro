@@ -6,6 +6,7 @@ import Footer from '@/components/Footer.astro';
 import ThemeScript from '@/components/ThemeScript.astro';
 import KeyboardShortcuts from '@/components/KeyboardShortcuts.astro';
 import CodeBlockEnhancer from '@/components/CodeBlockEnhancer.astro';
+import TableEnhancer from '@/components/TableEnhancer.astro';
 
 interface Props {
   title?: string;
@@ -135,5 +136,6 @@ const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [
     <Footer />
     <KeyboardShortcuts />
     <CodeBlockEnhancer />
+    <TableEnhancer />
   </body>
 </html>

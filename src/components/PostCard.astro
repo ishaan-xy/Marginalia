@@ -13,7 +13,7 @@ const { title, description, pubDate, draft } = post.data;
 const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
 const href = `/${post.id}/`;
 ---
-<article class:list={['fade-up', index > 0 && 'border-t border-[var(--line)] mt-10 pt-10']} style={`animation-delay: ${index * 60}ms`}>
+<article class:list={['fade-up lift', index > 0 && 'border-t border-[var(--line)] mt-10 pt-10']} style={`animation-delay: ${index * 60}ms`}>
   <div class="flex items-center gap-3 text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-2">
     <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
     <span aria-hidden="true">·</span>
