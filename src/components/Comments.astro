@@ -1,0 +1,107 @@
+---
+// Comments via Giscus (GitHub Discussions backend).
+// Renders nothing if SITE.comments.repoId is empty (default state).
+// To enable: see SITE.comments config in src/lib/site.ts.
+import { SITE } from '@/lib/site';
+
+const { repo, repoId, category, categoryId, mapping, reactionsEnabled, inputPosition, lang } = SITE.comments;
+
+// Permalink for the current post — Giscus uses this to find/create the
+// matching GitHub Discussion thread.
+const permalink = Astro.url.pathname;
+
+const enabled = Boolean(repoId && categoryId);
+---
+
+{enabled && (
+  <section class="comments-section" aria-label="Comments">
+    <h2 class="comments-title">Comments</h2>
+    <p class="comments-subtitle">
+      Authenticated via GitHub. Reactions and threaded replies welcome.
+    </p>
+    <div class="giscus-container" data-giscus>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+        data-mapping={mapping}
+        data-strict="0"
+        data-reactions-enabled={reactionsEnabled ? '1' : '0'}
+        data-emit-metadata="0"
+        data-input-position={inputPosition}
+        data-theme="preferred_color_scheme"
+        data-lang={lang}
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+    </div>
+  </section>
+)}
+
+<style>
+  .comments-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .comments-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--fg);
+  }
+  .comments-subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--fg-faint);
+    margin: 0 0 1.5rem;
+  }
+  .giscus-container {
+    min-height: 200px;
+  }
+  /* Giscus iframe inherits its own theme (preferred_color_scheme) —
+     in dark mode it loads the dark theme, in light mode the light theme.
+     The .giscus-frame iframe is injected by the script; give it room. */
+  .giscus-container :global(iframe.giscus-frame) {
+    width: 100%;
+    border: none;
+  }
+</style>
+
+<script>
+  // Sync Giscus theme when the site theme changes.
+  // Giscus posts a message to its iframe to switch themes; we listen for
+  // theme toggles and forward the new theme to the iframe.
+  const giscusContainer = document.querySelector('[data-giscus]');
+  if (giscusContainer) {
+    const sendTheme = (isDark: boolean) => {
+      const iframe = giscusContainer.querySelector('iframe.giscus-frame') as HTMLIFrameElement | null;
+      iframe?.contentWindow?.postMessage(
+        { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+        'https://giscus.app'
+      );
+    };
+
+    // Initial theme (after iframe loads, send current state)
+    const observer = new MutationObserver(() => {
+      const iframe = giscusContainer.querySelector('iframe.giscus-frame') as HTMLIFrameElement | null;
+      if (iframe && !iframe.dataset.themeBound) {
+        iframe.dataset.themeBound = 'true';
+        iframe.addEventListener('load', () => {
+          sendTheme(document.documentElement.classList.contains('dark'));
+        });
+      }
+    });
+    observer.observe(giscusContainer, { childList: true, subtree: true });
+
+    // Listen for theme toggles on the site
+    const themeObserver = new MutationObserver(() => {
+      sendTheme(document.documentElement.classList.contains('dark'));
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  }
+</script>

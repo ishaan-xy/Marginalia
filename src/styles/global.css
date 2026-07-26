@@ -324,6 +324,65 @@ body {
   }
 }
 
+/* Sidenote — Tufte-style margin annotation.
+   The site name "Marginalia" refers to notes written in the margins of
+   books; this element makes that literal. On xl+ we shift it into the
+   right gutter via negative margin (real Tufte style); on smaller screens
+   it renders inline as a compact accent-bordered aside. */
+.prose aside.sidenote {
+  margin: 1.75rem 0;
+  padding: 0.85rem 1.1rem;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  border-radius: 0 6px 6px 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--fg-soft);
+  /* Marker glyph — small · accent · label-like */
+  position: relative;
+}
+/* Tiny "SIDE NOTE" label above the content */
+.prose aside.sidenote::before {
+  content: 'Side note';
+  display: block;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+.prose aside.sidenote p:last-child,
+.prose aside.sidenote ul:last-child,
+.prose aside.sidenote ol:last-child {
+  margin-bottom: 0;
+}
+.prose aside.sidenote p {
+  margin: 0.5rem 0;
+}
+/* On xl+ with the sticky TOC sidebar, shift the sidenote into the right
+   gutter so it sits in actual margin space (Tufte pattern). */
+@media (min-width: 1280px) {
+  .prose aside.sidenote {
+    /* Pull right by ~12rem to land in the gutter between body and TOC.
+       The grid column is 1fr | 180px with gap-12 (3rem), so there's
+       ~3rem of gap to play with; we use 6rem of negative margin for a
+       gentle shift without colliding with the TOC. */
+    margin-right: -3rem;
+    /* Keep the border-left + accent treatment — visually distinct from
+       a regular callout, feels like an annotation. */
+    width: fit-content;
+    max-width: 16rem;
+    float: right;
+    /* Clear: both prevents the float from cascading oddly with the next
+       paragraph. The sidenote aligns to the paragraph that follows it. */
+    clear: both;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .prose ul, .prose ol {
   margin: 1.5em 0;
   padding-left: 1.5em;

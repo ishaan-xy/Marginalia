@@ -33,6 +33,13 @@ const TYPE_MAP: Record<string, string> = {
   // social-share moments. Renders as <blockquote class="pullquote">.
   pullquote: 'pullquote',
   quote: 'pullquote',
+  // Sidenote — Tufte-style margin annotation. Renders as <aside class="sidenote">
+  // floated to the right margin on desktop (xl+), inline (with distinct visual
+  // treatment) on tablet/mobile. The site name "Marginalia" makes this feature
+  // thematically load-bearing — it makes the name literal.
+  sidenote: 'sidenote',
+  marginnote: 'sidenote',
+  aside: 'sidenote',
 };
 
 const DEFAULT_TITLES: Record<string, string> = {
@@ -42,8 +49,9 @@ const DEFAULT_TITLES: Record<string, string> = {
   warning: 'Warning',
   danger: 'Important',
   success: 'Success',
-  // Pull quotes have no title — the quote is the whole content.
+  // Pull quotes and sidenotes have no title — the content is the whole point.
   pullquote: '',
+  sidenote: '',
 };
 
 function extractCallout(node: any): { type: string; title?: string; rest: any[] } | null {
@@ -106,6 +114,19 @@ export function remarkCallouts() {
         };
         // Pull quote children stay as the original blockquote content
         // (the rest after stripping the [!pullquote] marker).
+        node.children = callout.rest;
+        return;
+      }
+
+      // Sidenotes get <aside class="sidenote"> — Tufte-style margin annotation.
+      // Floated right on desktop xl+, inline on smaller screens.
+      if (callout.type === 'sidenote') {
+        node.data = node.data || {};
+        node.data.hName = 'aside';
+        node.data.hProperties = {
+          className: ['sidenote'],
+          'aria-label': 'Side note',
+        };
         node.children = callout.rest;
         return;
       }

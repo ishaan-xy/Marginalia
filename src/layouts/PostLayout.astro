@@ -16,6 +16,7 @@ import SubscribeForm from '@/components/SubscribeForm.astro';
 import BackToTop from '@/components/BackToTop.astro';
 import MobileTOC from '@/components/MobileTOC.astro';
 import Byline from '@/components/Byline.astro';
+import Comments from '@/components/Comments.astro';
 import { getPublishedPosts, getSeriesPosts, getRelatedPosts } from '@/lib/post-cache';
 
 interface Props {
@@ -299,6 +300,12 @@ const articleSchema = {
       </p>
       <SubscribeForm />
     </section>
+
+    {/* ─────────────────────────────────────────────
+        14. Comments — Giscus (GitHub Discussions).
+        Renders nothing if SITE.comments.repoId is empty.
+        ───────────────────────────────────────────── */}
+    <Comments />
   </article>
 </BaseLayout>
 

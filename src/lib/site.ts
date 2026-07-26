@@ -37,6 +37,23 @@ export const SITE = {
   postsPerPage: 8,
   // Words per minute for reading-time estimate
   wordsPerMinute: 240,
+  // Comments via Giscus (GitHub Discussions backend). Free, no auth required
+  // beyond a GitHub account. To enable:
+  //   1. Enable Discussions on your GitHub repo (Settings → Features)
+  //   2. Install the giscus app: https://github.com/apps/giscus
+  //   3. Visit https://giscus.app to generate repoId + categoryId
+  //   4. Fill in the values below. Comments appear at the end of every post.
+  // When repoId is empty (default), the Comments component renders nothing.
+  comments: {
+    repo: 'ishaan-xy/Marginalia',
+    repoId: '', // ← set this to enable comments
+    category: 'Announcements',
+    categoryId: '', // ← set this to enable comments
+    mapping: 'pathname' as const,
+    reactionsEnabled: true,
+    inputPosition: 'top' as const,
+    lang: 'en',
+  },
 } as const;
 
 export type Site = typeof SITE;

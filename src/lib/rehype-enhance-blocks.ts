@@ -82,26 +82,56 @@ export function rehypeEnhanceBlocks() {
       }
     });
 
-    // Images with alt text → figure/figcaption
+    // Images with alt text → figure/figcaption.
+    // Supports `![alt | caption](url)` syntax to separate alt text (a11y)
+    // from caption text (display). If no `|` separator, alt doubles as caption
+    // (backwards compatible with existing posts).
+    //
+    // Examples:
+    //   ![Diagram of the model](diagram.png)
+    //     → alt="Diagram of the model", caption="Diagram of the model"
+    //   ![Model architecture | Figure 3: The transformer block](model.png)
+    //     → alt="Model architecture", caption="Figure 3: The transformer block"
     visit(tree, 'element', (node, index, parent) => {
       if (node.tagName !== 'img') return;
-      const alt = (node.properties?.alt ?? '').toString().trim();
-      if (!alt) return;
+      const rawAlt = (node.properties?.alt ?? '').toString().trim();
+      if (!rawAlt) return;
       if (parent?.tagName === 'figure') return; // already wrapped
+
+      // Split on ` | ` (pipe with surrounding spaces) — pipes are uncommon
+      // in alt text so this is a safe separator.
+      const sepIdx = rawAlt.indexOf(' | ');
+      let alt: string;
+      let caption: string;
+      if (sepIdx >= 0) {
+        alt = rawAlt.slice(0, sepIdx).trim();
+        caption = rawAlt.slice(sepIdx + 3).trim();
+      } else {
+        alt = rawAlt;
+        caption = rawAlt;
+      }
+
+      // Update the alt attribute to be the clean a11y alt (without caption)
+      node.properties = node.properties || {};
+      node.properties.alt = alt;
+
+      // If caption is empty (e.g. `![alt |](url)`), don't render a figcaption.
+      // Useful for decorative images that need alt text but no visible label.
+      const figureChildren: any[] = [node];
+      if (caption) {
+        figureChildren.push({
+          type: 'element',
+          tagName: 'figcaption',
+          properties: {},
+          children: [{ type: 'text', value: caption }],
+        });
+      }
 
       const figure = {
         type: 'element',
         tagName: 'figure',
         properties: { className: ['image-block'] },
-        children: [
-          node,
-          {
-            type: 'element',
-            tagName: 'figcaption',
-            properties: {},
-            children: [{ type: 'text', value: alt }],
-          },
-        ],
+        children: figureChildren,
       };
 
       if (parent && typeof index === 'number') {
