@@ -959,18 +959,15 @@ figure.image-block figcaption {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
-/* Subscribe CTA — end-of-article full subscribe block.
-   Was previously .card-accent with inline style overrides that broke the
-   class contract (overrode its border-color and background). Now the class
-   defines the intended treatment in one place. */
-.subscribe-cta {
+/* Subscribe CTA wrapper — minimal spacing wrapper around the SubscribeForm
+   component. The SubscribeForm itself renders its own card; this just
+   provides margin and the #subscribe anchor target. */
+.subscribe-cta-wrapper {
   display: block;
   margin-top: 3rem;
-  padding: 1.75rem 1.5rem;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+}
+@media print {
+  .subscribe-cta-wrapper { display: none !important; }
 }
 
 /* Kbd utility — single source of truth for keyboard hints.
@@ -1130,9 +1127,9 @@ figure.image-block figcaption {
   .back-to-top,
   .highlight-share,
   .mobile-toc,
-  .subscribe-embed,
   .mid-article-cta,
-  .subscribe-cta,
+  .subscribe-cta-wrapper,
+  .subscribe-cta-card,
   .share-buttons,
   /* Clap container includes the "Appreciate this post" label — hide the
      whole wrapper, not just the button. */

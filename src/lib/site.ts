@@ -23,14 +23,25 @@ export const SITE = {
     linkedin: 'https://linkedin.com/in/yourhandle',
     rss: '/rss.xml',
   },
-  // Newsletter signup. We use the Paragraph embed iframe for actual
-  // signups — no server-side form handler needed.
+  // Newsletter signup. We use Paragraph as the newsletter provider.
+  // Previously we embedded Paragraph's iframe form directly, but it had
+  // persistent issues (button clipping, dark-mode contrast, slow load).
+  // Now we link to Paragraph's hosted subscribe modal — opens in a new tab,
+  // user completes signup there, returns to the original article when done.
   newsletter: {
-    // Paragraph community slug. The iframe loads from paragraph.com/@<slug>/embed
+    // Paragraph community slug.
     slug: 'marginalia',
-    // Constructed embed URL (used by SubscribeForm.astro)
+    // The embed URL — kept for backwards compat (some places may still
+    // reference it). Renders the form in an iframe on paragraph.com.
     get embedUrl() {
       return `https://paragraph.com/@${this.slug}/embed`;
+    },
+    // Subscribe URL — opens Paragraph's hosted subscribe modal directly.
+    // UX: user clicks "Subscribe" button on our site → new tab opens with
+    // the modal pre-loaded → user enters email → success state → closes tab
+    // → returns to the article they were reading.
+    get subscribeUrl() {
+      return `https://paragraph.com/@${this.slug}?modal=subscribe&subscribeStep=enter-email`;
     },
   },
   // How many posts to show on the homepage (excluding the featured one)

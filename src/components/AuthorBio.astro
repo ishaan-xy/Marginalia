@@ -17,6 +17,7 @@ interface Props {
 
 const { variant = 'card' } = Astro.props;
 const init = initials(SITE.author);
+const subscribeUrl = SITE.newsletter.subscribeUrl;
 ---
 {variant === 'inline' ? (
   <span class="inline-flex items-center gap-2">
@@ -33,6 +34,12 @@ const init = initials(SITE.author);
         {SITE.bio}
       </p>
       <div class="flex flex-wrap items-center gap-3 text-sm">
+        <a
+          href={subscribeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[var(--accent)] hover:text-[var(--accent-soft)] transition-colors font-medium"
+        >Subscribe</a>
         {SITE.social.twitter && (
           <a href={SITE.social.twitter} target="_blank" rel="noopener noreferrer" class="text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors">Twitter</a>
         )}

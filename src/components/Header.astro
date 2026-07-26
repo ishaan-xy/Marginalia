@@ -3,6 +3,7 @@ import { SITE } from '@/lib/site';
 import ThemeToggle from '@/components/ThemeToggle.astro';
 
 const pathname = Astro.url.pathname;
+const subscribeUrl = SITE.newsletter.subscribeUrl;
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
@@ -42,9 +43,12 @@ function isActive(href: string): boolean {
       ))}
 
       {/* Subscribe pill — hidden on mobile (moved into the dropdown).
-          Uses shared .pill class so it matches the 404 tag pills exactly. */}
+          Uses shared .pill class so it matches the 404 tag pills exactly.
+          Opens Paragraph's hosted subscribe modal in a new tab. */}
       <a
-        href="/about#subscribe"
+        href={subscribeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         class="hidden sm:inline-block pill"
       >
         Subscribe
@@ -120,7 +124,9 @@ function isActive(href: string): boolean {
       ))}
 
       <a
-        href="/about#subscribe"
+        href={subscribeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         class="pill mt-4 self-start"
       >
         Subscribe

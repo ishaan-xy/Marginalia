@@ -13,6 +13,7 @@ interface Props {
 }
 
 const { pubDate, updatedDate, minutes, draft = false } = Astro.props;
+const subscribeUrl = SITE.newsletter.subscribeUrl;
 
 function initials(name: string): string {
   return name
@@ -45,7 +46,15 @@ const init = initials(SITE.author);
       </>
     )}
   </div>
-  <a href="/about#subscribe" class="byline-subscribe">Subscribe</a>
+  <a
+    href={subscribeUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="byline-subscribe"
+    aria-label="Subscribe to the newsletter — opens in a new tab"
+  >
+    Subscribe
+  </a>
 </div>
 
 <style>

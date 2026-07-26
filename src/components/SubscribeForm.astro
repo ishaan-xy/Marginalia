@@ -7,167 +7,164 @@ interface Props {
 }
 
 const { variant = 'full', class: className = '' } = Astro.props;
-const url = SITE.newsletter.embedUrl;
+const subscribeUrl = SITE.newsletter.subscribeUrl;
 ---
-<div
-  class:list={['subscribe-embed', variant, className]}
-  data-paragraph-embed
-  data-iframe-url={url}
->
-  {/* Loading placeholder — shown until the iframe finishes loading.
-      Without this, users see a blank white rectangle for ~1-2 seconds
-      while the Next.js app inside the iframe boots up. The placeholder
-      matches the form layout so the transition is seamless. */}
-  <div class="subscribe-placeholder" aria-hidden="true">
-    <div class="subscribe-placeholder-logo"></div>
-    <div class="subscribe-placeholder-line w-3/4"></div>
-    <div class="subscribe-placeholder-line w-1/2"></div>
-    <div class="subscribe-placeholder-input"></div>
-    <div class="subscribe-placeholder-button"></div>
-  </div>
-  <iframe
-    src={url}
-    title="Subscribe to the newsletter"
-    loading="lazy"
-    class="subscribe-iframe"
-    frameborder="0"
-    scrolling="no"
-    data-subscribe-iframe
-  ></iframe>
+<div class:list={['subscribe-cta-card', variant, className]}>
+  <a
+    href={subscribeUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="subscribe-cta-link"
+    aria-label="Subscribe to the Marginalia newsletter — opens in a new tab"
+  >
+    <span class="subscribe-cta-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      </svg>
+    </span>
+    <span class="subscribe-cta-text">
+      <span class="subscribe-cta-headline">Subscribe to Marginalia</span>
+      <span class="subscribe-cta-sub">Get new essays in your inbox. About once a month, never on a schedule.</span>
+    </span>
+    <span class="subscribe-cta-arrow" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </span>
+  </a>
+  <p class="subscribe-cta-footnote">
+    Hosted by Paragraph. No spam, unsubscribe anytime.
+  </p>
 </div>
 
 <style>
-  .subscribe-embed {
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    position: relative;
-    /* Reserve vertical space immediately so the page doesn't reflow
-       when the iframe loads. 420px matches the natural height of
-       Paragraph's embed card (logo + title + form + breathing room). */
-    min-height: 420px;
-  }
-  .subscribe-embed.full {
-    max-width: 480px;
-  }
-  .subscribe-embed.compact {
-    max-width: 100%;
-  }
-  .subscribe-iframe {
+  /* Subscribe CTA card — replaces the broken iframe form.
+     A single, prominent link styled as a card that opens Paragraph's
+     hosted subscribe modal in a new tab. */
+  .subscribe-cta-card {
     display: block;
     width: 100%;
-    /* Was 360px — left ~80px of empty white space below the form.
-       420px matches Paragraph's actual rendered card height (334px)
-       plus a small breathing margin so the form doesn't feel cramped. */
-    height: 420px;
     max-width: 480px;
     margin: 0 auto;
+  }
+  .subscribe-cta-card.compact {
+    max-width: 100%;
+  }
+
+  .subscribe-cta-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
     border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
     border-radius: 8px;
-    /* Paragraph renders its own light-theme card inside the iframe, so
-       the area behind the card matches the card's background — avoids
-       the jarring "white card on dark page" outline that was visible
-       in dark mode before. */
-    background: #fff;
-    color-scheme: light;
-    position: relative;
-    z-index: 1;
-    /* Fade in once loaded — the placeholder underneath is hidden
-       via opacity transition when the iframe fires its load event. */
-    opacity: 0;
-    transition: opacity var(--transition-base);
+    background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+    text-decoration: none;
+    color: var(--fg);
+    transition: all var(--transition-base);
   }
-  .subscribe-iframe.loaded {
-    opacity: 1;
+  .subscribe-cta-link:hover,
+  .subscribe-cta-link:focus-visible {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    transform: translateY(-1px);
+    outline: none;
   }
-  /* On very small screens, allow the iframe to be a touch taller to fit
-     mobile form fields comfortably (Paragraph adds vertical padding on mobile) */
+  .subscribe-cta-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Envelope icon on the left */
+  .subscribe-cta-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* Text block — headline + sub-text */
+  .subscribe-cta-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .subscribe-cta-headline {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.3;
+  }
+  .subscribe-cta-sub {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--fg-soft);
+    line-height: 1.4;
+  }
+
+  /* Arrow on the right — shifts right on hover for affordance */
+  .subscribe-cta-arrow {
+    flex-shrink: 0;
+    color: var(--fg-faint);
+    transition: transform var(--transition-base), color var(--transition-base);
+  }
+  .subscribe-cta-link:hover .subscribe-cta-arrow,
+  .subscribe-cta-link:focus-visible .subscribe-cta-arrow {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  /* Footnote below the card */
+  .subscribe-cta-footnote {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--fg-faint);
+    margin: 0.75rem 0 0;
+    line-height: 1.4;
+  }
+
+  /* On mobile, shrink the icon and tighten the spacing */
   @media (max-width: 520px) {
-    .subscribe-iframe {
-      height: 440px;
+    .subscribe-cta-link {
+      padding: 1rem 1.1rem;
+      gap: 0.75rem;
     }
-    .subscribe-embed {
-      min-height: 440px;
+    .subscribe-cta-icon {
+      width: 36px;
+      height: 36px;
+    }
+    .subscribe-cta-headline {
+      font-size: 1rem;
+    }
+    .subscribe-cta-sub {
+      font-size: 0.75rem;
     }
   }
 
-  /* Loading placeholder — visible until the iframe's load event fires.
-     Mimics the form layout (logo + 2 lines of text + input + button)
-     so the transition from placeholder -> real form is seamless. */
-  .subscribe-placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 2.5rem 2rem 2rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--bg);
-    pointer-events: none;
-    transition: opacity var(--transition-base);
-  }
-  .subscribe-iframe.loaded + .subscribe-placeholder,
-  .subscribe-placeholder.hidden {
-    opacity: 0;
-  }
-  .subscribe-placeholder-logo {
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--fg) 8%, transparent);
-    margin-bottom: 0.5rem;
-  }
-  .subscribe-placeholder-line {
-    height: 12px;
-    border-radius: 4px;
-    background: color-mix(in srgb, var(--fg) 6%, transparent);
-  }
-  .subscribe-placeholder-input {
-    width: 100%;
-    height: 40px;
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--fg) 4%, transparent);
-    margin-top: 0.5rem;
-  }
-  .subscribe-placeholder-button {
-    width: 100%;
-    height: 40px;
-    border-radius: 8px;
-    background: var(--accent);
-    opacity: 0.7;
-  }
-  /* Respect reduced motion — no fade transition */
+  /* Respect reduced motion — no transform on hover */
   @media (prefers-reduced-motion: reduce) {
-    .subscribe-iframe,
-    .subscribe-placeholder {
+    .subscribe-cta-link,
+    .subscribe-cta-arrow {
       transition: none;
+    }
+    .subscribe-cta-link:hover,
+    .subscribe-cta-link:focus-visible {
+      transform: none;
+    }
+    .subscribe-cta-link:hover .subscribe-cta-arrow,
+    .subscribe-cta-link:focus-visible .subscribe-cta-arrow {
+      transform: none;
     }
   }
 </style>
-
-<script>
-  // Hide the placeholder when the iframe finishes loading.
-  // Listens for the iframe's load event; the iframe itself doesn't
-  // postMessage about its height, so we can't auto-resize — instead
-  // we use a measured fixed height (420px) that matches Paragraph's
-  // actual rendered card height.
-  document.querySelectorAll('[data-subscribe-iframe]').forEach((el) => {
-    const iframe = el as HTMLIFrameElement;
-    function markLoaded() {
-      iframe.classList.add('loaded');
-      const placeholder = iframe.parentElement?.querySelector('.subscribe-placeholder');
-      placeholder?.classList.add('hidden');
-    }
-    // If the iframe is already loaded (e.g., cached), mark immediately.
-    // Otherwise wait for the load event — with a safety timeout in case
-    // the load event never fires (cross-origin restrictions, network issue).
-    if (iframe.contentWindow && iframe.contentWindow.document?.readyState === 'complete') {
-      markLoaded();
-    } else {
-      iframe.addEventListener('load', markLoaded, { once: true });
-      setTimeout(markLoaded, 8000);
-    }
-  });
-</script>

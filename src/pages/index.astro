@@ -169,21 +169,10 @@ const series = await getAllSeries();
 
   {/* ─────────────────────────────────────────────
       7. Subscribe band — last thing on the page.
-      Uses .subscribe-cta class for consistency with the post-page subscribe
-      block (same border treatment, same radius, same accent stripe).
+      SubscribeForm renders its own card with headline + sub + button;
+      the wrapping section provides spacing and the fade-up animation.
       ───────────────────────────────────────────── */}
-  <section class="subscribe-cta fade-up">
-    <div class="text-center">
-      <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
-        Newsletter
-      </p>
-      <h2 class="font-serif text-2xl font-semibold mb-2">Subscribe</h2>
-      <p class="font-serif text-[1.0625rem] text-[var(--fg-soft)] mb-5 max-w-md mx-auto leading-relaxed">
-        New essays delivered to your inbox. About once a month, never on a schedule.
-      </p>
-      <div class="max-w-md mx-auto">
-        <SubscribeForm />
-      </div>
-    </div>
+  <section class="subscribe-cta-wrapper fade-up">
+    <SubscribeForm />
   </section>
 </BaseLayout>

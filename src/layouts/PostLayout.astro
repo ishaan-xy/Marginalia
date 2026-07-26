@@ -290,17 +290,11 @@ const articleSchema = {
 
     {/* ─────────────────────────────────────────────
         13. Subscribe CTA — last thing in the article.
+        The SubscribeForm component renders a card with its own headline
+        and copy; this wrapper just provides the #subscribe anchor for
+        in-page links from the MidArticleCTA and the header Subscribe pill.
         ───────────────────────────────────────────── */}
-    <section id="subscribe" class="subscribe-cta">
-      <p class="text-xs font-sans uppercase tracking-wider text-[var(--accent)] mb-2">
-        Subscribe
-      </p>
-      <h3 class="font-serif text-xl font-semibold mb-2">
-        Get new essays in your inbox.
-      </h3>
-      <p class="font-serif text-[1.0625rem] text-[var(--fg-soft)] mb-4 leading-relaxed">
-        Slow, considered writing — about once a month. No spam, unsubscribe anytime.
-      </p>
+    <section id="subscribe" class="subscribe-cta-wrapper">
       <SubscribeForm />
     </section>
 
