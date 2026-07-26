@@ -1,11 +1,11 @@
 {
   "name": "Marginalia",
   "short_name": "Marginalia",
-  "description": "Essays on technology, design, and the things in between.",
+  "description": "Marginalia is a space for the intellectually curious—people who read not just to absorb, but to start a conversation.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fdfcfa",
-  "theme_color": "#b5413f",
+  "theme_color": "#fdfcfa",
   "icons": [
     {
       "src": "/favicon.svg",

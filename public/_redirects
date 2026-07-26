@@ -4,3 +4,15 @@
 
 /posts/:series/:slug/  /:series/:slug/  301
 /posts/:slug/          /:slug/          301
+
+# Trailing-slash normalization — Astro is configured with trailingSlash: 'always',
+# but external links may strip the trailing slash. Cloudflare Pages doesn't
+# automatically redirect, so we add explicit 301 redirects here.
+# Format: /path  /path/  301
+# Note: splat (:splat) catches the rest of the path for nested routes.
+/posts/:splat  /posts/:splat/  301
+/minds-and-machines/:splat  /minds-and-machines/:splat/  301
+/about  /about/  301
+/archive  /archive/  301
+/series  /series/  301
+/search  /search/  301

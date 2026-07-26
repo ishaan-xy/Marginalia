@@ -28,7 +28,11 @@ export const GET: APIRoute = async (context) => {
     description: SITE.description,
     site: context.site ?? SITE.url,
     items,
-    customData: `<language>en-us</language>
-    xmlns:content="http://purl.org/rss/1.0/modules/content/"`,
+    // Note: @astrojs/rss automatically adds xmlns:content to the root <rss>
+    // element when it detects content:encoded fields in items. We only need
+    // to set the language here — previously xmlns:content was also in
+    // customData, which caused it to appear as escaped text inside <channel>
+    // (duplicate of the namespace on <rss>).
+    customData: `<language>en-us</language>`,
   });
 }

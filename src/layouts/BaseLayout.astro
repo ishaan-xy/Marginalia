@@ -40,6 +40,16 @@ const socialImage = ogImage
   ? new URL(ogImage, Astro.site ?? SITE.url).toString()
   : new URL('/og/default.png', Astro.site ?? SITE.url).toString();
 
+// Extract Twitter handle from SITE.social.twitter URL (e.g.,
+// "https://twitter.com/ishaan_xy" → "@ishaan_xy"). Falls back to empty
+// string if the URL doesn't match the expected pattern.
+const twitterHandle = (() => {
+  const url = SITE.social.twitter;
+  if (!url) return '';
+  const match = url.match(/twitter\.com\/([^/?#]+)/);
+  return match ? `@${match[1]}` : '';
+})();
+
 // Always include WebSite schema; merge with any per-page schema
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -72,7 +82,12 @@ const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
-    <link rel="canonical" href={canonical} />
+    {/* Skip canonical on noIndex pages (e.g. 404, /search, paginated archive).
+        For the 404 page, Astro.url.pathname resolves to /404 (the route),
+        not the unmatched path — so a canonical would point to a non-existent
+        URL. For other noIndex pages, canonical is unnecessary since they're
+        excluded from search results anyway. */}
+    {!noIndex && <link rel="canonical" href={canonical} />}
 
     <!-- Open Graph -->
     <meta property="og:title" content={title ?? SITE.title} />
@@ -93,8 +108,8 @@ const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [
     {socialImage && <meta name="twitter:image" content={socialImage} />}
     {socialImage && <meta name="twitter:image:width" content="1200" />}
     {socialImage && <meta name="twitter:image:height" content="630" />}
-    {SITE.social.twitter && <meta name="twitter:site" content="@ishaan_xy" />}
-    {SITE.social.twitter && <meta name="twitter:creator" content="@ishaan_xy" />}
+    {twitterHandle && <meta name="twitter:site" content={twitterHandle} />}
+    {twitterHandle && <meta name="twitter:creator" content={twitterHandle} />}
 
     <!-- RSS -->
     <link

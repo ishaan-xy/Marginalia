@@ -57,7 +57,16 @@
       // Defer so the selection is finalized
       setTimeout(showPopup, 10);
     }, { passive: true });
+    document.addEventListener('keyup', () => {
+      // Keyboard-based selection (Shift+arrows) also triggers the popup.
+      // Defer so the selection is finalized before we measure its position.
+      setTimeout(showPopup, 10);
+    }, { passive: true });
     document.addEventListener('selectionchange', () => {
+      // selectionchange fires for both mouse and keyboard selection.
+      // We only use it to HIDE the popup when the selection collapses —
+      // showing is handled by mouseup/keyup above (which fire after the
+      // selection is complete, giving us an accurate bounding rect).
       const sel = window.getSelection();
       if (!sel || sel.isCollapsed) {
         popup.classList.remove('visible');
