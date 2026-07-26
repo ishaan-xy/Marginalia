@@ -1,15 +1,9 @@
 ---
 import { SITE } from '@/lib/site';
 
-interface Props {
-  variant?: 'compact' | 'full';
-  class?: string;
-}
-
-const { variant = 'full', class: className = '' } = Astro.props;
 const subscribeUrl = SITE.newsletter.subscribeUrl;
 ---
-<div class:list={['subscribe-cta-card', variant, className]}>
+<div class="subscribe-cta-card">
   <a
     href={subscribeUrl}
     target="_blank"
@@ -47,9 +41,6 @@ const subscribeUrl = SITE.newsletter.subscribeUrl;
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
-  }
-  .subscribe-cta-card.compact {
-    max-width: 100%;
   }
 
   .subscribe-cta-link {

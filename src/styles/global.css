@@ -1084,13 +1084,6 @@ figure.image-block figcaption {
   color: var(--fg-soft);
 }
 
-/* Mid-article subscribe CTA wrapper.
-   No border/background — the SubscribeForm component renders its own card.
-   This wrapper just provides spacing and the "Enjoying this?" label context. */
-@media print {
-  .mid-article-cta { display: none !important; }
-}
-
 /* Hero image — subtle Medium-style zoom on hover.
    The image is wrapped in figure.hero-figure with overflow-hidden, so the
    zoom stays clipped. scale(1.02) is barely perceptible — it just signals
@@ -1139,9 +1132,6 @@ figure.image-block figcaption {
   .back-to-top,
   .highlight-share,
   .mobile-toc,
-  /* .mid-article-cta and .subscribe-cta-wrapper are hidden via their own
-     print rules in the same stylesheet — kept here for completeness. */
-  .mid-article-cta,
   .subscribe-cta-wrapper,
   .subscribe-cta-card,
   .share-buttons,

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
-import { formatDate } from '@/lib/format';
 
 export async function getStaticPaths() {
   const POSTS_PER_PAGE = 50;

@@ -6,10 +6,6 @@ import { SITE } from '@/lib/site';
 
 const { repo, repoId, category, categoryId, mapping, reactionsEnabled, inputPosition, lang } = SITE.comments;
 
-// Permalink for the current post — Giscus uses this to find/create the
-// matching GitHub Discussion thread.
-const permalink = Astro.url.pathname;
-
 const enabled = Boolean(repoId && categoryId);
 ---
 

@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SITE } from '@/lib/site';
-import { formatDateLong, readingTime, wordCount } from '@/lib/format';
+import { readingTime, wordCount } from '@/lib/format';
 import ReadingProgress from '@/components/ReadingProgress.astro';
 import FloatingShare from '@/components/FloatingShare.astro';
 import HighlightShare from '@/components/HighlightShare.astro';
@@ -253,9 +253,8 @@ const articleSchema = {
     {/* ─────────────────────────────────────────────
         13. Subscribe CTA — last thing in the article.
         The SubscribeForm component renders a card with its own headline
-        and copy; this wrapper just provides the #subscribe anchor for
-        in-page links from the header Subscribe pill (which still has
-        a #subscribe fallback for users without JS).
+        and copy; this wrapper provides the #subscribe anchor target for
+        any in-page links that hash to it.
         scroll-margin-top accounts for the sticky header so in-page jumps
         don't land with the heading hidden behind the header bar.
         ───────────────────────────────────────────── */}
