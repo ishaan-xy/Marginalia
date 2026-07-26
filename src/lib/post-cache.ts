@@ -10,6 +10,7 @@
 import { getPosts as rawGetPosts, byDateDesc } from '@/lib/posts';
 import { getSeriesDescription } from '@/lib/series-meta';
 import { slugifySeries } from '@/lib/format';
+import { SITE } from '@/lib/site';
 import type { CollectionEntry } from 'astro:content';
 
 type Post = CollectionEntry<'blog'>;
@@ -117,9 +118,10 @@ export async function getAllSeries(): Promise<SeriesInfo[]> {
         return max === null || p.data.pubDate > max ? p.data.pubDate : max;
       }, null);
       const totalReadingTime = sorted.reduce((sum, p) => {
-        // Lightweight estimate — avoids importing the heavier readingTime helper
-        const words = (p.body ?? '').trim().split(/\s+/).length;
-        return sum + Math.max(1, Math.ceil(words / 240));
+        // Lightweight estimate — uses SITE.wordsPerMinute so changing the
+        // config updates series reading time too. (Previously hardcoded 240.)
+        const words = (p.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+        return sum + Math.max(1, Math.ceil(words / SITE.wordsPerMinute));
       }, 0);
       const firstPost = sorted[0] ?? null;
       const description = getSeriesDescription(name) ?? firstPost?.data.description;
@@ -138,12 +140,20 @@ export async function getAllSeries(): Promise<SeriesInfo[]> {
 
 /**
  * Related posts for a given post. Scoring:
- *   - +3 per shared tag (tags appearing on 6+ posts are ignored as too generic)
+ *   - +3 per shared tag (tags appearing on >5 posts are ignored as too generic)
  *   - +5 if same series (but different post)
  *   - Tiebreaker: newer posts win (negligible weight, only breaks exact ties)
  *   - Max 2 results returned
+ *
+ * Tag-frequency thresholds in this codebase (kept distinct by intent):
+ *   - `tagHasPage(tag)` in PostLayout: >= 2 posts → tag gets its own /tags/<tag>/ page
+ *     (single-post tags are noise; the page would just be one link)
+ *   - `getRelatedPosts()` here: > 5 posts → tag is "too generic" to be a strong
+ *     relationship signal (e.g., a tag on 30+ posts doesn't differentiate them)
+ * The two thresholds serve different purposes — visibility (2) vs signal strength (5).
  */
 const TIEBREAKER_DIVISOR = 1e15;
+const GENERIC_TAG_THRESHOLD = 5;
 
 let _tagFreqCache: Map<string, number> | null = null;
 
@@ -171,7 +181,7 @@ export async function getRelatedPosts(currentPost: Post): Promise<Post[]> {
         score += 5;
       }
       for (const tag of currentTags) {
-        if ((tagFreq.get(tag) ?? 0) > 5) continue;
+        if ((tagFreq.get(tag) ?? 0) > GENERIC_TAG_THRESHOLD) continue;
         if (p.data.tags.includes(tag)) {
           score += 3;
         }

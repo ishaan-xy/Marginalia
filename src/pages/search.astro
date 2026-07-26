@@ -78,12 +78,8 @@ const allPosts = (await getPublishedPosts()).sort(byDateDesc);
 </BaseLayout>
 
 <style>
-  mark {
-    background: color-mix(in srgb, var(--accent) 25%, transparent);
-    color: var(--fg);
-    padding: 0 2px;
-    border-radius: 2px;
-  }
+  /* `mark` styling is defined globally in src/styles/global.css (.prose mark).
+     Only the search-result snippet class needs page-scoped styles here. */
   .result-snippet {
     font-size: 0.9375rem;
     color: var(--fg-soft);
@@ -252,7 +248,7 @@ const allPosts = (await getPublishedPosts()).sort(byDateDesc);
       statusEl.textContent = `${scored.length} ${scored.length === 1 ? 'result' : 'results'}`;
     }
 
-    resultsEl.innerHTML = `<ul class="space-y-7">${
+    resultsEl.innerHTML = `<ul class="space-y-5">${
       scored
         .map(({ doc }) => {
           const title = highlight(doc.title, q);

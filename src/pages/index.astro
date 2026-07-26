@@ -8,6 +8,7 @@ import { getAllPosts, getAllSeries } from '@/lib/post-cache';
 import { formatDate, slugifySeries } from '@/lib/format';
 
 const allPosts = await getAllPosts();
+const subscribeUrl = SITE.newsletter.subscribeUrl;
 
 // Pick the most recent flagged-as-featured post; fall back to the newest post.
 let featured = allPosts.find((p) => p.data.featured) ?? null;
@@ -42,7 +43,9 @@ const series = await getAllSeries();
         Read the manifesto &rarr;
       </a>
       <a
-        href="/about#subscribe"
+        href={subscribeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         class="font-sans text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors"
       >
         Or subscribe

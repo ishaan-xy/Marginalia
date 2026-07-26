@@ -1,6 +1,7 @@
 ---
 import { SITE } from '@/lib/site';
 const year = new Date().getFullYear();
+const subscribeUrl = SITE.newsletter.subscribeUrl;
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -38,6 +39,18 @@ const navItems = [
         ))}
       </nav>
       <nav aria-label="Social" class="flex items-center gap-4 text-[var(--fg-faint)]">
+        <a
+          href={subscribeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-[var(--accent)] hover:text-[var(--accent-soft)] transition-colors font-medium"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <span>Subscribe</span>
+        </a>
         {SITE.social.twitter && (
           <a
             href={SITE.social.twitter}

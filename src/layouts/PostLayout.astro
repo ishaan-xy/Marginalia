@@ -30,15 +30,10 @@ const minutes = readingTime(post.body ?? '', SITE.wordsPerMinute);
 const words = wordCount(post.body ?? '');
 const url = new URL(`/${post.id}/`, Astro.site ?? SITE.url).toString();
 
-// Hero image: use coverImage if it exists, otherwise the generated OG PNG
-const heroImage = post.data.coverImage
-  ? post.data.coverImage
-  : `/og/${post.id}.png`;
-
-// The OG image URL (for social sharing meta tags)
-const ogImageUrl = post.data.coverImage
-  ? post.data.coverImage
-  : `/og/${post.id}.png`;
+// Image URL — used both as the in-page hero image AND as the OG/social-sharing image.
+// (Previously two separate variables with identical values — collapsed to one.)
+// If the post has a coverImage, use it; otherwise fall back to the generated OG PNG.
+const imageUrl = post.data.coverImage ?? `/og/${post.id}.png`;
 
 // Related posts: shared tags + same-series boost.
 const relatedPosts = await getRelatedPosts(post);
@@ -93,7 +88,7 @@ const articleSchema = {
     '@type': 'WebPage',
     '@id': url,
   },
-  image: new URL(ogImageUrl, SITE.url).toString(),
+  image: new URL(imageUrl, SITE.url).toString(),
   keywords: tags.join(', '),
   ...(series ? { isPartOf: { '@type': 'BlogSeries', name: series.name, position: series.part } } : {}),
 };
@@ -101,7 +96,7 @@ const articleSchema = {
 <BaseLayout
   title={title}
   description={description}
-  ogImage={ogImageUrl}
+  ogImage={imageUrl}
   type="article"
   publishedTime={pubDate.toISOString()}
   jsonLd={articleSchema}
@@ -184,16 +179,19 @@ const articleSchema = {
         Uses aspect-ratio (2/1) instead of fixed pixel heights so the image
         keeps its natural composition at every viewport width — was previously
         cropped to 200-340px tall, hiding ~50% of the OG image content.
+        `loading="lazy"` — was previously "eager" but the hero is now ~600-800px
+        below the fold on most posts (after title + byline + series banner + tags),
+        so eager loading was wasting bandwidth competing with critical CSS/fonts.
         ───────────────────────────────────────────── */}
-    {heroImage && (
+    {imageUrl && (
       <figure class="hero-figure -mx-5 sm:-mx-6 mb-8 overflow-hidden">
         <img
-          src={heroImage}
+          src={imageUrl}
           alt={title}
           width={1200}
           height={630}
           class="hero-img w-full aspect-[2/1] object-cover"
-          loading="eager"
+          loading="lazy"
         />
       </figure>
     )}
@@ -292,9 +290,12 @@ const articleSchema = {
         13. Subscribe CTA — last thing in the article.
         The SubscribeForm component renders a card with its own headline
         and copy; this wrapper just provides the #subscribe anchor for
-        in-page links from the MidArticleCTA and the header Subscribe pill.
+        in-page links from the header Subscribe pill (which still has
+        a #subscribe fallback for users without JS).
+        scroll-margin-top accounts for the sticky header so in-page jumps
+        don't land with the heading hidden behind the header bar.
         ───────────────────────────────────────────── */}
-    <section id="subscribe" class="subscribe-cta-wrapper">
+    <section id="subscribe" class="subscribe-cta-wrapper" style="scroll-margin-top: 80px;">
       <SubscribeForm />
     </section>
 

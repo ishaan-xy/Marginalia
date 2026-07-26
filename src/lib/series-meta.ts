@@ -15,9 +15,6 @@ const SERIES_META: Record<string, { description: string }> = {
     description:
       'Minds & Machines is a 75-article deep-dive into the full history of Artificial Intelligence — from the ancient myths of mechanical life to the reasoning models reshaping the world today. Written for a general audience with no technical background, each article is approximately 8,000 words of narrative, immersive, story-driven history.',
   },
-  'The Wire': {
-    description: '',
-  },
 };
 
 /** Get the description for a series, or undefined if not registered or empty. */

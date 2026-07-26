@@ -496,18 +496,33 @@ body {
   color: var(--fg-faint);
 }
 
-/* Semantic element styling — ready for when authors use them */
+/* Semantic element styling — ready for when authors use them.
+   Note: `.prose kbd` reuses the `.kbd` utility recipe (defined below) so
+   there's a single source of truth for keyboard-hint styling. */
 .prose kbd {
+  /* Same recipe as the .kbd utility class — kept in sync deliberately. */
   font-family: var(--font-mono);
   font-size: 0.875em;
-  background: color-mix(in srgb, var(--fg) 6%, var(--bg));
+  background: color-mix(in srgb, var(--fg) 8%, transparent);
   border: 1px solid var(--line);
   border-bottom-width: 2px;
   border-radius: 4px;
   padding: 0.1em 0.4em;
   color: var(--fg);
+  min-width: 1.5rem;
+  text-align: center;
+  display: inline-block;
+  line-height: 1;
 }
 .prose mark {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  color: var(--fg);
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+}
+/* Search-result highlighting uses <mark> outside .prose, so we need a
+   global rule too. Kept here next to .prose mark for visibility. */
+mark {
   background: color-mix(in srgb, var(--accent) 25%, transparent);
   color: var(--fg);
   padding: 0.05em 0.2em;
@@ -1069,14 +1084,11 @@ figure.image-block figcaption {
   color: var(--fg-soft);
 }
 
-/* Mid-article subscribe CTA */
-.mid-article-cta {
-  margin: 2.5rem 0;
-  padding: 1.75rem 1.5rem;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+/* Mid-article subscribe CTA wrapper.
+   No border/background — the SubscribeForm component renders its own card.
+   This wrapper just provides spacing and the "Enjoying this?" label context. */
+@media print {
+  .mid-article-cta { display: none !important; }
 }
 
 /* Hero image — subtle Medium-style zoom on hover.
@@ -1127,6 +1139,8 @@ figure.image-block figcaption {
   .back-to-top,
   .highlight-share,
   .mobile-toc,
+  /* .mid-article-cta and .subscribe-cta-wrapper are hidden via their own
+     print rules in the same stylesheet — kept here for completeness. */
   .mid-article-cta,
   .subscribe-cta-wrapper,
   .subscribe-cta-card,

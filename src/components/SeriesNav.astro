@@ -93,8 +93,9 @@ const progressPct = total > 1 ? (currentPart / total) * 100 : 100;
             <p class="font-serif text-[1rem] text-[var(--fg)] leading-snug group-hover:text-[var(--accent)] transition-colors">{next.data.title}</p>
           </a>
         ) : (
-          // End of series — show a friendly note instead of an empty next slot
-          <div class="p-4 sm:p-5 border border-[var(--line)] rounded-lg bg-[color-mix(in_srgb,var(--fg)_2%,transparent)] sm:text-right">
+          // End of series — show a friendly note instead of an empty next slot.
+          // Uses shared .card class (no .lift since it's not a link).
+          <div class="card sm:text-right">
             <p class="text-xs uppercase tracking-wider text-[var(--fg-faint)] mb-2">End of series</p>
             <p class="font-serif text-[1rem] text-[var(--fg-soft)] leading-snug">
               You've reached the end. Thanks for reading the whole thing.

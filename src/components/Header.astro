@@ -163,7 +163,9 @@ function isActive(href: string): boolean {
 
   function setMenuOpen(open: boolean) {
     if (!menu || !toggle || !openIcon || !closeIcon) return;
-    menu.classList.toggle('hidden', !open);
+    // The menu uses [data-open] + max-height transition for show/hide.
+    // (Previously also called classList.toggle('hidden') — but the menu
+    // no longer has a 'hidden' class, so that call was a no-op.)
     menu.toggleAttribute('data-open', open);
     openIcon.classList.toggle('hidden', open);
     closeIcon.classList.toggle('hidden', !open);
