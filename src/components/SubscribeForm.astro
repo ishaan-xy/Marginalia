@@ -12,7 +12,19 @@ const url = SITE.newsletter.embedUrl;
 <div
   class:list={['subscribe-embed', variant, className]}
   data-paragraph-embed
+  data-iframe-url={url}
 >
+  {/* Loading placeholder — shown until the iframe finishes loading.
+      Without this, users see a blank white rectangle for ~1-2 seconds
+      while the Next.js app inside the iframe boots up. The placeholder
+      matches the form layout so the transition is seamless. */}
+  <div class="subscribe-placeholder" aria-hidden="true">
+    <div class="subscribe-placeholder-logo"></div>
+    <div class="subscribe-placeholder-line w-3/4"></div>
+    <div class="subscribe-placeholder-line w-1/2"></div>
+    <div class="subscribe-placeholder-input"></div>
+    <div class="subscribe-placeholder-button"></div>
+  </div>
   <iframe
     src={url}
     title="Subscribe to the newsletter"
@@ -20,6 +32,7 @@ const url = SITE.newsletter.embedUrl;
     class="subscribe-iframe"
     frameborder="0"
     scrolling="no"
+    data-subscribe-iframe
   ></iframe>
 </div>
 
@@ -28,34 +41,133 @@ const url = SITE.newsletter.embedUrl;
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
+    position: relative;
+    /* Reserve vertical space immediately so the page doesn't reflow
+       when the iframe loads. 420px matches the natural height of
+       Paragraph's embed card (logo + title + form + breathing room). */
+    min-height: 420px;
   }
   .subscribe-embed.full {
     max-width: 480px;
   }
   .subscribe-embed.compact {
-    /* The Paragraph iframe is designed at 480×360; for the compact variant
-       we keep the same width but allow the iframe to scale down on small
-       screens via the responsive CSS below. */
     max-width: 100%;
   }
   .subscribe-iframe {
     display: block;
     width: 100%;
-    height: 360px;
+    /* Was 360px — left ~80px of empty white space below the form.
+       420px matches Paragraph's actual rendered card height (334px)
+       plus a small breathing margin so the form doesn't feel cramped. */
+    height: 420px;
     max-width: 480px;
     margin: 0 auto;
     border: 1px solid var(--line);
     border-radius: 8px;
-    /* Paragraph's iframe is rendered with its own light theme; in dark mode we
-       keep the page background behind it so the iframe doesn't look like a
-       white island. Use a neutral backdrop that matches the page. */
-    background: var(--bg);
+    /* Paragraph renders its own light-theme card inside the iframe, so
+       the area behind the card matches the card's background — avoids
+       the jarring "white card on dark page" outline that was visible
+       in dark mode before. */
+    background: #fff;
     color-scheme: light;
+    position: relative;
+    z-index: 1;
+    /* Fade in once loaded — the placeholder underneath is hidden
+       via opacity transition when the iframe fires its load event. */
+    opacity: 0;
+    transition: opacity var(--transition-base);
   }
-  /* On very small screens, allow the iframe to shrink but keep aspect ratio */
+  .subscribe-iframe.loaded {
+    opacity: 1;
+  }
+  /* On very small screens, allow the iframe to be a touch taller to fit
+     mobile form fields comfortably (Paragraph adds vertical padding on mobile) */
   @media (max-width: 520px) {
     .subscribe-iframe {
-      height: 380px; /* a touch taller to fit mobile form fields comfortably */
+      height: 440px;
+    }
+    .subscribe-embed {
+      min-height: 440px;
+    }
+  }
+
+  /* Loading placeholder — visible until the iframe's load event fires.
+     Mimics the form layout (logo + 2 lines of text + input + button)
+     so the transition from placeholder -> real form is seamless. */
+  .subscribe-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2.5rem 2rem 2rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+  }
+  .subscribe-iframe.loaded + .subscribe-placeholder,
+  .subscribe-placeholder.hidden {
+    opacity: 0;
+  }
+  .subscribe-placeholder-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--fg) 8%, transparent);
+    margin-bottom: 0.5rem;
+  }
+  .subscribe-placeholder-line {
+    height: 12px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--fg) 6%, transparent);
+  }
+  .subscribe-placeholder-input {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--fg) 4%, transparent);
+    margin-top: 0.5rem;
+  }
+  .subscribe-placeholder-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+  /* Respect reduced motion — no fade transition */
+  @media (prefers-reduced-motion: reduce) {
+    .subscribe-iframe,
+    .subscribe-placeholder {
+      transition: none;
     }
   }
 </style>
+
+<script>
+  // Hide the placeholder when the iframe finishes loading.
+  // Listens for the iframe's load event; the iframe itself doesn't
+  // postMessage about its height, so we can't auto-resize — instead
+  // we use a measured fixed height (420px) that matches Paragraph's
+  // actual rendered card height.
+  document.querySelectorAll('[data-subscribe-iframe]').forEach((el) => {
+    const iframe = el as HTMLIFrameElement;
+    function markLoaded() {
+      iframe.classList.add('loaded');
+      const placeholder = iframe.parentElement?.querySelector('.subscribe-placeholder');
+      placeholder?.classList.add('hidden');
+    }
+    // If the iframe is already loaded (e.g., cached), mark immediately.
+    // Otherwise wait for the load event — with a safety timeout in case
+    // the load event never fires (cross-origin restrictions, network issue).
+    if (iframe.contentWindow && iframe.contentWindow.document?.readyState === 'complete') {
+      markLoaded();
+    } else {
+      iframe.addEventListener('load', markLoaded, { once: true });
+      setTimeout(markLoaded, 8000);
+    }
+  });
+</script>
