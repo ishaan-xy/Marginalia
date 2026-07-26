@@ -14,10 +14,12 @@
  */
 import CanvasKitInit from 'canvaskit-wasm/full';
 import fs from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+const CACHE_DIR = path.join(process.cwd(), 'node_modules', '.cache', 'og-images');
 
 // Colors (RGB tuples matching our CSS variables)
 const PAPER: [number, number, number] = [253, 252, 250];        // #fdfcfa
@@ -45,8 +47,21 @@ async function getCanvasKit(): Promise<any> {
   if (_canvasKit) return _canvasKit;
   // canvaskit-wasm/full exports a default init function that returns
   // the CanvasKit instance once the WASM binary is loaded.
+  // Pass locateFile to load the WASM binary from local node_modules
+  // instead of the default CDN (jsdelivr). This eliminates a network
+  // dependency during build — the build works offline.
   const init = (CanvasKitInit as any).default ?? CanvasKitInit;
-  _canvasKit = await init();
+  const wasmPath = path.join(
+    process.cwd(),
+    'node_modules',
+    'canvaskit-wasm',
+    'bin',
+    'full',
+    'canvaskit.wasm'
+  );
+  _canvasKit = await init({
+    locateFile: () => wasmPath,
+  });
   return _canvasKit;
 }
 
@@ -77,6 +92,21 @@ function rgb(ck: any, [r, g, b]: [number, number, number]) {
 }
 
 export async function generateOGImage(opts: OGImageOptions): Promise<Buffer> {
+  // Build cache — skip regeneration if content hasn't changed.
+  // Hash includes all inputs that affect the rendered image.
+  const cacheKey = createHash('md5')
+    .update(JSON.stringify(opts))
+    .update(String(WIDTH))
+    .update(String(HEIGHT))
+    .digest('hex');
+  const cachePath = path.join(CACHE_DIR, `${cacheKey}.jpg`);
+  try {
+    const cached = await fs.readFile(cachePath);
+    return cached;
+  } catch {
+    // Cache miss — generate the image
+  }
+
   const ck = await getCanvasKit();
   const fontMgr = await getFontMgr(ck);
 
@@ -194,12 +224,23 @@ export async function generateOGImage(opts: OGImageOptions): Promise<Buffer> {
   const footerY = HEIGHT - padding - footerHeight;
   canvas.drawParagraph(footerPara, padding, footerY);
 
-  // Encode to PNG
+  // Encode to JPEG (50% smaller than PNG, accepted by all social platforms).
+  // Quality 85 is visually identical to PNG for this type of image.
   const image = surface.makeImageSnapshot();
-  const bytes = image.encodeToBytes(ck.ImageFormat.PNG, 90);
+  const bytes = image.encodeToBytes(ck.ImageFormat.JPEG, 85);
   surface.dispose();
 
-  return Buffer.from(bytes);
+  const result = Buffer.from(bytes);
+
+  // Write to cache for next build
+  try {
+    await fs.mkdir(CACHE_DIR, { recursive: true });
+    await fs.writeFile(cachePath, result);
+  } catch {
+    // Cache write failure is non-fatal — image still returns correctly
+  }
+
+  return result;
 }
 
 // ─── Text helpers ───────────────────────────────────────

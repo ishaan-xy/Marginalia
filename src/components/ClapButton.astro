@@ -46,14 +46,9 @@ const { slug } = Astro.props;
       const stored = localStorage.getItem(storageKey);
       if (stored) {
         count = parseInt(stored, 10);
-      } else {
-        // Seed with a plausible-looking initial count (deterministic per slug)
-        let hash = 0;
-        for (let i = 0; i < slug.length; i++) {
-          hash = (hash * 31 + slug.charCodeAt(i)) & 0xffffffff;
-        }
-        count = Math.abs(hash) % 80;
       }
+      // No fake initial count — start at 0 for new visitors.
+      // The count only increases when the user actually claps.
     } catch {}
     if (countEl) countEl.textContent = String(count);
 

@@ -56,7 +56,7 @@
     document.addEventListener('mouseup', () => {
       // Defer so the selection is finalized
       setTimeout(showPopup, 10);
-    });
+    }, { passive: true });
     document.addEventListener('selectionchange', () => {
       const sel = window.getSelection();
       if (!sel || sel.isCollapsed) {

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /search
+Disallow: /archive/2/
+Disallow: /archive/3/
+
+Sitemap: https://marginalia-dav.pages.dev/sitemap-index.xml

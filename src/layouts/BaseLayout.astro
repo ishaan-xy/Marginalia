@@ -37,7 +37,7 @@ const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
 const socialImage = ogImage
   ? new URL(ogImage, Astro.site ?? SITE.url).toString()
-  : undefined;
+  : new URL('/og/default.png', Astro.site ?? SITE.url).toString();
 
 // Always include WebSite schema; merge with any per-page schema
 const websiteSchema = {
@@ -82,7 +82,7 @@ const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [
     {socialImage && <meta property="og:image" content={socialImage} />}
     {socialImage && <meta property="og:image:width" content="1200" />}
     {socialImage && <meta property="og:image:height" content="630" />}
-    {socialImage && <meta property="og:image:type" content="image/png" />}
+    {socialImage && <meta property="og:image:type" content="image/jpeg" />}
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
 
     <!-- Twitter -->
@@ -92,6 +92,8 @@ const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [
     {socialImage && <meta name="twitter:image" content={socialImage} />}
     {socialImage && <meta name="twitter:image:width" content="1200" />}
     {socialImage && <meta name="twitter:image:height" content="630" />}
+    {SITE.social.twitter && <meta name="twitter:site" content="@ishaan_xy" />}
+    {SITE.social.twitter && <meta name="twitter:creator" content="@ishaan_xy" />}
 
     <!-- RSS -->
     <link
@@ -103,6 +105,10 @@ const schemas = [websiteSchema, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Theme color for mobile browser chrome -->
+    <meta name="theme-color" content="#fdfcfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
 
     <!-- Manifest for PWA-ish behavior -->
     <link rel="manifest" href="/site.webmanifest" />

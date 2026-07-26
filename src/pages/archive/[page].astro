@@ -39,6 +39,7 @@ const years = [...byYear.keys()].sort((a, b) => Number(b) - Number(a));
 <BaseLayout
   title={`Archive · Page ${pageNum}`}
   description={`Archive page ${pageNum} of ${totalPages}.`}
+  noIndex
 >
   <section class="fade-up mb-12">
     <p class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-3">

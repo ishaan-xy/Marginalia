@@ -14,6 +14,7 @@ import { remarkCallouts } from './src/lib/remark-callouts.ts';
 // from `@astrojs/markdown-remark` — only applies to .mdx files, not .md.
 export default defineConfig({
   site: process.env.CF_PAGES_URL || process.env.SITE_URL || 'https://marginalia-dav.pages.dev',
+  trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

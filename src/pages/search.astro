@@ -17,7 +17,7 @@ interface SearchDoc {
 import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
 const allPosts = (await getPublishedPosts()).sort(byDateDesc);
 ---
-<BaseLayout title="Search" description="Search every post on the site.">
+<BaseLayout title="Search" description="Search every post on the site." noIndex>
   <section class="fade-up mb-8">
     <h1 class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight mb-3">
       Search
@@ -115,13 +115,22 @@ const allPosts = (await getPublishedPosts()).sort(byDateDesc);
   async function loadIndex(): Promise<SearchDoc[]> {
     if (docs) return docs;
     if (loadingPromise) return loadingPromise;
+    if (statusEl) statusEl.textContent = 'Loading search index…';
     loadingPromise = fetch('/search.json')
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((d: SearchDoc[]) => {
         docs = d;
+        if (statusEl) statusEl.textContent = '';
         return d;
       })
-      .catch(() => []);
+      .catch((err) => {
+        if (statusEl) statusEl.textContent = 'Failed to load search index. Please refresh.';
+        console.error('Search index load failed:', err);
+        return [];
+      });
     return loadingPromise;
   }
 
