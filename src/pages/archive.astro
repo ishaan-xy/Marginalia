@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import TopicCloud from '@/components/TopicCloud.astro';
-import { getPublishedPosts, getAllSeries } from '@/lib/post-cache';
+import { getPublishedPosts, getAllSeries, byDateDesc } from '@/lib/post-cache';
 import { formatDate, slugifySeries } from '@/lib/format';
 
 const POSTS_PER_PAGE = 50;
 
-const posts = (await getPublishedPosts()).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const posts = (await getPublishedPosts()).sort(byDateDesc);
 const totalPosts = posts.length;
 const totalPages = Math.max(1, Math.ceil(totalPosts / POSTS_PER_PAGE));
 const visiblePosts = posts.slice(0, POSTS_PER_PAGE);

@@ -57,8 +57,10 @@
     function update() {
       if (window.scrollY > 600) {
         btn.classList.add('visible');
+        btn.removeAttribute('tabindex');
       } else {
         btn.classList.remove('visible');
+        btn.setAttribute('tabindex', '-1');
       }
       ticking = false;
     }

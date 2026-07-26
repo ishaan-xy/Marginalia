@@ -1,3 +1,5 @@
+import { stripMarkdown } from '@/lib/markdown';
+
 /**
  * Format a date for display. Uses locale-aware formatting
  * with explicit timezone so builds are deterministic.
@@ -28,10 +30,7 @@ export function formatDateLong(date: Date): string {
  * Default average adult reading speed ~ 220-260 wpm; we use 240.
  */
 export function readingTime(text: string, wordsPerMinute = 240): number {
-  // Strip code fences and markdown syntax for a more accurate count
-  const cleaned = text
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/[#*_`>~\-\[\]\(\)]/g, ' ');
+  const cleaned = stripMarkdown(text);
   const words = cleaned.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / wordsPerMinute));
 }

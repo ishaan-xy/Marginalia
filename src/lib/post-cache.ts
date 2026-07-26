@@ -138,22 +138,30 @@ export async function getAllSeries(): Promise<SeriesInfo[]> {
 
 /**
  * Related posts for a given post. Scoring:
- *   - +3 per shared tag (tags appearing on 5+ posts are ignored as too generic)
+ *   - +3 per shared tag (tags appearing on 6+ posts are ignored as too generic)
  *   - +5 if same series (but different post)
  *   - Tiebreaker: newer posts win (negligible weight, only breaks exact ties)
  *   - Max 2 results returned
  */
+const TIEBREAKER_DIVISOR = 1e15;
+
+let _tagFreqCache: Map<string, number> | null = null;
+
 export async function getRelatedPosts(currentPost: Post): Promise<Post[]> {
   const published = await getPublishedPosts();
   const currentTags = currentPost.data.tags;
   const currentSeries = currentPost.data.series?.name;
 
-  const tagFreq = new Map<string, number>();
-  for (const p of published) {
-    for (const t of p.data.tags) {
-      tagFreq.set(t, (tagFreq.get(t) ?? 0) + 1);
+  // Memoize tag frequency map — rebuilt only when published posts change
+  if (!_tagFreqCache) {
+    _tagFreqCache = new Map<string, number>();
+    for (const p of published) {
+      for (const t of p.data.tags) {
+        _tagFreqCache.set(t, (_tagFreqCache.get(t) ?? 0) + 1);
+      }
     }
   }
+  const tagFreq = _tagFreqCache;
 
   const scored = published
     .filter((p) => p.id !== currentPost.id)
@@ -168,7 +176,7 @@ export async function getRelatedPosts(currentPost: Post): Promise<Post[]> {
           score += 3;
         }
       }
-      score += p.data.pubDate.getTime() / 1e15;
+      score += p.data.pubDate.getTime() / TIEBREAKER_DIVISOR;
       return { post: p, score };
     })
     .filter((x) => x.score > 0)

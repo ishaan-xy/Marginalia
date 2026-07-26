@@ -20,7 +20,7 @@ const SERIES_META: Record<string, { description: string }> = {
   },
 };
 
-/** Get the description for a series, or undefined if not registered. */
+/** Get the description for a series, or undefined if not registered or empty. */
 export function getSeriesDescription(seriesName: string): string | undefined {
-  return SERIES_META[seriesName]?.description;
+  return SERIES_META[seriesName]?.description || undefined;
 }

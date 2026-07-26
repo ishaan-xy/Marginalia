@@ -13,6 +13,7 @@
  * under 1 MB gzipped.
  */
 import { getPublishedPosts } from '@/lib/post-cache';
+import { stripMarkdown } from '@/lib/markdown';
 
 interface SearchDoc {
   title: string;
@@ -27,20 +28,7 @@ interface SearchDoc {
 const BODY_SLICE = 1200;
 
 function cleanMarkdown(src: string): string {
-  return src
-    // Remove frontmatter
-    .replace(/^---[\s\S]*?---\n/, '')
-    // Remove code fences entirely (their text is rarely what users search for,
-    // and including it bloats the index)
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/`([^`]+)`/g, '$1')
-    // Remove markdown syntax
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/[#*_~>]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, BODY_SLICE);
+  return stripMarkdown(src).slice(0, BODY_SLICE);
 }
 
 export async function buildSearchIndex(): Promise<SearchDoc[]> {

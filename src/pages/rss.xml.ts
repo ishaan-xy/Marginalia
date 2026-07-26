@@ -1,9 +1,10 @@
+import type { APIRoute } from 'astro';
 import rss from '@astrojs/rss';
 import { render } from 'astro:content';
 import { SITE } from '@/lib/site';
 import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
 
-export async function GET(context) {
+export const GET: APIRoute = async (context) => {
   const posts = (await getPublishedPosts()).sort(byDateDesc);
 
   // Render each post's HTML for the content:encoded field.

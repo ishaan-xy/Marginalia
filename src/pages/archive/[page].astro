@@ -1,13 +1,11 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getPublishedPosts } from '@/lib/post-cache';
+import { getPublishedPosts, byDateDesc } from '@/lib/post-cache';
 import { formatDate } from '@/lib/format';
 
 export async function getStaticPaths() {
   const POSTS_PER_PAGE = 50;
-  const posts = (await getPublishedPosts()).sort(
-    (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
-  );
+  const posts = (await getPublishedPosts()).sort(byDateDesc);
   const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
   // Page 1 is the /archive/ index — pagination starts at page 2.
   return Array.from({ length: totalPages - 1 }, (_, i) => i + 2).map((pageNum) => {

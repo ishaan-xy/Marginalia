@@ -81,10 +81,13 @@ const encodedTitle = encodeURIComponent(title);
       const url = btn.getAttribute('data-copy-url') || '';
       try {
         await navigator.clipboard.writeText(url);
-        const original = btn.getAttribute('title');
+        const originalTitle = btn.getAttribute('title');
+        const originalAria = btn.getAttribute('aria-label');
         btn.setAttribute('title', 'Copied!');
+        btn.setAttribute('aria-label', 'Copied!');
         setTimeout(() => {
-          if (original) btn.setAttribute('title', original);
+          if (originalTitle) btn.setAttribute('title', originalTitle);
+          if (originalAria) btn.setAttribute('aria-label', originalAria);
         }, 1500);
       } catch {}
     });

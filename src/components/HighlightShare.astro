@@ -20,7 +20,7 @@
 <script>
   const popup = document.getElementById('highlight-share');
   if (popup) {
-    const article = document.querySelector('article .prose, .prose');
+    const article = document.querySelector('article');
     const quoteBtn = popup.querySelector('[data-action="quote-twitter"]');
     const copyBtn = popup.querySelector('[data-action="copy"]');
 
@@ -74,7 +74,7 @@
       const url = window.location.href;
       const text = q.length > 200 ? `"${q.slice(0, 197)}…"` : `"${q}"`;
       window.open(
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)} ${encodeURIComponent(url)}`,
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
         '_blank',
         'noopener,noreferrer'
       );
