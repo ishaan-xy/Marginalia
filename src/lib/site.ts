@@ -11,7 +11,9 @@ export const SITE = {
     'Marginalia is a space for the intellectually curious\u2014people who read not just to absorb, but to start a conversation.',
   author: 'Your Name',
   email: 'hello@your-blog.example.com',
-  url: 'https://marginalia-dav.pages.dev',
+  url: typeof process !== 'undefined'
+    ? (process.env.CF_PAGES_URL || process.env.SITE_URL || 'https://marginalia-dav.pages.dev')
+    : 'https://marginalia-dav.pages.dev',
   // Author bio shown at the bottom of posts
   bio: 'Writes in the margins. Curious about software, design, attention, and the questions hiding underneath the obvious ones. Slow to publish, slower to be sure.',
   // Social links shown in header/footer

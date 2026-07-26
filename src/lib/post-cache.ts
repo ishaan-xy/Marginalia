@@ -9,6 +9,7 @@
  */
 import { getPosts as rawGetPosts, byDateDesc } from '@/lib/posts';
 import { getSeriesDescription } from '@/lib/series-meta';
+import { slugifySeries } from '@/lib/format';
 import type { CollectionEntry } from 'astro:content';
 
 type Post = CollectionEntry<'blog'>;
@@ -68,6 +69,45 @@ export async function getAllSeries(): Promise<SeriesInfo[]> {
     if (!seriesMap.has(name)) seriesMap.set(name, []);
     seriesMap.get(name)!.push(post);
   }
+
+  // Validate series integrity at build time
+  const slugSet = new Set<string>();
+  for (const [name, posts] of seriesMap) {
+    const parts = posts.map(p => p.data.series?.part ?? 0);
+    // Check for duplicate parts
+    const seen = new Set<number>();
+    for (const part of parts) {
+      if (seen.has(part)) {
+        throw new Error(
+          `Series "${name}": duplicate part ${part}. ` +
+          `Check frontmatter — each part number must be unique within a series.`
+        );
+      }
+      seen.add(part);
+    }
+    // Check for contiguous numbering starting at 1
+    const sortedParts = [...seen].sort((a, b) => a - b);
+    for (let i = 0; i < sortedParts.length; i++) {
+      if (sortedParts[i] !== i + 1) {
+        const expected = i + 1;
+        const missing = sortedParts[i] > expected ? `Part ${expected} is missing` : `unexpected part ${sortedParts[i]}`;
+        throw new Error(
+          `Series "${name}": ${missing}. ` +
+          `Parts must form a contiguous sequence starting at 1. Found: [${sortedParts.join(', ')}]`
+        );
+      }
+    }
+    // Check for slug collisions across distinct series names
+    const slug = slugifySeries(name);
+    if (slugSet.has(slug)) {
+      throw new Error(
+        `Series slug collision: "${name}" → /series/${slug}/ ` +
+        `collides with another series. Rename one to avoid URL conflicts.`
+      );
+    }
+    slugSet.add(slug);
+  }
+
   return [...seriesMap.entries()]
     .map(([name, posts]) => {
       const sorted = posts.sort(

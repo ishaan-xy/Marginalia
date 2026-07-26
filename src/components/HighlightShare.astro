@@ -3,13 +3,13 @@
 // a small popup appears with a "Quote on X" link.
 // Pure vanilla JS, no dependencies.
 ---
-<div id="highlight-share" class="highlight-share" aria-hidden="true">
-  <button type="button" data-action="quote-twitter" title="Quote on X">
+<div id="highlight-share" class="highlight-share" aria-hidden="true" role="region" aria-label="Share selected text">
+  <button type="button" data-action="quote-twitter" title="Quote on X" aria-label="Quote on X">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
     </svg>
   </button>
-  <button type="button" data-action="copy" title="Copy quote">
+  <button type="button" data-action="copy" title="Copy quote" aria-label="Copy selected text">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="9" y="9" width="13" height="13" rx="2"/>
       <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
@@ -33,18 +33,24 @@
       const sel = window.getSelection();
       if (!sel || sel.isCollapsed || sel.toString().trim().length < 4) {
         popup.classList.remove('visible');
+        popup.setAttribute('aria-hidden', 'true');
         return;
       }
       if (article && !article.contains(sel.anchorNode)) {
         popup.classList.remove('visible');
+        popup.setAttribute('aria-hidden', 'true');
         return;
       }
       const range = sel.getRangeAt(0);
       const rect = range.getBoundingClientRect();
-      // Position relative to viewport, then offset by scroll
-      popup.style.left = `${rect.left + rect.width / 2 + window.scrollX}px`;
-      popup.style.top = `${rect.top + window.scrollY - 12}px`;
+      // Clamp to viewport so popup doesn't go off-screen
+      const popupWidth = 120;
+      const centerX = rect.left + rect.width / 2;
+      const clampedX = Math.max(popupWidth / 2, Math.min(window.innerWidth - popupWidth / 2, centerX));
+      popup.style.left = `${clampedX + window.scrollX}px`;
+      popup.style.top = `${Math.max(40, rect.top + window.scrollY - 12)}px`;
       popup.classList.add('visible');
+      popup.setAttribute('aria-hidden', 'false');
     }
 
     document.addEventListener('mouseup', () => {
@@ -53,10 +59,14 @@
     });
     document.addEventListener('selectionchange', () => {
       const sel = window.getSelection();
-      if (!sel || sel.isCollapsed) popup.classList.remove('visible');
+      if (!sel || sel.isCollapsed) {
+        popup.classList.remove('visible');
+        popup.setAttribute('aria-hidden', 'true');
+      }
     });
     document.addEventListener('scroll', () => {
       popup.classList.remove('visible');
+      popup.setAttribute('aria-hidden', 'true');
     }, { passive: true });
 
     quoteBtn?.addEventListener('click', () => {

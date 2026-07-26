@@ -1,5 +1,93 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts — eliminates render-blocking Google Fonts CDN request.
+   Total: 7 woff2 files, ~130KB (vs ~24 font files from Google CDN).
+   font-display: swap prevents FOIT (Flash of Invisible Text). */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Inter-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Inter-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Inter-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Lora-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Lora-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Lora-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Lora-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Lora-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Lora-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+}
+
 /* Dark mode driven by .dark class on <html> */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -13,7 +101,7 @@
   --color-paper: #fdfcfa;
   --color-ink: #1a1a1a;
   --color-ink-soft: #4a4a4a;
-  --color-ink-faint: #888888;
+  --color-ink-faint: #6e6e6e;
   --color-line: #e8e6e0;
   --color-accent: #b5413f;
   --color-accent-soft: #d9706d;
@@ -22,7 +110,7 @@
   --color-dark-paper: #1a1a1a;
   --color-dark-ink: #e8e6e0;
   --color-dark-ink-soft: #a8a6a0;
-  --color-dark-ink-faint: #706e68;
+  --color-dark-ink-faint: #9a9892;
   --color-dark-line: #2e2e2c;
   --color-dark-accent-pale: #3a2a29;
 }

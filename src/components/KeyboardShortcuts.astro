@@ -10,7 +10,7 @@
 //   Esc       close the help overlay
 ---
 <div id="shortcuts-overlay" class="shortcuts-overlay" aria-hidden="true">
-  <div class="shortcuts-card" role="dialog" aria-label="Keyboard shortcuts">
+  <div class="shortcuts-card" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
     <div class="shortcuts-header">
       <h2>Keyboard shortcuts</h2>
       <button type="button" data-close-overlay aria-label="Close">
@@ -127,8 +127,17 @@
 <script>
   const overlay = document.getElementById('shortcuts-overlay');
   const closeBtn = overlay?.querySelector('[data-close-overlay]');
+  let lastFocusedElement: HTMLElement | null = null;
+
+  function getFocusableElements(): HTMLElement[] {
+    if (!overlay) return [];
+    return Array.from(overlay.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => !el.hasAttribute('disabled'));
+  }
 
   function showOverlay() {
+    lastFocusedElement = document.activeElement as HTMLElement;
     overlay?.classList.add('visible');
     overlay?.setAttribute('aria-hidden', 'false');
     closeBtn?.focus();
@@ -136,11 +145,33 @@
   function hideOverlay() {
     overlay?.classList.remove('visible');
     overlay?.setAttribute('aria-hidden', 'true');
+    // Restore focus to the element that opened the overlay
+    lastFocusedElement?.focus();
   }
 
   closeBtn?.addEventListener('click', hideOverlay);
   overlay?.addEventListener('click', (e) => {
     if (e.target === overlay) hideOverlay();
+  });
+
+  // Focus trap — Tab cycles within the overlay while it's open
+  overlay?.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab' || !overlay.classList.contains('visible')) return;
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   // Single-key vs. two-key (g + x) sequence

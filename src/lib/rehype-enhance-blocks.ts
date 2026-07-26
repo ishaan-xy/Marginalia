@@ -113,8 +113,9 @@ export function rehypeEnhanceBlocks() {
     // The # glyph appears on hover via CSS (::before on the <a>).
     // Note: Astro's built-in rehype-slug runs AFTER user plugins, so heading
     // IDs may not be set yet. We generate a slug from the heading text if the
-    // ID is missing. When rehype-slug runs later, it will find the ID already
-    // set and skip (no overwrite).
+    // ID is missing. Duplicate headings get a numeric suffix (-1, -2, etc.)
+    // to ensure unique IDs (matching github-slugger behavior).
+    const headingSlugCounts = new Map<string, number>();
     visit(tree, 'element', (node) => {
       if (node.tagName !== 'h2' && node.tagName !== 'h3') return;
 
@@ -135,6 +136,14 @@ export function rehypeEnhanceBlocks() {
           .replace(/[^\w\s-]/g, '')
           .trim()
           .replace(/\s+/g, '-');
+
+        // Handle duplicate headings — append -1, -2, etc.
+        const count = headingSlugCounts.get(id) ?? 0;
+        headingSlugCounts.set(id, count + 1);
+        if (count > 0) {
+          id = `${id}-${count}`;
+        }
+
         node.properties = node.properties || {};
         node.properties.id = id;
       }
