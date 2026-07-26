@@ -60,12 +60,6 @@ function tagHasPage(tag: string): boolean {
 const LONG_FORM_THRESHOLD = 1500;
 const showDropCap = dropCap && words >= LONG_FORM_THRESHOLD;
 
-// "In this essay" TOC block — shows top 5 H2 sections above the body.
-// Only rendered when there are 5+ H2 sections (typical for 3000+ word posts).
-// Helps readers orient themselves before diving in.
-const h2Headings = headings.filter((h) => h.depth === 2);
-const showInThisEssay = h2Headings.length >= 5;
-
 // JSON-LD Article schema
 const articleSchema = {
   '@context': 'https://schema.org',
@@ -197,34 +191,16 @@ const articleSchema = {
     )}
 
     {/* ─────────────────────────────────────────────
-        6. "In this essay" — top 5 H2 sections, visible on all screen sizes.
-        Helps long-form readers orient before diving in.
-        Below the xl breakpoint the sticky sidebar TOC disappears, so this
-        inline block is the only orientation aid tablet users get.
-        ───────────────────────────────────────────── */}
-    {showInThisEssay && (
-      <nav class="in-this-essay mb-8" aria-label="In this essay">
-        <p class="in-this-essay-title">In this essay</p>
-        <ol class="in-this-essay-list">
-          {h2Headings.slice(0, 5).map((h, i) => (
-            <li>
-              <a href={`#${h.slug}`}>
-                <span class="in-this-essay-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span>{h.text}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
-    )}
-
-    {/* ─────────────────────────────────────────────
-        7. Mobile TOC (collapsible, above the body on small screens)
+        6. Mobile TOC (collapsible, above the body on small screens).
+        Hidden on desktop xl+ where the sticky sidebar TOC takes over.
+        Previously there was ALSO an "In this essay" block here showing
+        top 5 H2 sections — that was a third TOC, redundant with both
+        MobileTOC and the sticky TableOfContents. Removed.
         ───────────────────────────────────────────── */}
     <MobileTOC headings={headings} />
 
     {/* ─────────────────────────────────────────────
-        8. Article body + sticky TOC sidebar (desktop xl+)
+        7. Article body + sticky TOC sidebar (desktop xl+)
         ───────────────────────────────────────────── */}
     <div class:list={['grid grid-cols-1 xl:grid-cols-[1fr_180px] gap-8 xl:gap-12']}>
       <div class:list={['prose min-w-0', showDropCap && 'drop-cap']}>
@@ -236,25 +212,13 @@ const articleSchema = {
     </div>
 
     {/* ─────────────────────────────────────────────
-        9. Tags (also at end — labeled "Related topics" to differentiate
-        from the top tags which are orienting; these invite exploration).
+        8. Tags (at end — single instance, not duplicated).
+        Previously appeared at both top AND bottom (top as "Tags",
+        bottom as "Related topics") — same content, same links.
+        Removed the bottom section; top tags now serve both orienting
+        and exploratory purposes.
         ───────────────────────────────────────────── */}
-    {tags.length > 0 && (
-      <div class="mt-12 pt-8 border-t border-[var(--line)]">
-        <h2 class="text-xs font-sans uppercase tracking-wider text-[var(--fg-faint)] mb-4">Related topics</h2>
-        <ul class="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <li>
-              {tagHasPage(tag) ? (
-                <a href={`/tags/${tag}/`} class="tag-pill">#{tag}</a>
-              ) : (
-                <span class="tag-pill">#{tag}</span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
+    {/* (Tags at top, section 4 above, are sufficient.) */}
 
     {/* ─────────────────────────────────────────────
         10. Engagement bar — clap + share (end of article)
@@ -306,51 +270,4 @@ const articleSchema = {
     <Comments />
   </article>
 </BaseLayout>
-
-<style is:global>
-  /* "In this essay" — orientation block shown above the body for long posts.
-     Inline numbers + heading text in a clean two-column list. */
-  .in-this-essay {
-    padding: 1rem 1.25rem;
-    border-left: 2px solid var(--accent);
-    background: color-mix(in srgb, var(--accent) 3%, transparent);
-    border-radius: 0 6px 6px 0;
-  }
-  .in-this-essay-title {
-    font-family: var(--font-sans);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--fg-faint);
-    margin: 0 0 0.5rem;
-  }
-  .in-this-essay-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.35rem;
-  }
-  .in-this-essay-list a {
-    display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    color: var(--fg-soft);
-    text-decoration: none;
-    font-family: var(--font-serif);
-    font-size: 0.9375rem;
-    line-height: 1.4;
-    transition: color var(--transition-fast);
-  }
-  .in-this-essay-list a:hover {
-    color: var(--accent);
-  }
-  .in-this-essay-num {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
-  }
-</style>
 

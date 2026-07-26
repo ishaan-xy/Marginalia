@@ -1,9 +1,11 @@
 ---
 // Byline row — Medium/Substack pattern.
-// Single row: avatar · author · date · read time · Subscribe button.
-// Replaces the previous two-block arrangement (writer section + metadata row).
+// Single row: avatar · author · date · read time.
+// (Previously also had a Subscribe link — removed because the Header
+// Subscribe pill is already visible above the byline on every post.
+// Two subscribe entry points within ~100px of each other was overkill.)
 import { SITE } from '@/lib/site';
-import { formatDateLong } from '@/lib/format';
+import { formatDateLong, initials } from '@/lib/format';
 
 interface Props {
   pubDate: Date;
@@ -13,16 +15,6 @@ interface Props {
 }
 
 const { pubDate, updatedDate, minutes, draft = false } = Astro.props;
-const subscribeUrl = SITE.newsletter.subscribeUrl;
-
-function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((s) => s[0]?.toUpperCase() ?? '')
-    .join('');
-}
 
 const displayDate = updatedDate ?? pubDate;
 const init = initials(SITE.author);
@@ -46,21 +38,11 @@ const init = initials(SITE.author);
       </>
     )}
   </div>
-  <a
-    href={subscribeUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="byline-subscribe"
-    aria-label="Subscribe to the newsletter — opens in a new tab"
-  >
-    Subscribe
-  </a>
 </div>
 
 <style>
   /* Single-row byline — Medium pattern.
-     Avatar + name + meta + Subscribe on the right (desktop).
-     Stacks gracefully on mobile. */
+     Avatar + name + meta. Stacks gracefully on mobile. */
   .byline-row {
     display: flex;
     align-items: center;
@@ -89,19 +71,6 @@ const init = initials(SITE.author);
     color: var(--fg-faint);
     opacity: 0.6;
     user-select: none;
-  }
-  .byline-subscribe {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.8125rem;
-    transition: color var(--transition-fast);
-    white-space: nowrap;
-  }
-  .byline-subscribe:hover {
-    color: var(--accent-soft);
-    text-decoration: underline;
-    text-underline-offset: 2px;
   }
   /* Avatar — slightly smaller in byline context */
   .byline-row .avatar {

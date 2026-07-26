@@ -1,15 +1,6 @@
 ---
 import { SITE } from '@/lib/site';
-
-// Compute initials from author name
-function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((s) => s[0]?.toUpperCase() ?? '')
-    .join('');
-}
+import { initials } from '@/lib/format';
 
 interface Props {
   variant?: 'inline' | 'card';
@@ -17,7 +8,6 @@ interface Props {
 
 const { variant = 'card' } = Astro.props;
 const init = initials(SITE.author);
-const subscribeUrl = SITE.newsletter.subscribeUrl;
 ---
 {variant === 'inline' ? (
   <span class="inline-flex items-center gap-2">
@@ -34,12 +24,9 @@ const subscribeUrl = SITE.newsletter.subscribeUrl;
         {SITE.bio}
       </p>
       <div class="flex flex-wrap items-center gap-3 text-sm">
-        <a
-          href={subscribeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-[var(--accent)] hover:text-[var(--accent-soft)] transition-colors font-medium"
-        >Subscribe</a>
+        {/* Note: Subscribe link removed from here — the SubscribeForm card
+            appears immediately after the AuthorBio card on every post,
+            so a Subscribe link here was redundant. The Footer also has one. */}
         {SITE.social.twitter && (
           <a href={SITE.social.twitter} target="_blank" rel="noopener noreferrer" class="text-[var(--fg-faint)] hover:text-[var(--accent)] transition-colors">Twitter</a>
         )}

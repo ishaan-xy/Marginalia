@@ -26,6 +26,20 @@ export function formatDateLong(date: Date): string {
 }
 
 /**
+ * Compute initials from a name (e.g., "Ada Lovelace" → "AL").
+ * Used by Byline and AuthorBio components. Single source of truth
+ * (previously duplicated in both files).
+ */
+export function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((s) => s[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
+/**
  * Estimate reading time from raw markdown body text.
  * Default average adult reading speed ~ 220-260 wpm; we use 240.
  */
